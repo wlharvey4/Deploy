@@ -1,6 +1,6 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploying a Web Site on AWS
-#+DATE:<2019-04-11 Thu 13:49>
+#+DATE:<2019-04-11 Thu 18:18>
 
 * Amazon Route 53
 Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web
@@ -47,12 +47,11 @@ this order:
    - For procedures, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html][Creating Amazon Route 53 Health Checks and Configuring
      DNS Failover]].
 
-
 ** Setting Up Amazon Route 53
 
 - https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/setting-up-route-53.html
 
-** Creating a Website Using an Amazon S3 Bucket
+** Creating a Static Website Using an Amazon S3 Bucket
 This Getting Started tutorial shows you how to perform the following tasks:
 
 - Register a domain name, such as example.com[fn:3]
@@ -262,6 +261,146 @@ to the following URLs:
 In some cases, you might need to clear the cache to see the expected behavior.
 
 *** Step 7---(Optional) Use Amazon CloudFront to Speed Up Distribution of Your Content
+
+* Amazon S3
+"Object storage built to store and retrieve any amount of data from anywhere"
+
+#+BEGIN_QUOTE
+Amazon Simple Storage Service (Amazon S3) is an object storage service that
+offers industry-leading scalability, data availability, security, and
+performance. This means customers of all sizes and industries can use it to
+store and protect any amount of data for a range of use cases, such as
+websites, mobile applications, backup and restore, archive, enterprise
+applications, IoT devices, and big data analytics. Amazon S3 provides
+easy-to-use management features so you can organize your data and configure
+finely-tuned access controls to meet your specific business, organizational,
+and compliance requirements. Amazon S3 is designed for 99.999999999% (11 9's)
+of durability, and stores data for millions of applications for companies all
+around the world.
+#+END_QUOTE
+
+Amazon Simple Storage Service (S3) is storage for the Internet. It is designed
+to make web-scale computing easier for developers.
+
+Amazon S3 has a simple web services interface that you can use to store and
+retrieve any amount of data, at any time, from anywhere on the web.
+
+It gives any developer access to the same highly scalable, reliable, fast,
+inexpensive data storage infrastructure that Amazon uses to run its own global
+network of web sites.
+
+** Getting Started
+
+*** Sign Up for S3
+You will not be charged for Amazon S3 until you use it.
+
+1. Go to https://aws.amazon.com/s3/ and choose Get started with Amazon S3.
+2. Follow the on-screen instructions.
+
+
+AWS will notify you by email when your account is active and available for you
+to use.
+
+*** Create a Bucket
+Every object in Amazon S3 is stored in a bucket. Before you can store data in
+Amazon S3, you must create a bucket.  You are not charged for creating a
+bucket; you are charged only for storing objects in the bucket and for
+transferring objects in and out of the bucket.
+
+1. Sign in to the AWS Management Console and open the Amazon S3 console at
+   https://console.aws.amazon.com/s3/.
+2. Choose =Create bucket=.
+3. In the =Bucket name= field, type a unique DNS-compliant name for your new
+   bucket.  Create your own bucket name using the follow naming guidelines:
+   - The name must be unique across all existing bucket names in Amazon S3.
+   - After you create the bucket you cannot change the name, so choose wisely.
+   - Choose a bucket name that reflects the objects in the bucket because the
+     bucket name is visible in the URL that points to the objects that you're
+     going to put in your bucket.
+4. For =Region=, choose US West (Oregon) as the region where you want the
+   bucket to reside.
+5. Choose =Create=.
+
+*** Add an Object to a Bucket
+An object can be any kind of file: a text file, a photo, a video, and so on.
+
+1. In the =Bucket name= list, choose the name of the bucket that you want to
+   upload your object to.
+2. Choose =Upload= or =Get started=.
+3. In the =Upload= dialog box, choose =Add files= to choose the file to upload.
+4. Choose a file to upload, and then choose =Open=.
+5. Choose =Upload=.
+
+*** View an Object
+You can view information about your object and download the object to your
+local computer.
+
+1. In the =Bucket name= list, choose the name of the bucket that you created.
+2. In the =Name list=, select the check box next to the object that you
+   uploaded, and then choose =Download= on the object overview panel.
+
+*** Move an Object
+Now we create a folder and move the object into the folder by copying and
+pasting the object.
+
+1. In the =Bucket name= list, choose the name of the bucket that you created.
+2. Choose =Create Folder=, type /favorite-pics/ for the folder name, choose
+   =None= for the encryption setting for the folder object and then choose
+   =Save=.
+3. In the =Name list=, select the check box next to the object that you want to
+   copy, choose =More=, and then choose =Copy=.
+4. In the =Name= list, choose the name of the folder /favorite-pics/.
+5. Choose =More=, and then choose =Paste=.
+6. Choose =Paste=.
+
+*** Delete an Object and Bucket
+If you no longer need to store the object that you uploaded and made a copy of
+while going through this guide, you should delete the objects to prevent
+further charges.
+
+You can delete the objects individually. Or you can empty a bucket, which
+deletes all the objects in the bucket without deleting the bucket.
+
+You can also delete a bucket and all the objects contained in the
+bucket. However, if you want to continue to use the same bucket name, don't
+delete the bucket. We recommend that you empty the bucket and keep it. After a
+bucket is deleted, the name becomes available to reuse, but the name might not
+be available for you to reuse for various reasons. For example, it might take
+some time before the name can be reused and some other account could create a
+bucket with that name before you do.
+
+To delete an object from a bucket:
+1. In the =Bucket name= list, choose the name of the bucket that you want to
+   delete an object from.
+2. In the =Name= list, select the check box next to the object that you want to
+   delete, choose =More=, and then choose =Delete=.
+3. In the =Delete objects= dialog box, verify that the name of the object you
+   selected for deletion is listed, and then choose =Delete=.
+
+
+To empty a bucket:
+1. In the =Bucket name= list, choose the bucket icon next to the name of the
+   bucket that you want to empty and then choose =Empty bucket=.
+2. In the =Empty bucket= dialog box, type the name of the bucket for
+   confirmation and then choose =Confirm=.
+
+
+To delete a bucket:
+1. In the =Bucket name= list, choose the bucket icon next to the name of the
+   bucket that you want to delete and then choose =Delete bucket=.
+2. In the =Delete bucket= dialog box, type the name of the bucket for delete
+   confirmation and then choose =Confirm=.
+
+** Hosting a Static Website on Amazon S3
+You can host a static website on Amazon Simple Storage Service (Amazon S3).
+
+On a static website, individual webpages include static content. They might
+also contain client-side scripts.
+
+By contrast, a dynamic website relies on server-side processing, including
+server-side scripts such as PHP, JSP, or ASP.NET.
+
+Amazon S3 does not support server-side scripting.
 
 * Domain Names
 
@@ -706,7 +845,7 @@ that has the same name as the domain.[fn:2]
 
 * Export Settings                                                  :noexport:
 #+OPTIONS: html-link-use-abs-url:nil html-postamble:auto html-preamble:t
-#+OPTIONS: html-scripts:t html-style:t html5-fancy:t tex:t num:6
+#+OPTIONS: html-scripts:t html-style:t html5-fancy:t tex:t num:6 ':t
 #+HTML_DOCTYPE: html5
 #+HTML_CONTAINER: div
 #+DESCRIPTION:
