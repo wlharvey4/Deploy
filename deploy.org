@@ -1,6 +1,267 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploying a Web Site on AWS
-#+DATE:<2019-04-11 Thu 12:26>
+#+DATE:<2019-04-11 Thu 13:49>
+
+* Amazon Route 53
+Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web
+service.
+
+You can use Route 53 to perform three main functions in any combination:
+1. domain registration
+2. DNS routing
+3. health checking
+
+
+If you choose to use Route 53 for all three functions, perform the steps in
+this order:
+
+1. Register domain names
+
+   Your website needs a name, such as =example.com=.  Route 53 lets you register a
+   name for your website or web application, known as a domain name.
+
+   - for an overview, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/welcome-domain-registration.html][How Domain Registration Works]].
+   - for a precedure, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-register.html][Registering a New Domain]].
+   - For a tutorial that takes you through registering a domain and creating a
+     simple website in an Amazon S3 bucket, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/getting-started.html][Getting Started with Amazon
+     Route 53]].
+
+2. Route internet traffic to the resources for your domain
+
+   When a user opens a web browser and enters your domain name (=example.com=)
+   or subdomain name (=acme.example.com=) in the address bar, Route 53 helps
+   connect the browser with your website or web application.
+
+   - For an overview, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/welcome-dns-service.html][How Internet Traffic Is Routed to Your Website or Web
+     Application]].
+   - For procedures, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-configuring.html][Configuring Amazon Route 53 as Your DNS Service]].
+
+3. Check the health of your resources
+
+   Route 53 sends automated requests over the internet to a resource, such as a
+   web server, to verify that it's reachable, available, and functional.  You
+   also can choose to receive notifications when a resource becomes unavailable
+   and choose to route internet traffic away from unhealthy resources.
+
+   - For an overview, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/welcome-health-checks.html][How Amazon Route 53 Checks the Health of Your Resources]].
+   - For procedures, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html][Creating Amazon Route 53 Health Checks and Configuring
+     DNS Failover]].
+
+
+** Setting Up Amazon Route 53
+
+- https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/setting-up-route-53.html
+
+** Creating a Website Using an Amazon S3 Bucket
+This Getting Started tutorial shows you how to perform the following tasks:
+
+- Register a domain name, such as example.com[fn:3]
+- Create an Amazon S3 bucket and configure it to host a website
+- Create a sample website and save the file in your S3 bucket
+- Configure Amazon Route 53 to route traffic to your new website
+- To transfer an existing domain to Route 53, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-transfer-to-route-53.html][Transferring Registration for
+  a Domain to Amazon Route 53]]
+
+
+When you're finished, you'll be able to open a browser, enter the name of your
+domain, and view your website.
+
+*Notes:*
+
+- When you register a domain, we automatically create a hosted zone that has
+  the same name as the domain.  You use the hosted zone to specify where you
+  want Route 53 to route traffic for your domain.  The fee for a hosted zone is
+  $0.50 per month.  You can delete the hosted zone if you want to avoid this
+  charge.
+
+- If you're an existing AWS customer, charges are based on how much data you
+  store, on the number of requests for your data, and on the amount of data
+  transferred.  For more information, see [[https://aws.amazon.com/s3/pricing/][Amazon S3 Pricing]].
+
+- Before you begin, be sure that you've completed the steps in [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/setting-up-route-53.html][Setting Up
+  Amazon Route 53]].
+
+*** Step 1---Register a Domain
+
+*** Step 2---Create an S3 Bucket and Configure It to Host a Website
+<<step-2>>You can use S3 to host a static website in a bucket.
+
+1. Open the Amazon S3 console at https://console.aws.amazon.com/s3/.
+
+2. Choose =Create bucket=.
+
+3. For =Bucket Name=, enter the name of your domain, such as =example.com=.
+
+4. For =Region=, choose the region closest to most of your users.
+
+5. Choose =Create=.
+
+6. In the right pane, expand =Permissions=.
+
+7. Choose =Add bucket policy=.
+
+8. Copy the following bucket policy and paste it into a text editor.
+
+   This policy grants everyone on the internet (="Principal":"*"=) permission
+   to get the files (="Action":["s3:GetObject"]=) in the S3 bucket that is
+   associated with your domain name (="arn:aws:s3:::your-domain-name/*"=):
+
+   #+BEGIN_SRC js :eval no
+   {
+     "Version":"2012-10-17",
+     "Statement":[{
+        "Sid":"AddPerm",
+        "Effect":"Allow",
+        "Principal":"*",
+        "Action":[
+           "s3:GetObject"
+        ],
+        "Resource":[
+           "arn:aws:s3:::your-domain-name/*"
+        ]
+      }]
+   }
+   #+END_SRC
+
+9. In the bucket policy, replace the value =your-domain-name= with the name of
+   your domain, such as =example.com=.
+
+10. Choose =Save=.
+
+11. In the right pane, expand =Static website hosting=.
+
+12. Choose =Enable website hosting=.
+
+13. For Index document, enter ~index.html~.
+
+14. Choose =Save=.
+
+*** Step 3---(Optional) Create Another S3 Bucket, for =www.your-domain-name=
+In the preceding procedure, you created a bucket for your domain name, such as
+=example.com=.  This allows your users to access your website by using your domain
+name, such as =example.com=.
+
+If you also want your users to be able to use =www.your-domain-name=, such as
+=www.example.com=, to access your sample website, you create a second S3
+bucket.  You then configure the second bucket to route traffic to the first
+bucket.
+
+To create an S3 bucket for =www.your-domain-name=:
+
+- Choose =Create bucket=.
+- For =Bucket Name=, enter =www.your-domain-name=.  For example, if you registered
+  the domain name =example.com=, enter =www.example.com=.
+- For Region, choose the same region that you created the first bucket in.
+- Choose =Create=.
+- In the right pane, expand Static website hosting.
+- Choose =Redirect all requests to another host name=.
+- For =Redirect all requests to=, enter your domain name.
+- Choose =Save=.
+
+*** Step 4---Create a Website and Upload It to Your S3 Bucket
+Now that you have an S3 bucket to save your website in, you can create the
+first page for your website and upload it to (save it in) your bucket.
+
+1. Copy the following text and paste it into a text editor:
+
+   #+BEGIN_SRC html :eval no
+   <html>
+   <head>
+     <title>Amazon Route 53 Getting Started</title>
+   </head>
+
+   <body>
+
+     <h1>Routing Internet Traffic to an Amazon S3 Bucket for Your Website</h1>
+
+     <p>For more information, see
+       <a href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/getting-started.html">
+         Getting Started with Amazon Route 53
+       </a>
+       in the <emphasis>Amazon Route 53 Developer Guide</emphasis>.
+     </p>
+
+   </body>
+
+   </html>
+   #+END_SRC
+
+2 .Save the file with the file name ~index.html~.
+
+3. In the Amazon S3 console, choose the name of the bucket that you created in
+   the procedure [[step-2][above]].
+
+4. Choose =Upload=.
+
+5. Choose =Add files=.
+
+6. Follow the on-screen prompts to select ~index.html~, and then choose =Start
+   Upload=.
+
+*** Step 5---Route DNS Traffic for Your Domain to Your Website Bucket
+You now have a one-page website in your S3 bucket.  To start routing internet
+traffic for your domain to your S3 bucket, perform the following procedure.
+
+1. [[https://console.aws.amazon.com/route53/][Open the Route 53 console]]
+
+2. In the navigation pane, choose *Hosted zones*.
+
+3. In the list of hosted zones, choose the name of your domain.
+
+4. Choose =Create Record Set=.[fn:4]
+
+5. Specify the following values:
+
+   - Name ::
+
+             For the first record that you'll create, accept the default value,
+             which is the name of your hosted zone and your domain.  This will
+             route internet traffic to the bucket that has the same name as
+             your domain.
+
+             If you created a second S3 bucket, for =www.your-domain-name=,
+             you'll repeat this step to create a second record.  For the second
+             record, enter =www=.  This will route internet traffic to the
+             =www.your-domain-name= bucket.
+
+   - Type :: Choose =A – IPv4 address=.
+
+   - Alias :: Choose =Yes=.
+
+   - Alias Target ::
+
+                     Enter the name of the region that you created your S3
+                     bucket in.  Use the applicable value from the =Website
+                     Endpoint= column in the [[https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_website_region_endpoints][Amazon Simple Storage Service
+                     Website Endpoints]] table in the [[https://docs.aws.amazon.com/general/latest/gr/rande.html][AWS Regions and Endpoints]]
+                     chapter of the /Amazon Web Services General Reference/.
+
+                     You specify the same value for Alias Target for both
+                     records.  Route 53 figures out which bucket to route
+                     traffic to based on the name of the record.
+
+   - Routing Policy :: Accept the default value of =Simple=.
+
+   - Evaluate Target Health :: Accept the default value of =No=.
+
+6. Choose =Create=.
+
+7. If you created a second S3 bucket, for =www.your-domain-name=, repeat steps 4
+   through 6 to create a record for =www.your-domain-name=.
+
+*** Step 6---Test Your Website
+To verify that the website is working correctly, open a web browser and browse
+to the following URLs:
+
+- http://your-domain-name :: Displays the index document in the
+     =your-domain-name= bucket
+- http://www.your-domain-name :: Redirects your request to the your-domain-name
+     bucket
+
+
+In some cases, you might need to clear the cache to see the expected behavior.
+
+*** Step 7---(Optional) Use Amazon CloudFront to Speed Up Distribution of Your Content
 
 * Domain Names
 
@@ -461,6 +722,13 @@ that has the same name as the domain.[fn:2]
 #+LATEX_HEADER:
 
 * Footnotes
+
+[fn:3] There's an annual fee to register a domain, ranging from $9 to several
+hundred dollars, depending on the top-level domain, such as =.com=.
+
+[fn:4] Each record contains information about how you want to route traffic for
+one domain (such as =example.com=) or subdomain (such as =www.example.com= or
+=test.example.com=).  Records are stored in the hosted zone for your domain.
 
 [fn:1] If you already have a domain name registered, do step 1 and then refer
 to your domain registrar’s documentation for how to set the DNS record for your
