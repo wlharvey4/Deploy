@@ -1,6 +1,6 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploying a Web Site on AWS
-#+DATE:<2019-04-11 Thu 18:18>
+#+DATE:<2019-04-12 Fri 07:50>
 
 * Amazon Route 53
 Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web
@@ -394,13 +394,115 @@ To delete a bucket:
 ** Hosting a Static Website on Amazon S3
 You can host a static website on Amazon Simple Storage Service (Amazon S3).
 
+#+BEGIN_QUOTE
+Static websites deliver HTML, JavaScript, images, video and other files to your
+website visitors, and contain no application code. They are best for sites with
+few authors and relatively infrequent content changes, typically personal and
+simple marketing websites. Static websites are very low cost, provide
+high-levels of reliability, require almost no IT administration, and scale to
+handle enterprise-level traffic with no additional work.
+#+END_QUOTE
+
 On a static website, individual webpages include static content. They might
 also contain client-side scripts.
 
 By contrast, a dynamic website relies on server-side processing, including
-server-side scripts such as PHP, JSP, or ASP.NET.
+server-side scripts such as PHP, JSP, or ASP.NET.  Amazon S3 does not support
+server-side scripting.
 
-Amazon S3 does not support server-side scripting.
+*** Overview
+- Deploy a static website using Amazon S3 ::
+
+     Amazon S3 will provide the origin for your website as well as storage for
+     your static content.
+
+- Associate your domain name with your website ::
+
+     Amazon Route 53 will tell the Domain Name System (DNS) where to find your
+     website.
+
+- Enable your website to load quickly ::
+
+     Amazon CloudFront will create a content delivery network (CDN) that hosts
+     your website content in close proximity to your users.
+
+- You will need ::
+  - an AWS account to begin provisioning resources to host
+    your website.
+  - a basic understanding of web technologies and an existing website that you
+    can bring to host on AWS.
+
+- Monthly Billing Estimate ::
+
+     The total cost of hosting your static website on AWS will vary depending
+     on your usage. Typically, it will cost $1-3/month if you are outside the
+     AWS Free Tier limits.  If you qualify for AWS Free Tier and are within the
+     limits, hosting your static website will cost around $0.50/month.
+
+     To see a breakdown of the services used and their associated costs, see
+     [[https://aws.amazon.com/getting-started/projects/host-static-website/services-costs/][Services Used and Costs]].
+
+- Additional Resources ::
+  - [[http://d0.awsstatic.com/whitepapers/Building%2520Static%2520Websites%2520on%2520AWS.pdf][Whitepaper: Hosting Static Websites on AWS]]. In this whitepaper, we cover
+    comprehensive architectural guidance for developing, deploying, and
+    managing static websites on AWS and provide a recommended approach.
+
+  - [[https://aws.amazon.com/websites/][Website Hosting Solutions on AWS]]. Learn more about how AWS provides cloud
+    website hosting solutions to provide flexible, highly scalable, and
+    low-cost ways to deliver websites and web applications.
+
+  - [[https://aws.amazon.com/getting-started/][Getting Started Resource Center]]. Need more resources to get started with
+    AWS? Visit the Getting Started Resource Center to find tutorials, projects
+    and videos to get started with AWS.
+
+  - [[https://amazonlightsail.com/][Simple Virtual Private Servers on Amazon Lightsail]]. Accelerate your
+    websites with Lightsail. It provides everything you need to jumpstart your
+    website on AWS---compute, storage, and networking---for a low, predictable
+    price.
+
+*** Description
+To host a static website, you configure an Amazon S3 bucket for website
+hosting, and then upload your website content to the bucket. This bucket must
+have public read access. It is intentional that everyone in the world will have
+read access to this bucket. The website is then available at the AWS
+Region-specific website endpoint of the bucket.  The website endpoint of the
+bucket has a form such as:
+: <bucket-name>.s3-website-<AWS-region>.amazonaws.com
+: <bucket-name>.s3-website.<AWS-region>.amazonaws.com
+
+Which form is used for the endpoint depends on what Region the bucket is in.
+For a list of AWS Region-specific website endpoints for Amazon S3, see [[https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteEndpoints.html][Website
+Endpoints]].  For a bucket residing in the US West (Oregon) region, the website
+is available at the following endpoint:
+: http://example-bucket.s3-website-us-west-2.amazonaws.com/
+
+In order for your customers to access content at the website endpoint, you must
+make all your content publicly readable. To do so, you can use a bucket policy
+or an ACL on an object to grant the necessary permissions.
+
+Note that Website endpoints are different from the endpoints where you send
+REST API requests.  For more information about the differences between the
+endpoints, see [[https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteEndpoints.html#WebsiteRestEndpointDiff][Key Differences Between the Amazon Website and the REST API
+Endpoint]].  See also [[https://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAPI.html][Making Requests Using the REST API]].
+
+Instead of accessing the website by using an Amazon S3 website endpoint, you
+can use your own domain, such as =example.com= to serve your content. Amazon
+S3, along with Amazon Route 53, supports hosting a website at the root domain.
+
+If you have a registered domain, you can add a DNS CNAME entry to point to the
+Amazon S3 website endpoint. For example, if you have registered domain,
+=www.example-bucket.com=, you could create a bucket =www.example-bucket.com=,
+and add a DNS =CNAME= record that points to
+=www.example-bucket.com.s3-website-<region>.amazonaws.com=. All requests to
+=http://www.example-bucket.com= are routed to
+=www.example-bucket.com.s3-website-<region>.amazonaws.com=.
+
+To configure a bucket for website hosting, you add website configuration to the
+bucket.  The Amazon S3 website endpoints do not support HTTPS.  Amazon
+CloudFront is used to serve HTTPS requests for data from Amazon S3 buckets.
+
+- [[https://aws.amazon.com/premiumsupport/knowledge-center/cloudfront-https-requests-s3/][How do I use CloudFront to serve HTTPS requests for my Amazon S3 bucket?]]
+- [[https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-https-cloudfront-to-s3-origin.html][Requiring HTTPS for Communication Between CloudFront and Your Amazon S3 Origin]]
 
 * Domain Names
 
