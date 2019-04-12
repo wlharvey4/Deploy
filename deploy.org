@@ -1,6 +1,6 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploying a Web Site on AWS
-#+DATE:<2019-04-12 Fri 11:27>
+#+DATE:<2019-04-12 Fri 19:17>
 
 * Amazon Route 53
 Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web
@@ -262,7 +262,7 @@ In some cases, you might need to clear the cache to see the expected behavior.
 
 *** Step 7---(Optional) Use Amazon CloudFront to Speed Up Distribution of Your Content
 
-* Amazon Simple Storage Service---S3
+* Amazon Simple Storage Service S3
 "Object storage built to store and retrieve any amount of data from anywhere"
 
 #+BEGIN_QUOTE
@@ -289,7 +289,7 @@ It gives any developer access to the same highly scalable, reliable, fast,
 inexpensive data storage infrastructure that Amazon uses to run its own global
 network of web sites.
 
-** Getting Started
+** S3 Basics
 
 *** Sign Up for S3
 You will not be charged for Amazon S3 until you use it.
@@ -466,6 +466,7 @@ server-side scripting.
 To host a static website:
 - configure an Amazon S3 bucket for website hosting;
 - upload your website content to the bucket.
+- associate a domain name for the bucket
 
 
 It is intentional that everyone in the world will have read access to this
@@ -600,7 +601,7 @@ document is found, Amazon S3 returns a =302 Found= message and points to the
 ~photos/index.html~. If the index document is not found, Amazon S3 returns an
 error.
 
-**** Permissions Required for Website Access
+**** Setting Permissions Required for Website Access
 When you configure a bucket as a website, *you must make the objects that you
 want to serve publicly readable*.  To do this:
 - write a bucket policy that grants everyone =s3:GetObject= permission
@@ -764,16 +765,92 @@ family photos, videos—--whatever you want.
 - Upload your website data to the =example.com= bucket.[fn:8]
 
 ***** Configure Buckets for Website Hosting
+When you configure a bucket for website hosting, you can access the website
+using the Amazon S3 assigned bucket website endpoint.  In this step, you
+configure both buckets for website hosting. First, you configure =example.com=
+as a website and then you configure =www.example.com= to redirect all requests
+to the =example.com bucket=.
+
+1. Sign in to the AWS Management Console and open the [[https://console.aws.amazon.com/s3/][Amazon S3 console]]
+2. In the =Bucket name= list, choose the name of the bucket that you want to
+   enable static website hosting for.
+3. Choose =Properties=.
+4. Choose =Static website hosting=.
+5. Configure the =example.com= bucket for website hosting.  In the =Index
+   Document= box, type the name that you gave your index page.
+6. Choose =Save=.
 
 ***** Configure Your Website Redirect
+Now that you have configured your bucket for website hosting, configure the
+=www.example.com= bucket to redirect all requests for =www.example.com= to
+=example.com=.
+
+1. In the Amazon S3 console, in the =Buckets= list, choose your bucket
+   (=www.example.com=, in this example).
+2. Choose =Properties=.
+3. Choose =Static website hosting=.
+4. Choose =Redirect requests=.  In the =Target bucket or domain= box, type
+   =example.com=.
+5. Choose =Save=.
 
 ***** Configure Logging for Website Traffic
+Optionally, you can configure logging to track the number of visitors accessing
+your website.  To do that, you enable logging for the root domain bucket.
+- see [[https://docs.aws.amazon.com/AmazonS3/latest/dev/LoggingWebsiteTraffic.html][(Optional) Configuring Web Traffic Logging]].
 
 ***** Test Your Endpoint and Redirect
+To test the website, type the URL of the endpoint in your browser.  Your
+request is redirected, and the browser displays the index document for
+=example.com=.
 
 **** Add Alias Records for example.com and www.example.com
+In this step, you create the alias records that you add to the hosted zone for
+your domain maps =example.com= and =www.example.com= to the corresponding S3
+buckets.  Instead of using IP addresses, the alias records use the Amazon S3
+website endpoints.  Amazon Route 53 maintains a mapping between the alias
+records and the IP addresses where the Amazon S3 buckets reside.
+
+1. Open the [[https://console.aws.amazon.com/route53/][Route 53 console]]
+2. In the list of hosted zones, choose the name of your domain.
+3. Choose =Create Record Set=.[fn:9]
+4. Specify the following values:
+   - Name ::
+
+             For the first record that you'll create, accept the default value,
+             which is the name of your hosted zone and your domain.  This will
+             route internet traffic to the bucket that has the same name as
+             your domain.
+
+             Repeat this step to create a second record for your subdomain.
+             For the second record, type =www=.  This will route internet
+             traffic to the =www.example.com= bucket.
+
+   - Type :: Choose =A – IPv4 address=.
+
+   - Alias :: =Yes=
+
+   - Alias Target ::
+
+                     Type the name of your Amazon S3 bucket endpoint, for
+                     example =example.com= (s3-website-us-west-2).  You specify
+                     the same value for =Alias Target= for both records.  Route
+                     53 figures out which bucket to route traffic to based on
+                     the name of the record.
+
+   - Routing Policy :: Accept the default value of =Simple=.
+
+   - Evaluate Target Health :: Accept the default value of =No=.
+
+5. Choose =Create=.
+
+6. For =www.example.com=, repeat steps 4 through 6 to create a record.
 
 **** Testing
+To verify that the website is working correctly, in your browser, try the
+following URLs:
+
+- =http://example.com= :: Displays the index document in the =example.com= bucket.
+- =http://www.example.com= :: Redirects your request to =example.com=.
 
 * Domain Names
 
@@ -1251,6 +1328,10 @@ one domain (such as =example.com=) or subdomain (such as =www.example.com= or
 
 [fn:8] For step-by-step instructions, see [[https://docs.aws.amazon.com/AmazonS3/latest/user-guide/upload-objects.html][How Do I Upload an Object to an S3
 Bucket?]] in the Amazon Simple Storage Service Console User Guide.
+
+[fn:9] Each record contains information about how you want to route traffic for
+one domain (example.com) or subdomain (www.example.com). Records are stored in
+the hosted zone for your domain.
 
 [fn:1] If you already have a domain name registered, do step 1 and then refer
 to your domain registrar’s documentation for how to set the DNS record for your
