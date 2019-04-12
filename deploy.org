@@ -1,6 +1,6 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploying a Web Site on AWS
-#+DATE:<2019-04-12 Fri 09:55>
+#+DATE:<2019-04-12 Fri 10:41>
 
 * Amazon Route 53
 Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web
@@ -702,6 +702,31 @@ document that Amazon S3 returns and display its own error.
 If your Amazon S3 bucket is configured for website hosting, you can redirect
 requests for an object to another object in the same bucket or to an external
 URL.
+
+*** Setting Up a Static Website Using a Custom Domain
+Configure a bucket for website hosting, upload a sample index document, and
+test the website using the Amazon S3 website endpoint for the bucket.  You can
+use your own domain, such as =example.com=, instead of the S3 bucket website
+endpoint, and serve content from an Amazon S3 bucket configured as a website.
+
+**** Create and Configure Buckets and Upload Data
+To support requests from both the root domain such as =example.com= and
+subdomain such as =www.example.com=, you create two buckets.  One bucket
+contains the content.  You configure the other bucket to redirect requests.
+
+***** Create Two Buckets
+
+***** Configure Buckets for Website Hosting
+
+***** Configure Your Website Redirect
+
+***** Configure Logging for Website Traffic
+
+***** Test Your Endpoint and Redirect
+
+**** Add Alias Records for example.com and www.example.com
+
+**** Testing
 
 * Domain Names
 
