@@ -1,6 +1,6 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploying a Web Site on AWS
-#+DATE:<2019-04-12 Fri 07:50>
+#+DATE:<2019-04-12 Fri 09:55>
 
 * Amazon Route 53
 Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web
@@ -262,7 +262,7 @@ In some cases, you might need to clear the cache to see the expected behavior.
 
 *** Step 7---(Optional) Use Amazon CloudFront to Speed Up Distribution of Your Content
 
-* Amazon S3
+* Amazon Simple Storage Service---S3
 "Object storage built to store and retrieve any amount of data from anywhere"
 
 #+BEGIN_QUOTE
@@ -427,6 +427,7 @@ server-side scripting.
      your website content in close proximity to your users.
 
 - You will need ::
+
   - an AWS account to begin provisioning resources to host
     your website.
   - a basic understanding of web technologies and an existing website that you
@@ -443,6 +444,7 @@ server-side scripting.
      [[https://aws.amazon.com/getting-started/projects/host-static-website/services-costs/][Services Used and Costs]].
 
 - Additional Resources ::
+
   - [[http://d0.awsstatic.com/whitepapers/Building%2520Static%2520Websites%2520on%2520AWS.pdf][Whitepaper: Hosting Static Websites on AWS]]. In this whitepaper, we cover
     comprehensive architectural guidance for developing, deploying, and
     managing static websites on AWS and provide a recommended approach.
@@ -461,48 +463,245 @@ server-side scripting.
     price.
 
 *** Description
-To host a static website, you configure an Amazon S3 bucket for website
-hosting, and then upload your website content to the bucket. This bucket must
-have public read access. It is intentional that everyone in the world will have
-read access to this bucket. The website is then available at the AWS
-Region-specific website endpoint of the bucket.  The website endpoint of the
-bucket has a form such as:
+To host a static website:
+- configure an Amazon S3 bucket for website hosting;
+- upload your website content to the bucket.
+
+
+It is intentional that everyone in the world will have read access to this
+bucket.  That is, in order for your customers to access content at the website
+endpoint, you must make all your content publicly readable, e.g., this bucket
+must have *public read access*.  To do so, you can use a *bucket policy* or an
+*ACL* on an object to grant the necessary permissions.
+
+The website is then available at the AWS Region-specific website endpoint of
+the bucket.  The website endpoint of the bucket has a form such as:
 : <bucket-name>.s3-website-<AWS-region>.amazonaws.com
 : <bucket-name>.s3-website.<AWS-region>.amazonaws.com
 
 Which form is used for the endpoint depends on what Region the bucket is in.
-For a list of AWS Region-specific website endpoints for Amazon S3, see [[https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteEndpoints.html][Website
-Endpoints]].  For a bucket residing in the US West (Oregon) region, the website
-is available at the following endpoint:
-: http://example-bucket.s3-website-us-west-2.amazonaws.com/
+- For a list of AWS Region-specific website endpoints for Amazon S3, see
+  [[https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteEndpoints.html][Website Endpoints]].  For a bucket residing in the US West (Oregon) region, the
+  website is available at the following endpoint:
+  : http://example-bucket.s3-website-us-west-2.amazonaws.com/
 
-In order for your customers to access content at the website endpoint, you must
-make all your content publicly readable. To do so, you can use a bucket policy
-or an ACL on an object to grant the necessary permissions.
-
-Note that Website endpoints are different from the endpoints where you send
-REST API requests.  For more information about the differences between the
-endpoints, see [[https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteEndpoints.html#WebsiteRestEndpointDiff][Key Differences Between the Amazon Website and the REST API
-Endpoint]].  See also [[https://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAPI.html][Making Requests Using the REST API]].
+- Note that Website endpoints are different from the endpoints where you send
+  REST API requests.  For more information about the differences between the
+  endpoints, see [[https://docs.aws.amazon.com/AmazonS3/latest/dev/WebsiteEndpoints.html#WebsiteRestEndpointDiff][Key Differences Between the Amazon Website and the REST API
+  Endpoint]].  See also [[https://docs.aws.amazon.com/AmazonS3/latest/dev/RESTAPI.html][Making Requests Using the REST API]].
 
 Instead of accessing the website by using an Amazon S3 website endpoint, you
-can use your own domain, such as =example.com= to serve your content. Amazon
+can use your *own domain*, such as =example.com= to serve your content. Amazon
 S3, along with Amazon Route 53, supports hosting a website at the root domain.
-
 If you have a registered domain, you can add a DNS CNAME entry to point to the
-Amazon S3 website endpoint. For example, if you have registered domain,
-=www.example-bucket.com=, you could create a bucket =www.example-bucket.com=,
-and add a DNS =CNAME= record that points to
-=www.example-bucket.com.s3-website-<region>.amazonaws.com=. All requests to
-=http://www.example-bucket.com= are routed to
+Amazon S3 website endpoint.
+
+#+BEGIN_QUOTE
+For example, if you have registered domain, =www.example-bucket.com=, you could
+create a bucket =www.example-bucket.com=, and add a DNS =CNAME= record that
+points to =www.example-bucket.com.s3-website-<region>.amazonaws.com=. All
+requests to =http://www.example-bucket.com= are routed to
 =www.example-bucket.com.s3-website-<region>.amazonaws.com=.
+#+END_QUOTE
 
 To configure a bucket for website hosting, you add website configuration to the
-bucket.  The Amazon S3 website endpoints do not support HTTPS.  Amazon
-CloudFront is used to serve HTTPS requests for data from Amazon S3 buckets.
+bucket.  Note that the Amazon S3 website endpoints do not support HTTPS.
+Amazon CloudFront is used to serve HTTPS requests for data from Amazon S3
+buckets.
 
 - [[https://aws.amazon.com/premiumsupport/knowledge-center/cloudfront-https-requests-s3/][How do I use CloudFront to serve HTTPS requests for my Amazon S3 bucket?]]
 - [[https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-https-cloudfront-to-s3-origin.html][Requiring HTTPS for Communication Between CloudFront and Your Amazon S3 Origin]]
+
+*** Configuring a Bucket for Website Hosting
+You can host a static website in an Amazon Simple Storage Service (Amazon S3)
+bucket after some configuration.
+
+The required configuration includes:
+1. enabling the bucket for website hosting
+2. adding index document support
+3. adding universal read access permission
+
+**** Enabling Website Hosting
+Follow these steps to enable website hosting for your Amazon S3 buckets using
+the [[https://console.aws.amazon.com/s3/home][Amazon S3 console]]:
+
+1. Sign in to the AWS Management Console and open the Amazon S3 console at
+   https://console.aws.amazon.com/s3/.
+
+2. In the list, choose the bucket that you want to use for your hosted website.
+
+3. Choose the =Properties= tab.
+
+4. Choose =Static website hosting=, and then choose =Use this bucket= to host a
+   website.
+
+5. You are prompted to provide the index document and any optional error
+   documents and redirection rules that are needed.
+
+
+**** Configuring Index Document Support
+An /index document/ is a webpage that Amazon S3 returns when a request is made
+to the root of a website or any subfolder.
+
+#+BEGIN_QUOTE
+For example, if a user enters =http://www.example.com= in the browser, the user
+is not requesting any specific page. In that case, Amazon S3 serves up the
+/index document/, which is sometimes referred to as the /default page/.
+#+END_QUOTE
+
+*When you configure your bucket as a website, provide the name of the index
+document.* You then upload an object with this name and configure it to be
+publicly readable.
+
+***** Index Documents and Folders
+In Amazon S3, a *bucket* is /a flat container of objects/; it does not provide
+any hierarchical organization as the file system on your computer does. You can
+create a /logical hierarchy/ by using object key names that /imply/ a folder
+structure.
+
+For example, consider a bucket with three objects and the following key names.
+
+#+BEGIN_EXAMPLE
+sample1.jpg
+photos/2006/Jan/sample2.jpg
+photos/2006/Feb/sample3.jpg
+#+END_EXAMPLE
+
+Although these are stored with no physical hierarchical organization, you can
+infer the following logical folder structure from the key names.
+
+#+BEGIN_EXAMPLE
+sample1.jpg object is at the root of the bucket.
+sample2.jpg object is in the photos/2006/Jan subfolder.
+sample3.jpg object is in the photos/2006/Feb subfolder.
+#+END_EXAMPLE
+
+The folder concept that Amazon S3 console supports is based on object key
+names. To continue the previous example, the console displays the examplebucket
+with a photos folder.  You can upload objects to the bucket or to the photos
+folder within the bucket. If you add the object ~sample.jpg~ to the bucket, the
+key name is ~sample.jpg~. If you upload the object to the photos folder, the
+object key name is ~photos/sample.jpg~.
+
+If you create such a folder structure in your bucket, *you must have an index
+document at each level*.  When a user specifies a URL that resembles a folder
+lookup, the presence or absence of a trailing slash determines the behavior of
+the website.
+
+For example, the following URL, with a trailing slash, returns the
+~photos/index.html~ index document.
+: http://example-bucket.s3-website-region.amazonaws.com/photos/
+
+However, if you exclude the trailing slash from the preceding URL, Amazon S3
+first looks for an object =photos= in the bucket. If the =photos= object is not
+found, then it searches for an index document, ~photos/index.html~. If that
+document is found, Amazon S3 returns a =302 Found= message and points to the
+~photos/~ key. For subsequent requests to ~photos/~, Amazon S3 returns
+~photos/index.html~. If the index document is not found, Amazon S3 returns an
+error.
+
+**** Permissions Required for Website Access
+When you configure a bucket as a website, *you must make the objects that you
+want to serve publicly readable*.  To do this:
+- write a bucket policy that grants everyone =s3:GetObject= permission
+- if a user requests an object that doesn't exist, Amazon S3 returns HTTP
+  response code =404 (Not Found)=
+- if the object exists but you haven't granted read permission on it, the
+  website endpoint returns HTTP response code =403 (Access Denied)=
+- The user can use the response code to infer whether a specific object exists
+- If you don't want this behavior, you should not enable website support for
+  your bucket
+
+
+The following sample bucket policy grants everyone access to the objects in the
+specified folder.[fn:5]
+
+#+BEGIN_EXAMPLE
+{
+  "Version":"2012-10-17",
+  "Statement":[{
+	"Sid":"PublicReadGetObject",
+        "Effect":"Allow",
+	  "Principal": "*",
+      "Action":["s3:GetObject"],
+      "Resource":["arn:aws:s3:::example-bucket/*"
+      ]
+    }
+  ]
+}
+#+END_EXAMPLE
+
+You can grant public read permission to your objects by using either a bucket
+policy or an object ACL.  To make an object publicly readable using an ACL,
+grant =READ= permission to the =AllUsers= group, as shown in the following
+grant element.  Add this grant element to the object ACL.[fn:6]
+
+#+BEGIN_EXAMPLE
+<Grant>
+  <Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:type="Group">
+    <URI>http://acs.amazonaws.com/groups/global/AllUsers</URI>
+  </Grantee>
+  <Permission>READ</Permission>
+</Grant>
+#+END_EXAMPLE
+
+*** Optional Bucket Configurations
+
+**** Configuring Web Traffic Logging
+If you want to track the number of visitors who access your website, enable
+logging for the root domain bucket. Enabling logging is optional.
+
+1. Open the [[https://console.aws.amazon.com/s3/][Amazon S3 console]]
+2. Create a bucket for logging named =logs.example.com= in the same AWS Region
+   that the =example.com= and =www.example.com= buckets were created in.
+3. Create two folders in the =logs.example.com bucket=; one named ~root~, and
+   the other named ~cdn~.  If you configure Amazon CloudFront to speed up your
+   website, you will use the ~cdn~ folder.
+4. In the =Bucket name= list, choose your root domain bucket, choose
+   =Properties=, and then choose =Server access logging=.
+5. Choose =Enable logging=.
+6. For =Target bucket=, choose the bucket that you created for the log files,
+   =logs.example.com=.
+7. For =Target prefix=, type ~root/~.  This setting groups the log data files in the
+   bucket in a folder named root so that they are easy to locate.
+8. Choose =Save=.
+
+**** Custom Error Document Support
+The following table lists the subset of HTTP response codes that Amazon S3
+returns when an error occurs.
+
+| HTTP Error Code         | Description                    |
+|                         | <30>                           |
+|-------------------------+--------------------------------|
+| 301 Moved Permanently   | When a user sends a request directly to the Amazon S3 website endpoints |
+| 302 Found               | When Amazon S3 receives a request for a key x |
+| 304 Not Modified        | Amazon S3 users request headers |
+| 400 Malformed Request   | The website endpoint responds with a 400 Malformed Request when a user attempts to access a bucket through the incorrect regional endpoint. |
+| 403 Forbidden           | The website endpoint responds with a 403 Forbidden when a user request translates to an object that is not publicly readable. The object owner must make the object publicly readable using a bucket policy or an ACL. |
+| 404 Not Found           | The website endpoint responds with 404 Not Found for the following reasons: |
+| 500 Service Error       | The website endpoint responds with a 500 Service Error when an internal server error occurs. |
+| 503 Service Unavailable | The website endpoint responds with a 503 Service Unavailable when Amazon S3 determines that you need to reduce your request rate. |
+|-------------------------+--------------------------------|
+
+For each of these errors, Amazon S3 returns a predefined HTML message.
+
+You can optionally provide a custom error document that contains a
+user-friendly error message and additional help. You provide this custom error
+document as part of adding website configuration to your bucket. Amazon S3
+returns your custom error document for only the HTTP 4XX class of error codes.
+
+When an error occurs, Amazon S3 returns an HTML error document. If you
+configured your website with a custom error document, Amazon S3 returns that
+error document. However, some browsers display their own error message when an
+error occurs, ignoring the error document that Amazon S3 returns. For example,
+when an HTTP 404 Not Found error occurs, Google Chrome might ignore the error
+document that Amazon S3 returns and display its own error.
+
+**** Configuring a Webpage Redirect
+If your Amazon S3 bucket is configured for website hosting, you can redirect
+requests for an object to another object in the same bucket or to an external
+URL.
 
 * Domain Names
 
@@ -947,7 +1146,7 @@ that has the same name as the domain.[fn:2]
 
 * Export Settings                                                  :noexport:
 #+OPTIONS: html-link-use-abs-url:nil html-postamble:auto html-preamble:t
-#+OPTIONS: html-scripts:t html-style:t html5-fancy:t tex:t num:6 ':t
+#+OPTIONS: html-scripts:t html-style:t html5-fancy:t tex:t num:3 H:6 ':t
 #+HTML_DOCTYPE: html5
 #+HTML_CONTAINER: div
 #+DESCRIPTION:
@@ -970,6 +1169,11 @@ hundred dollars, depending on the top-level domain, such as =.com=.
 [fn:4] Each record contains information about how you want to route traffic for
 one domain (such as =example.com=) or subdomain (such as =www.example.com= or
 =test.example.com=).  Records are stored in the hosted zone for your domain.
+
+[fn:5] For more information about bucket policies, see
+[[https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html][Using Bucket Policies and User Policies]]
+
+[fn:6] For information about managing ACLs, see [[https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html][Managing Access with ACLs]].
 
 [fn:1] If you already have a domain name registered, do step 1 and then refer
 to your domain registrar’s documentation for how to set the DNS record for your
