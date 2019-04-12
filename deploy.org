@@ -1,6 +1,6 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploying a Web Site on AWS
-#+DATE:<2019-04-13 Sat 07:56>
+#+DATE:<2019-04-13 Sat 08:00>
 
 * Amazon Route 53
 Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web
@@ -1870,7 +1870,7 @@ following URLs:
 
 * Export Settings                                                  :noexport:
 #+OPTIONS: html-link-use-abs-url:nil html-postamble:auto html-preamble:t
-#+OPTIONS: html-scripts:t html-style:t html5-fancy:t tex:t num:3 H:6 ':t
+#+OPTIONS: html-scripts:t html-style:t html5-fancy:t tex:t num:3 H:6 ':t toc:3
 #+HTML_DOCTYPE: html5
 #+HTML_CONTAINER: div
 #+DESCRIPTION:
@@ -1898,6 +1898,15 @@ servers. Currently, the only way to verify that changes have propagated is to
 use the GetChange API action. Changes generally propagate to all Route 53 name
 servers within 60 seconds.
 
+[fn:1] If you already have a domain name registered, do step 1 and then refer
+to your domain registrar’s documentation for how to set the DNS record for your
+new site.
+
+[fn:2] A hosted zone is a container for records, and records contain
+information about how you want to route traffic for a specific domain, such as
+example.com, and its subdomains (acme.example.com, zenith.example.com). A
+hosted zone and the corresponding domain have the same name.
+
 [fn:3] There's an annual fee to register a domain, ranging from $9 to several
 hundred dollars, depending on the top-level domain, such as =.com=.
 
@@ -1918,13 +1927,4 @@ Bucket?]] in the Amazon Simple Storage Service Console User Guide.
 [fn:9] Each record contains information about how you want to route traffic for
 one domain (example.com) or subdomain (www.example.com). Records are stored in
 the hosted zone for your domain.
-
-[fn:1] If you already have a domain name registered, do step 1 and then refer
-to your domain registrar’s documentation for how to set the DNS record for your
-new site.
-
-[fn:2] A hosted zone is a container for records, and records contain
-information about how you want to route traffic for a specific domain, such as
-example.com, and its subdomains (acme.example.com, zenith.example.com). A
-hosted zone and the corresponding domain have the same name.
 
