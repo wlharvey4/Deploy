@@ -1,6 +1,6 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploying a Web Site on AWS
-#+DATE:<2019-04-13 Sat 07:23>
+#+DATE:<2019-04-13 Sat 07:56>
 
 * Amazon Route 53
 Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web
@@ -50,7 +50,6 @@ this order:
 ** Setting Up Amazon Route 53
 
 - https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/setting-up-route-53.html
-
 
 *** Configuring Route 53 as a DNS Service
 
@@ -184,8 +183,6 @@ To make Route 53 the DNS service for your domain, you /update/ the registration
 for the domain to use these four name servers.  Don't create additional name
 server (NS) or start of authority (SOA) records, and don't delete the existing
 NS and SOA records.
-
-****** Create a Hosted Zone
 
 1. Sign in to the AWS Management Console and open the [[https://console.aws.amazon.com/route53/][Route 53 console]]
 2. If you're new to Route 53, choose =Get Started Now= under =DNS Management=.
@@ -533,6 +530,672 @@ update settings with the domain registrar.
    - If the domain is registered with Route 53, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-name-servers-glue-records.html][Adding or Changing Name
      Servers and Glue Records for a Domain]].
 
+*** Configuring DNS Routing for a New Domain
+When you register a domain with Route 53, we automatically make Route 53 the
+DNS service for the domain.
+
+Route 53:
+- creates a hosted zone that has the same name as the domain,
+- assigns four name servers to the hosted zone, and
+- updates the domain to use those name servers.
+
+
+To specify how you want Route 53 to route internet traffic for the domain, you
+create records in the hosted zone.
+#+BEGIN_QUOTE
+For example, if you want to route requests for example.com to a web server
+that's running on an Amazon EC2 instance, you create a record in the
+example.com hosted zone, and you specify the Elastic IP address for the EC2
+instance.
+#+END_QUOTE
+
+**** Working with Records
+After you create a hosted zone for your domain, such as =example.com=, you
+create *records* to tell the Domain Name System (DNS) how you want traffic to
+be /routed/ for that domain.
+
+For example, you might create records that cause DNS to do the following:
+- /Route/ internet traffic for =example.com= to the IP address of a host in
+  your data center.
+- /Route/ email for that domain (=ichiro@example.com=) to a mail server
+  (=mail.example.com=).
+- /Route/ traffic for a *subdomain* called =operations.tokyo.example=.com to
+  the IP address of a different host.
+
+
+Each *record* includes the name of a
+- /domain/ or a /subdomain/,
+- a /record type/ (for example, a record with a type of =MX= routes email), and
+- other information applicable to the record type (for =MX= records, the host
+  name of one or more mail servers and a priority for each server).
+
+
+The name of each record in a hosted zone must end with the name of the hosted
+zone.
+
+#+BEGIN_QUOTE
+For example, the =example.com= hosted zone can contain records for
+=www.example.com= and =accounting.tokyo.example.com= subdomains, but cannot
+contain records for a =www.example.ca= subdomain.
+#+END_QUOTE
+
+Amazon Route 53 doesn't charge for the records that you add to a hosted zone.
+
+***** Choosing a Routing Policy
+When you create a record, you choose a *routing policy*, which determines how
+Amazon Route 53 responds to queries:
+- Simple routing policy :: Use for a single resource that performs a given
+     function for your domain, for example, a web server that serves content
+     for the example.com website.
+
+     Simple routing lets you configure standard DNS records, with no special
+     Route 53 routing such as weighted or latency.  With simple routing, you
+     typically route traffic to a single resource, for example, to a web server
+     for your website.
+
+     If you choose the simple routing policy in the Route 53 console, you can't
+     create multiple records that have the same name and type, but you can
+     specify multiple values in the same record, such as multiple IP addresses.
+     If you choose the simple routing policy for an *alias record*, you can
+     specify only one AWS resource or one record in the current hosted zone.
+
+  - Values for Basic/Alias Records :: When you create basic/alias records, you
+       specify the following values.  See [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-choosing-alias-non-alias.html][Choosing Between Alias and Non-Alias
+       Records]] (or [[*Choosing Between Alias and Non-Alias Records][below]]).
+
+    - Name :: Enter the name of the domain or subdomain that you want to route
+              traffic for.  The default value is the name of the hosted zone.
+              If you're creating a record that has the same name as the hosted
+              zone, don't enter a value.  If you're creating a record that has
+              a value of *CNAME* for Type, the name of the record can't be the
+              same as the name of the hosted zone.  You can use an asterisk
+              (=*=) character in the name. DNS treats the =*= character either
+              as a wildcard or as the =*= character (ASCII 42), depending on
+              where it appears in the name.
+
+      - Aliases to CloudFront distributions and Amazon S3 buckets ::
+           The value that you specify depends in part on the AWS resource that
+           you're routing traffic to:
+        - CloudFront distribution ::
+             Your distribution must include an /alternate domain name/ that
+             matches the name of the record.  For example, if the name of the
+             record is =acme.example.com=, your CloudFront distribution must
+             include =acme.example.com= as one of the alternate domain names.
+
+             For more information, see [[https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html][Using Alternate Domain Names (CNAMEs)]] in
+             the /Amazon CloudFront Developer Guide/.
+
+        - Amazon S3 buckete ::
+             The name of the record must match the name of your Amazon S3
+             bucket.  For example, if the name of your bucket is
+             =acme.example.com=, the name of this record must also be
+             =acme.example.com=.
+
+             In addition, you must configure the bucket for website hosting.
+             For more information, see [[https://docs.aws.amazon.com/AmazonS3/latest/dev/HowDoIWebsiteConfiguration.html][Configure a Bucket for Website Hosting]]
+             in the /Amazon Simple Storage Service Developer Guide/.
+
+    - Type :: The DNS record type. For more information, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html][Supported DNS
+              Record Types]].  Select the value for Type based on how you want
+              Route 53 to respond to DNS queries.
+
+              For an Alias, select the applicable value based on the AWS
+              resource that you're routing traffic to:
+
+      - API Gateway custom regional API or edge-optimized API :: Select
+           =A — IPv4= address.
+
+      - Amazon VPC interface endpoints :: Select =A — IPv4= address.
+
+      - CloudFront distribution :: Select =A — IPv4= address.
+
+           If IPv6 is enabled for the distribution, create two records, one
+           with a value of =A — IPv4= address for =Type=, and one with a value
+           of =AAAA — IPv6= address.
+
+      - Elastic Beanstalk environment that has regionalized subdomains :: Select
+           =A — IPv4= address
+
+      - ELB load balancer :: Select =A — IPv4= address or =AAAA — IPv6= address
+
+      - Amazon S3 bucket :: Select =A — IPv4= address
+
+      - Another record in this hosted zone :: Select the type of the record
+           that you're creating the alias for.  All types are supported except
+           =NS= and =SOA=.
+
+           *Note:*. If you're creating an alias record that has the same name
+           as the hosted zone (known as the *zone apex*), you can't route
+           traffic to a record for which the value of =Type= is =CNAME=.  This
+           is because the alias record must have the same type as the record
+           you're routing traffic to, and creating a =CNAME= record for the
+           zone apex isn't supported even for an alias record.
+
+    - Alias :: Select =No= or =Yes= as appropriate.
+
+    - Alias Target :: The value that you specify depends on the AWS resource
+                      that you're routing traffic to.
+
+      - API Gateway custom regional APIs and edge-optimized APIs :: (see
+           documentation)
+      - CloudFront Distributions :: (see documentation)
+      - Elastic Beanstalk environments that have regionalized subdomains :: (see
+           documentation)
+      - ELB Load Balancers :: (see documentation)
+      - Amazon S3 Buckets :: For Amazon S3 buckets that are configured as
+           website endpoints, do one of the following:
+        - *If you used the same account to create your Route 53 hosted zone and
+          your Amazon S3 bucket*---Choose Alias Target and choose a bucket from
+          the list. If you have a lot of buckets, you can enter the first few
+          characters of the DNS name to filter the list.  The value of Alias
+          Target changes to the Amazon S3 website endpoint for your bucket.
+        - *If you used different accounts to create your Route 53 hosted zone
+          and your Amazon S3 bucket*---Enter the name of the region that you
+          created your S3 bucket in. Use the value that appears in the Website
+          Endpoint column in the [[https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_website_region_endpoints][Amazon Simple Storage Service Website
+          Endpoints]] table in the [[https://docs.aws.amazon.com/general/latest/gr/rande.html][AWS Regions and Endpoints]] chapter of the
+          Amazon Web Services General Reference.  If you used AWS accounts
+          other than the current account to create your Amazon S3 buckets, the
+          bucket won't appear in the Alias Targets list.
+
+        You must configure the bucket for website hosting. For more
+           information, see [[https://docs.aws.amazon.com/AmazonS3/latest/dev/HowDoIWebsiteConfiguration.html][Configure a Bucket for Website Hosting]] in the
+           /Amazon Simple Storage Service Developer Guide/.
+
+        The name of the record must match the name of your Amazon S3 bucket.
+           For example, if the name of your Amazon S3 bucket is
+           =acme.example.com=, the name of this record must also be
+           =acme.example.com=
+      - Amazon VPC interface endpoints :: (see documentation)
+      - Records in this Hosted Zone :: (see documentation)
+
+    - Alias Hosted Zone ID :: This value appears automatically based on the
+         value that you selected or entered for =Alias Target=.
+
+    - Routing Policy (Alias) :: Select =Simple=.
+
+    - Evaluate Target Health (Alias) :: When the value of =Routing Policy= is
+         =Simple=, choose =No=.  If you have only one record that has a given
+         name and type, Route 53 responds to DNS queries using the values in
+         that record regardless of whether the resource is healthy.
+
+    - TTL (Time to Live) :: The amount of time, in seconds, that you want DNS
+         recursive resolvers to cache information about this record. If you
+         specify a longer value (for example, 172800 seconds, or two days), you
+         pay less for Route 53 service because recursive resolvers send
+         requests to Route 53 less often. However, it takes longer for changes
+         to the record (for example, a new IP address) to take effect because
+         recursive resolvers use the values in their cache for longer periods
+         instead of asking Route 53 for the latest information.
+
+    - Value :: Enter a value that is appropriate for the value of =Type=.  For
+               all types except =CNAME=, you can enter more than one
+               value.  Enter each value on a separate line.
+
+      - A---IPv4 address :: An IP address in IPv4 format, for example,
+           =192.0.2.235=.
+
+      - AAAA---IPv6 address :: An IP address in IPv6 format, for example,
+           =2001:0db8:85a3:0:0:8a2e:0370:7334=.
+
+      - CAA---Certificate Authority Authorization :: Three space-separated
+           values that control which certificate authorities are allowed to
+           issue certificates or wildcard certificates for the domain or
+           subdomain that is specified by Name.
+
+      - CNAME---Canonical name :: The fully qualified domain name (for example,
+           =www.example.com=) that you want Route 53 to return in response to
+           DNS queries for this record.  A trailing dot is optional; Route 53
+           assumes that the domain name is /fully qualified/.  This means that
+           Route 53 treats =www.example.com= (without a trailing dot) and
+           =www.example.com.= (with a trailing dot) as identical.
+
+      - MX---Mail exchange :: A priority and a domain name that specifies a
+           mail server, for example, =10 mailserver.example.com=.
+
+      - NAPTR---Name Authority Pointer :: Six space-separated settings that are
+           used by Dynamic Delegation Discovery System (DDDS) applications to
+           convert one value to another or to replace one value with
+           another.  For more information, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html#NAPTRFormat][NAPTR Record Type]].
+
+      - NS---Name server :: The domain name of a name server, for example,
+           =ns1.example.com=.
+
+      - PTR---Pointer :: The domain name that you want Route 53 to return.
+
+      - SOA---Start of Authority :: Basic DNS information about the domain.  For
+           more information, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/SOA-NSrecords.html#SOArecords][The Start of Authority (SOA) Record]].
+
+      - SPF---Sender Policy Framework :: An SPF record enclosed in quotation
+           marks, for example, ="v=spf1 ip4:192.168.0.1/16-all"=.  SPF records are
+           not recommended.  For more information, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html][Supported DNS Record
+           Types]].
+
+      - SRV---Service locator :: An SRV record.  For information about SRV
+           record format, refer to the applicable documentation.
+
+      - TXT---Text :: A text record.  Enclose text in quotation marks, forn
+                      example, ="Sample Text Entry"=.
+
+    - Routing policy :: Select =Simple=.
+
+- Failover routing policy :: Use when you want to configure active-passive
+     failover.
+- Geolocation routing policy :: Use when you want to route traffic based on the
+     location of your users.
+- Geoproximity routing policy :: Use when you want to route traffic based on
+     the location of your resources and, optionally, shift traffic from
+     resources in one location to resources in another.
+- Latency routing policy :: Use when you have resources in multiple AWS Regions
+     and you want to route traffic to the region that provides the best
+     latency.
+- Multivalue answer routing policy :: Use when you want Route 53 to respond to
+     DNS queries with up to eight healthy records selected at random.
+- Weighted routing policy :: Use to route traffic to multiple resources in
+     proportions that you specify.
+
+***** Choosing Between Alias and Non-Alias Records
+Amazon Route 53 alias records provide a Route 53–specific extension to DNS
+functionality.  *Alias records* let you route traffic to selected AWS
+resources, such as CloudFront distributions and Amazon S3 buckets.  They also
+let you route traffic from one record in a hosted zone to another record.
+
+Unlike a =CNAME= record, you can create an alias record at the top node of a
+DNS namespace, also known as the /zone apex/.  For example, if you register the
+DNS name =example.com=, the /zone apex/ is =example.com=.  You can't create a
+=CNAME= record for =example.com=, but you can create an alias record for
+=example.com= that routes traffic to =www.example.com=.
+
+When Route 53 receives a DNS query for an alias record, Route 53 responds with
+the applicable value for that resource:
+- An Amazon API Gateway custom regional API or edge-optimized API
+- An Amazon VPC interface endpoint---Route 53 responds with one or more IP
+  addresses for your interface endpoint.
+- A CloudFront distribution
+- An Elastic Beanstalk environment
+- An ELB load balancer
+- An Amazon S3 bucket that is configured as a static website---Route 53
+  responds with one IP address for the Amazon S3 bucket.
+- Another Route 53 record in the same hosted zone
+
+
+Alias records are similar to CNAME records, but there are some important
+differences:
+
+- A CNAME record can redirect DNS queries to any DNS record. For example, you
+  can create a CNAME record that redirects queries from acme.example.com to
+  zenith.example.com or to acme.example.org. You don't need to use Route 53 as
+  the DNS service for the domain that you're redirecting queries to.
+
+- An alias record can only redirect queries to selected AWS resources, such as
+  the following:
+  - Amazon S3 buckets
+  - CloudFront distributions
+  - Another record in the Route 53 hosted zone that you're creating the alias
+    record in
+
+  #+BEGIN_QUOTE
+  For example, you can create an alias record named =acme.example.com= that
+  redirects queries to an Amazon S3 bucket that is also named
+  =acme.example.com=.  You can also create an =acme.example.com= alias record
+  that redirects queries to a record named =zenith.example.com= in the
+  =example.com= hosted zone.
+  #+END_QUOTE
+
+- You can't create a =CNAME= record that has the same name as the hosted zone
+  (the /zone apex/).  This is true both for hosted zones for domain names
+  (=example.com=) and for hosted zones for subdomains (=zenith.example.com=).
+
+- In most configurations, you can create an alias record that has the same name
+  as the hosted zone (the /zone apex/).  The one exception is when you want to
+  redirect queries from the zone apex (such as =example.com=) to a record in
+  the same hosted zone that has a type of =CNAME= (such as
+  =zenith.example.com=).  The alias record must have the same type as the
+  record you're routing traffic to, and creating a =CNAME= record for the zone
+  apex isn't supported even for an alias record.
+
+- Route 53 charges for CNAME queries.
+
+- Route 53 doesn't charge for alias queries to AWS resources.  For more
+  information, see [[https://aws.amazon.com/route53/pricing/][Amazon Route 53 Pricing]].
+
+- A CNAME record redirects DNS queries for a record name regardless of record
+  type, such as =A= or =AAAA=.
+
+- Route 53 responds to a DNS query only when the name of the alias record (such
+  as =acme.example.com=) and the type of the alias record (such as =A= or
+  =AAAA=) match the name and type in the DNS query.
+
+- A =CNAME= record appears as a =CNAME= record in response to =dig= or
+  =nslookup= queries.
+
+- An alias record appears as the record type that you specified when you
+  created the record, such as =A= or =AAAA=.  The =alias= property is visible
+  only in the Route 53 console or in the response to a programmatic request,
+  such as an AWS CLI ~list-resource-record-sets~ command.
+
+***** Supported DNS Record Types
+Amazon Route 53 supports the DNS record types that are listed in this
+section. Each record type also includes an example of how to format the Value
+element when you are accessing Route 53 using the API.
+
+- A Record Type :: The value for an A record is an IPv4 address in dotted
+                   decimal notation.
+- AAAA Record Type :: The value for a AAAA record is an IPv6 address in
+     colon-separated hexadecimal format.
+- CAA Record Type :: A CAA record lets you specify which certificate
+     authorities (CAs) are allowed to issue certificates for a domain or
+     subdomain.
+- CNAME Record Type :: A CNAME Value element is the same format as a domain
+     name.  The DNS protocol does not allow you to create a CNAME record for
+     the top node of a DNS namespace, also known as the zone apex.  Amazon
+     Route 53 also supports alias records, which allow you to route queries to
+     AWS resources such as CloudFront distributions and Amazon S3
+     buckets. Aliases are similar in some ways to the CNAME record type;
+     however, you can create an alias for the zone apex.
+- MX Record Type :: Each value for an MX record actually contains two values,
+                    priority and domain name
+- NAPTR Record Type :: A Name Authority Pointer (NAPTR) is a type of record
+     that is used by Dynamic Delegation Discovery System (DDDS) applications to
+     convert one value to another or to replace one value with another.
+- NS Record Type :: An NS record identifies the name servers for the hosted
+                    zone.
+- PTR Record Type :: A PTR record Value element is the same format as a domain
+     name.
+- SOA Record Type :: A start of authority (SOA) record provides information
+     about a domain and the corresponding Amazon Route 53 hosted zone.
+- SPF Record Type :: SPF records were formerly used to verify the identity of
+     the sender of email messages.
+- SRV Record Type :: An SRV record Value element consists of four
+     space-separated values.
+- TXT Record Type :: A TXT record contains one or more strings that are
+     enclosed in double quotation marks (="=).
+
+***** Creating Records by Using the Amazon Route 53 Console
+The following procedure explains how to create records using the Amazon Route
+53 console.
+
+1. If you're not creating an alias record, go to step 2.  Also go to step 2 if
+   you're creating an alias record that routes DNS traffic to an AWS resource
+   other than an Elastic Load Balancing load balancer or another Route 53
+   record.
+
+   If you're creating an alias record that routes traffic to an ELB load
+   balancer, and if you created your hosted zone and your load balancer using
+   different accounts, perform the procedure [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-creating.html#resource-record-sets-elb-dns-name-procedure][Getting the DNS Name for an ELB
+   Load Balancer]] to get the DNS name for the load balancer.
+
+2. Sign in to the AWS Management Console and open the [[https://console.aws.amazon.com/route53/][Route 53 console]]
+
+3. choose =Hosted zones=
+
+4. If you already have a hosted zone for your domain, skip to step 5.  If you
+   don't, perform the applicable procedure to create a hosted zone:
+
+   - To route internet traffic to your resources, such as Amazon S3 buckets or
+     Amazon EC2 instances, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/CreatingHostedZone.html][Creating a Public Hosted Zone]].
+
+   - To route traffic in your VPC, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zone-private-creating.html][Creating a Private Hosted Zone]].
+
+5. On the Hosted Zones page, choose the name of the hosted zone that you want
+   to create records in.
+
+6. Choose =Create Record Set=.
+
+7. Enter the applicable values.  For more information, see the topic for the
+   kind of record that you want to create:
+   - [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-values-basic.html][Values for Basic Records]]
+   - [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-values-alias.html][Values for Alias Records]]
+
+8. Choose =Create=.[fn:12]
+
+9. If you're creating multiple records, repeat steps 6 through 8.
+
+** Domain Names
+
+*** DNS Domain Name Format
+Domain names (including the names of domains, hosted zones, and records)
+consist of a series of labels separated by dots.  Each label can be up to 63
+bytes long.  The total length of a domain name cannot exceed 255 bytes,
+including the dots.  Amazon Route 53 supports any valid domain name.
+
+Naming requirements depend on whether you're registering a domain name or
+you're specifying the name of a hosted zone or a record.
+
+**** Formatting Domain Names for Domain Name Registration
+For domain name registration, a domain name can contain only the characters
+=a-z=, =0-9=, and =–= (hyphen).  You can't specify a hyphen at the beginning or
+end of a label.
+
+*** Register a Domain Name and Connect to an EC2 Instance
+- [[https://aws.amazon.com/getting-started/tutorials/get-a-domain/?trk=gs_card][Register a Domain Name]]
+
+Register a new domain name for your website and connect that domain name
+through the Domain Name System (DNS) to a running EC2 instance (such as a
+WebApp, or website running WordPress, Apache, NGINX, IIS, or other Website
+platform).[fn:1]
+
+There's an annual fee to *register a domain*, ranging from $9 to several
+hundred dollars, depending on the top-level domain, such as =.com=.  For more
+information, see Amazon Route 53 Pricing for Domain Registration.
+
+**** Step 1---Obtain a Static URL
+
+*NOTE:* If you are using *Elastic Load Balancing* (Elastic Load Balancing is
+done automatically if you launched your app with Amazon Elastic Beanstalk) then
+you do not need to obtain a static IP address and can go directly to step 2.
+
+ - [[https://us-east-1.console.aws.amazon.com/ec2/v2/home?region=us-east-1#Addresses:sort=publicIp][Open]] the Elastic IPs part of the /EC2 console/ in a new window and click
+   =Allocate New Address=.
+
+ - Set /EIP used in:/ to =VPC= and click =Yes, Allocate=.  Note your new IP
+   address and click Close.
+    : New address request succeeded
+    : Elastic IP 3.211.150.216
+
+   *NOTE:* There is no charge for Elastic IP addresses (EIPs) that are
+   connected to running instances. If you remove the instance (e.g. the EIP is
+   no longer connected to a running instance) then there is a cost of $0.005/hr
+   for the EIP).
+
+ - =Select the new IP address= in the /Elastic IP/ column.  Press the =Actions=
+   button and choose the =Associate Address= option.
+
+ - Click in the =Instance= text box and =choose the option that has your
+   instance name=.
+
+ - Verify that your new Elastic IP address is working by typing it into your
+   web browser.
+
+**** Step 2---Register a Domain Name
+
+You now have an IP address associated with your instance.  You now need to
+configure the Domain Name System (DNS) to point to this address.
+
+*NOTE:* In this example we will be acquiring a new domain name and associating
+it with the Elastic IP address we just created (which is attached to your
+instance). If you already have a domain name, or if you choose to use another
+domain registrar to get a domain name, please refer to their documentation on
+configuring DNS for your instance.
+
+- [[https://console.aws.amazon.com/route53/home?region=us-east-1][Open]] the Route 53 console in a new window (Route 53 is AWS’s DNS
+  service).  You can register new domain names with Route 53 as well as manage
+  DNS records for your domain.
+
+- Click the =Register Domain= button.  On the next screen, enter the domain you
+  want in the =Choose a Domain= box (cloudexamples is shown in the image, then
+  select a =Top Level Domain= (TLD) (e.g. =.com=, =.org=, =.co.uk=, etc.)  And
+  click the =Check= button to see if the domain is available. n If the domain
+  is available, click the =Add to cart= button and scroll to the bottom of the
+  page to click =Continue=.
+
+- Enter your =Contact Details=.  These are the details that will be associated
+  with your domain name.  When you are done, click =Continue= at the bottom of
+  the page.
+
+- Review the details as they are listed and, if they are correct, check the box
+  titled /I have read and agree to the AWS Domain Name Registration
+  Agreement/. Then click the =Complete Purchase= button.
+
+- If you registered a domain that has a /generic top-level domain/ (such as
+  =.com=), you'll receive an email that asks you to confirm your email address.
+  (We don't send an email if we already have confirmation that the email
+  address is valid.).  *You must follow the link in this email to confirm your
+  email address, or the domain won't be registered.*.  For all domains, you'll
+  receive an email when your domain registration has been approved.
+
+**** Step 3---Configure DNS
+
+The last step is to configure the DNS so that the new domain we created in step
+2 can point to the address we have for our server.  This can be the static IP
+address (from step 1) or a fully qualified domain name (FQDN) that is
+automatically created if you are using Amazon Elastic Beanstalk.
+
+Note that when you register a domain, we automatically create a *hosted zone*
+that has the same name as the domain.[fn:2]
+
+- Open the [[https://console.aws.amazon.com/route53/home?region=us-east-1#hosted-zones:][Hosted Zones]] part of the Route 53 console.  Click on the domain name
+  you created in step 2.
+
+- Click the =Create Record Set= button.  On the right side of the window, enter
+  =www= in the /Name/ text box.  Enter the Elastic IP address you created in
+  step 1 in the /Value/ box and then click =Create=.
+
+- Verify that you have a new entry in the main table with the value you
+  entered.
+
+- Verify that your website is now available at your new domain by typing your
+  new website address into your web browser.
+
+* Amazon Simple Storage Service S3
+"Object storage built to store and retrieve any amount of data from anywhere"
+
+#+BEGIN_QUOTE
+Amazon Simple Storage Service (Amazon S3) is an object storage service that
+offers industry-leading scalability, data availability, security, and
+performance. This means customers of all sizes and industries can use it to
+store and protect any amount of data for a range of use cases, such as
+websites, mobile applications, backup and restore, archive, enterprise
+applications, IoT devices, and big data analytics. Amazon S3 provides
+easy-to-use management features so you can organize your data and configure
+finely-tuned access controls to meet your specific business, organizational,
+and compliance requirements. Amazon S3 is designed for 99.999999999% (11 9's)
+of durability, and stores data for millions of applications for companies all
+around the world.
+#+END_QUOTE
+
+Amazon Simple Storage Service (S3) is storage for the Internet. It is designed
+to make web-scale computing easier for developers.
+
+Amazon S3 has a simple web services interface that you can use to store and
+retrieve any amount of data, at any time, from anywhere on the web.
+
+It gives any developer access to the same highly scalable, reliable, fast,
+inexpensive data storage infrastructure that Amazon uses to run its own global
+network of web sites.
+
+** S3 Basics
+
+*** Sign Up for S3
+You will not be charged for Amazon S3 until you use it.
+
+1. Go to https://aws.amazon.com/s3/ and choose Get started with Amazon S3.
+2. Follow the on-screen instructions.
+
+
+AWS will notify you by email when your account is active and available for you
+to use.
+
+*** Create a Bucket
+Every object in Amazon S3 is stored in a bucket. Before you can store data in
+Amazon S3, you must create a bucket.  You are not charged for creating a
+bucket; you are charged only for storing objects in the bucket and for
+transferring objects in and out of the bucket.
+
+1. Sign in to the AWS Management Console and open the Amazon S3 console at
+   https://console.aws.amazon.com/s3/.
+2. Choose =Create bucket=.
+3. In the =Bucket name= field, type a unique DNS-compliant name for your new
+   bucket.  Create your own bucket name using the follow naming guidelines:
+   - The name must be unique across all existing bucket names in Amazon S3.
+   - After you create the bucket you cannot change the name, so choose wisely.
+   - Choose a bucket name that reflects the objects in the bucket because the
+     bucket name is visible in the URL that points to the objects that you're
+     going to put in your bucket.
+4. For =Region=, choose US West (Oregon) as the region where you want the
+   bucket to reside.
+5. Choose =Create=.
+
+*** Add an Object to a Bucket
+An object can be any kind of file: a text file, a photo, a video, and so on.
+
+1. In the =Bucket name= list, choose the name of the bucket that you want to
+   upload your object to.
+2. Choose =Upload= or =Get started=.
+3. In the =Upload= dialog box, choose =Add files= to choose the file to upload.
+4. Choose a file to upload, and then choose =Open=.
+5. Choose =Upload=.
+
+*** View an Object
+You can view information about your object and download the object to your
+local computer.
+
+1. In the =Bucket name= list, choose the name of the bucket that you created.
+2. In the =Name list=, select the check box next to the object that you
+   uploaded, and then choose =Download= on the object overview panel.
+
+*** Move an Object
+Now we create a folder and move the object into the folder by copying and
+pasting the object.
+
+1. In the =Bucket name= list, choose the name of the bucket that you created.
+2. Choose =Create Folder=, type /favorite-pics/ for the folder name, choose
+   =None= for the encryption setting for the folder object and then choose
+   =Save=.
+3. In the =Name list=, select the check box next to the object that you want to
+   copy, choose =More=, and then choose =Copy=.
+4. In the =Name= list, choose the name of the folder /favorite-pics/.
+5. Choose =More=, and then choose =Paste=.
+6. Choose =Paste=.
+
+*** Delete an Object and Bucket
+If you no longer need to store the object that you uploaded and made a copy of
+while going through this guide, you should delete the objects to prevent
+further charges.
+
+You can delete the objects individually. Or you can empty a bucket, which
+deletes all the objects in the bucket without deleting the bucket.
+
+You can also delete a bucket and all the objects contained in the
+bucket. However, if you want to continue to use the same bucket name, don't
+delete the bucket. We recommend that you empty the bucket and keep it. After a
+bucket is deleted, the name becomes available to reuse, but the name might not
+be available for you to reuse for various reasons. For example, it might take
+some time before the name can be reused and some other account could create a
+bucket with that name before you do.
+
+To delete an object from a bucket:
+1. In the =Bucket name= list, choose the name of the bucket that you want to
+   delete an object from.
+2. In the =Name= list, select the check box next to the object that you want to
+   delete, choose =More=, and then choose =Delete=.
+3. In the =Delete objects= dialog box, verify that the name of the object you
+   selected for deletion is listed, and then choose =Delete=.
+
+
+To empty a bucket:
+1. In the =Bucket name= list, choose the bucket icon next to the name of the
+   bucket that you want to empty and then choose =Empty bucket=.
+2. In the =Empty bucket= dialog box, type the name of the bucket for
+   confirmation and then choose =Confirm=.
+
+
+To delete a bucket:
+1. In the =Bucket name= list, choose the bucket icon next to the name of the
+   bucket that you want to delete and then choose =Delete bucket=.
+2. In the =Delete bucket= dialog box, type the name of the bucket for delete
+   confirmation and then choose =Confirm=.
+
 ** Creating a Static Website Using an Amazon S3 Bucket
 This Getting Started tutorial shows you how to perform the following tasks:
 
@@ -743,135 +1406,6 @@ to the following URLs:
 In some cases, you might need to clear the cache to see the expected behavior.
 
 *** Step 7---(Optional) Use Amazon CloudFront to Speed Up Distribution of Your Content
-
-* Amazon Simple Storage Service S3
-"Object storage built to store and retrieve any amount of data from anywhere"
-
-#+BEGIN_QUOTE
-Amazon Simple Storage Service (Amazon S3) is an object storage service that
-offers industry-leading scalability, data availability, security, and
-performance. This means customers of all sizes and industries can use it to
-store and protect any amount of data for a range of use cases, such as
-websites, mobile applications, backup and restore, archive, enterprise
-applications, IoT devices, and big data analytics. Amazon S3 provides
-easy-to-use management features so you can organize your data and configure
-finely-tuned access controls to meet your specific business, organizational,
-and compliance requirements. Amazon S3 is designed for 99.999999999% (11 9's)
-of durability, and stores data for millions of applications for companies all
-around the world.
-#+END_QUOTE
-
-Amazon Simple Storage Service (S3) is storage for the Internet. It is designed
-to make web-scale computing easier for developers.
-
-Amazon S3 has a simple web services interface that you can use to store and
-retrieve any amount of data, at any time, from anywhere on the web.
-
-It gives any developer access to the same highly scalable, reliable, fast,
-inexpensive data storage infrastructure that Amazon uses to run its own global
-network of web sites.
-
-** S3 Basics
-
-*** Sign Up for S3
-You will not be charged for Amazon S3 until you use it.
-
-1. Go to https://aws.amazon.com/s3/ and choose Get started with Amazon S3.
-2. Follow the on-screen instructions.
-
-
-AWS will notify you by email when your account is active and available for you
-to use.
-
-*** Create a Bucket
-Every object in Amazon S3 is stored in a bucket. Before you can store data in
-Amazon S3, you must create a bucket.  You are not charged for creating a
-bucket; you are charged only for storing objects in the bucket and for
-transferring objects in and out of the bucket.
-
-1. Sign in to the AWS Management Console and open the Amazon S3 console at
-   https://console.aws.amazon.com/s3/.
-2. Choose =Create bucket=.
-3. In the =Bucket name= field, type a unique DNS-compliant name for your new
-   bucket.  Create your own bucket name using the follow naming guidelines:
-   - The name must be unique across all existing bucket names in Amazon S3.
-   - After you create the bucket you cannot change the name, so choose wisely.
-   - Choose a bucket name that reflects the objects in the bucket because the
-     bucket name is visible in the URL that points to the objects that you're
-     going to put in your bucket.
-4. For =Region=, choose US West (Oregon) as the region where you want the
-   bucket to reside.
-5. Choose =Create=.
-
-*** Add an Object to a Bucket
-An object can be any kind of file: a text file, a photo, a video, and so on.
-
-1. In the =Bucket name= list, choose the name of the bucket that you want to
-   upload your object to.
-2. Choose =Upload= or =Get started=.
-3. In the =Upload= dialog box, choose =Add files= to choose the file to upload.
-4. Choose a file to upload, and then choose =Open=.
-5. Choose =Upload=.
-
-*** View an Object
-You can view information about your object and download the object to your
-local computer.
-
-1. In the =Bucket name= list, choose the name of the bucket that you created.
-2. In the =Name list=, select the check box next to the object that you
-   uploaded, and then choose =Download= on the object overview panel.
-
-*** Move an Object
-Now we create a folder and move the object into the folder by copying and
-pasting the object.
-
-1. In the =Bucket name= list, choose the name of the bucket that you created.
-2. Choose =Create Folder=, type /favorite-pics/ for the folder name, choose
-   =None= for the encryption setting for the folder object and then choose
-   =Save=.
-3. In the =Name list=, select the check box next to the object that you want to
-   copy, choose =More=, and then choose =Copy=.
-4. In the =Name= list, choose the name of the folder /favorite-pics/.
-5. Choose =More=, and then choose =Paste=.
-6. Choose =Paste=.
-
-*** Delete an Object and Bucket
-If you no longer need to store the object that you uploaded and made a copy of
-while going through this guide, you should delete the objects to prevent
-further charges.
-
-You can delete the objects individually. Or you can empty a bucket, which
-deletes all the objects in the bucket without deleting the bucket.
-
-You can also delete a bucket and all the objects contained in the
-bucket. However, if you want to continue to use the same bucket name, don't
-delete the bucket. We recommend that you empty the bucket and keep it. After a
-bucket is deleted, the name becomes available to reuse, but the name might not
-be available for you to reuse for various reasons. For example, it might take
-some time before the name can be reused and some other account could create a
-bucket with that name before you do.
-
-To delete an object from a bucket:
-1. In the =Bucket name= list, choose the name of the bucket that you want to
-   delete an object from.
-2. In the =Name= list, select the check box next to the object that you want to
-   delete, choose =More=, and then choose =Delete=.
-3. In the =Delete objects= dialog box, verify that the name of the object you
-   selected for deletion is listed, and then choose =Delete=.
-
-
-To empty a bucket:
-1. In the =Bucket name= list, choose the bucket icon next to the name of the
-   bucket that you want to empty and then choose =Empty bucket=.
-2. In the =Empty bucket= dialog box, type the name of the bucket for
-   confirmation and then choose =Confirm=.
-
-
-To delete a bucket:
-1. In the =Bucket name= list, choose the bucket icon next to the name of the
-   bucket that you want to delete and then choose =Delete bucket=.
-2. In the =Delete bucket= dialog box, type the name of the bucket for delete
-   confirmation and then choose =Confirm=.
 
 ** Hosting a Static Website on Amazon S3
 You can host a static website on Amazon Simple Storage Service (Amazon S3).
@@ -1334,447 +1868,6 @@ following URLs:
 - =http://example.com= :: Displays the index document in the =example.com= bucket.
 - =http://www.example.com= :: Redirects your request to =example.com=.
 
-* Domain Names
-
-** DNS Domain Name Format
-Domain names (including the names of domains, hosted zones, and records)
-consist of a series of labels separated by dots.  Each label can be up to 63
-bytes long.  The total length of a domain name cannot exceed 255 bytes,
-including the dots.  Amazon Route 53 supports any valid domain name.
-
-Naming requirements depend on whether you're registering a domain name or
-you're specifying the name of a hosted zone or a record.
-
-*** Formatting Domain Names for Domain Name Registration
-For domain name registration, a domain name can contain only the characters
-=a-z=, =0-9=, and =–= (hyphen).  You can't specify a hyphen at the beginning or
-end of a label.
-
-** Working with Records
-After you create a hosted zone for your domain, such as =example.com=, you
-create *records* to tell the Domain Name System (DNS) how you want traffic to
-be /routed/ for that domain.
-
-For example, you might create records that cause DNS to do the following:
-- /Route/ internet traffic for =example.com= to the IP address of a host in
-  your data center.
-- /Route/ email for that domain (=ichiro@example.com=) to a mail server
-  (=mail.example.com=).
-- /Route/ traffic for a *subdomain* called =operations.tokyo.example=.com to
-  the IP address of a different host.
-
-
-Each *record* includes the name of a
-- /domain/ or a /subdomain/,
-- a /record type/ (for example, a record with a type of =MX= routes email), and
-- other information applicable to the record type (for =MX= records, the host
-  name of one or more mail servers and a priority for each server).
-
-
-The name of each record in a hosted zone must end with the name of the hosted
-zone.
-
-#+BEGIN_QUOTE
-For example, the =example.com= hosted zone can contain records for
-=www.example.com= and =accounting.tokyo.example.com= subdomains, but cannot
-contain records for a =www.example.ca= subdomain.
-#+END_QUOTE
-
-Amazon Route 53 doesn't charge for the records that you add to a hosted zone.
-
-*** Choosing a Routing Policy
-When you create a record, you choose a *routing policy*, which determines how
-Amazon Route 53 responds to queries:
-- Simple routing policy :: Use for a single resource that performs a given
-     function for your domain, for example, a web server that serves content
-     for the example.com website.
-
-     Simple routing lets you configure standard DNS records, with no special
-     Route 53 routing such as weighted or latency.  With simple routing, you
-     typically route traffic to a single resource, for example, to a web server
-     for your website.
-
-     If you choose the simple routing policy in the Route 53 console, you can't
-     create multiple records that have the same name and type, but you can
-     specify multiple values in the same record, such as multiple IP addresses.
-     If you choose the simple routing policy for an *alias record*, you can
-     specify only one AWS resource or one record in the current hosted zone.
-
-  - Values for Basic/Alias Records :: When you create basic/alias records, you
-       specify the following values.  See [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-choosing-alias-non-alias.html][Choosing Between Alias and Non-Alias
-       Records]] (or [[*Choosing Between Alias and Non-Alias Records][below]]).
-
-    - Name :: Enter the name of the domain or subdomain that you want to route
-              traffic for.  The default value is the name of the hosted zone.
-              If you're creating a record that has the same name as the hosted
-              zone, don't enter a value.  If you're creating a record that has
-              a value of *CNAME* for Type, the name of the record can't be the
-              same as the name of the hosted zone.  You can use an asterisk
-              (=*=) character in the name. DNS treats the =*= character either
-              as a wildcard or as the =*= character (ASCII 42), depending on
-              where it appears in the name.
-
-      - Aliases to CloudFront distributions and Amazon S3 buckets ::
-           The value that you specify depends in part on the AWS resource that
-           you're routing traffic to:
-        - CloudFront distribution ::
-             Your distribution must include an /alternate domain name/ that
-             matches the name of the record.  For example, if the name of the
-             record is =acme.example.com=, your CloudFront distribution must
-             include =acme.example.com= as one of the alternate domain names.
-
-             For more information, see [[https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/CNAMEs.html][Using Alternate Domain Names (CNAMEs)]] in
-             the /Amazon CloudFront Developer Guide/.
-
-        - Amazon S3 buckete ::
-             The name of the record must match the name of your Amazon S3
-             bucket.  For example, if the name of your bucket is
-             =acme.example.com=, the name of this record must also be
-             =acme.example.com=.
-
-             In addition, you must configure the bucket for website hosting.
-             For more information, see [[https://docs.aws.amazon.com/AmazonS3/latest/dev/HowDoIWebsiteConfiguration.html][Configure a Bucket for Website Hosting]]
-             in the /Amazon Simple Storage Service Developer Guide/.
-
-    - Type :: The DNS record type. For more information, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html][Supported DNS
-              Record Types]].  Select the value for Type based on how you want
-              Route 53 to respond to DNS queries.
-
-              For an Alias, select the applicable value based on the AWS
-              resource that you're routing traffic to:
-
-      - API Gateway custom regional API or edge-optimized API :: Select
-           =A — IPv4= address.
-
-      - Amazon VPC interface endpoints :: Select =A — IPv4= address.
-
-      - CloudFront distribution :: Select =A — IPv4= address.
-
-           If IPv6 is enabled for the distribution, create two records, one
-           with a value of =A — IPv4= address for =Type=, and one with a value
-           of =AAAA — IPv6= address.
-
-      - Elastic Beanstalk environment that has regionalized subdomains :: Select
-           =A — IPv4= address
-
-      - ELB load balancer :: Select =A — IPv4= address or =AAAA — IPv6= address
-
-      - Amazon S3 bucket :: Select =A — IPv4= address
-
-      - Another record in this hosted zone :: Select the type of the record
-           that you're creating the alias for.  All types are supported except
-           =NS= and =SOA=.
-
-           *Note:*. If you're creating an alias record that has the same name
-           as the hosted zone (known as the *zone apex*), you can't route
-           traffic to a record for which the value of =Type= is =CNAME=.  This
-           is because the alias record must have the same type as the record
-           you're routing traffic to, and creating a =CNAME= record for the
-           zone apex isn't supported even for an alias record.
-
-    - Alias :: Select =No= or =Yes= as appropriate.
-
-    - Alias Target :: The value that you specify depends on the AWS resource
-                      that you're routing traffic to.
-
-      - API Gateway custom regional APIs and edge-optimized APIs :: (see
-           documentation)
-      - CloudFront Distributions :: (see documentation)
-      - Elastic Beanstalk environments that have regionalized subdomains :: (see
-           documentation)
-      - ELB Load Balancers :: (see documentation)
-      - Amazon S3 Buckets :: For Amazon S3 buckets that are configured as
-           website endpoints, do one of the following:
-        - *If you used the same account to create your Route 53 hosted zone and
-          your Amazon S3 bucket*---Choose Alias Target and choose a bucket from
-          the list. If you have a lot of buckets, you can enter the first few
-          characters of the DNS name to filter the list.  The value of Alias
-          Target changes to the Amazon S3 website endpoint for your bucket.
-        - *If you used different accounts to create your Route 53 hosted zone
-          and your Amazon S3 bucket*---Enter the name of the region that you
-          created your S3 bucket in. Use the value that appears in the Website
-          Endpoint column in the [[https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_website_region_endpoints][Amazon Simple Storage Service Website
-          Endpoints]] table in the [[https://docs.aws.amazon.com/general/latest/gr/rande.html][AWS Regions and Endpoints]] chapter of the
-          Amazon Web Services General Reference.  If you used AWS accounts
-          other than the current account to create your Amazon S3 buckets, the
-          bucket won't appear in the Alias Targets list.
-
-        You must configure the bucket for website hosting. For more
-           information, see [[https://docs.aws.amazon.com/AmazonS3/latest/dev/HowDoIWebsiteConfiguration.html][Configure a Bucket for Website Hosting]] in the
-           /Amazon Simple Storage Service Developer Guide/.
-
-        The name of the record must match the name of your Amazon S3 bucket.
-           For example, if the name of your Amazon S3 bucket is
-           =acme.example.com=, the name of this record must also be
-           =acme.example.com=
-      - Amazon VPC interface endpoints :: (see documentation)
-      - Records in this Hosted Zone :: (see documentation)
-
-    - Alias Hosted Zone ID :: This value appears automatically based on the
-         value that you selected or entered for =Alias Target=.
-
-    - Routing Policy (Alias) :: Select =Simple=.
-
-    - Evaluate Target Health (Alias) :: When the value of =Routing Policy= is
-         =Simple=, choose =No=.  If you have only one record that has a given
-         name and type, Route 53 responds to DNS queries using the values in
-         that record regardless of whether the resource is healthy.
-
-    - TTL (Time to Live) :: The amount of time, in seconds, that you want DNS
-         recursive resolvers to cache information about this record. If you
-         specify a longer value (for example, 172800 seconds, or two days), you
-         pay less for Route 53 service because recursive resolvers send
-         requests to Route 53 less often. However, it takes longer for changes
-         to the record (for example, a new IP address) to take effect because
-         recursive resolvers use the values in their cache for longer periods
-         instead of asking Route 53 for the latest information.
-
-    - Value :: Enter a value that is appropriate for the value of =Type=.  For
-               all types except =CNAME=, you can enter more than one
-               value.  Enter each value on a separate line.
-
-      - A---IPv4 address :: An IP address in IPv4 format, for example,
-           =192.0.2.235=.
-
-      - AAAA---IPv6 address :: An IP address in IPv6 format, for example,
-           =2001:0db8:85a3:0:0:8a2e:0370:7334=.
-
-      - CAA---Certificate Authority Authorization :: Three space-separated
-           values that control which certificate authorities are allowed to
-           issue certificates or wildcard certificates for the domain or
-           subdomain that is specified by Name.
-
-      - CNAME---Canonical name :: The fully qualified domain name (for example,
-           =www.example.com=) that you want Route 53 to return in response to
-           DNS queries for this record.  A trailing dot is optional; Route 53
-           assumes that the domain name is /fully qualified/.  This means that
-           Route 53 treats =www.example.com= (without a trailing dot) and
-           =www.example.com.= (with a trailing dot) as identical.
-
-      - MX---Mail exchange :: A priority and a domain name that specifies a
-           mail server, for example, =10 mailserver.example.com=.
-
-      - NAPTR---Name Authority Pointer :: Six space-separated settings that are
-           used by Dynamic Delegation Discovery System (DDDS) applications to
-           convert one value to another or to replace one value with
-           another.  For more information, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html#NAPTRFormat][NAPTR Record Type]].
-
-      - NS---Name server :: The domain name of a name server, for example,
-           =ns1.example.com=.
-
-      - PTR---Pointer :: The domain name that you want Route 53 to return.
-
-      - SOA---Start of Authority :: Basic DNS information about the domain.  For
-           more information, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/SOA-NSrecords.html#SOArecords][The Start of Authority (SOA) Record]].
-
-      - SPF---Sender Policy Framework :: An SPF record enclosed in quotation
-           marks, for example, ="v=spf1 ip4:192.168.0.1/16-all"=.  SPF records are
-           not recommended.  For more information, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html][Supported DNS Record
-           Types]].
-
-      - SRV---Service locator :: An SRV record.  For information about SRV
-           record format, refer to the applicable documentation.
-
-      - TXT---Text :: A text record.  Enclose text in quotation marks, forn
-                      example, ="Sample Text Entry"=.
-
-    - Routing policy :: Select =Simple=.
-
-- Failover routing policy :: Use when you want to configure active-passive
-     failover.
-- Geolocation routing policy :: Use when you want to route traffic based on the
-     location of your users.
-- Geoproximity routing policy :: Use when you want to route traffic based on
-     the location of your resources and, optionally, shift traffic from
-     resources in one location to resources in another.
-- Latency routing policy :: Use when you have resources in multiple AWS Regions
-     and you want to route traffic to the region that provides the best
-     latency.
-- Multivalue answer routing policy :: Use when you want Route 53 to respond to
-     DNS queries with up to eight healthy records selected at random.
-- Weighted routing policy :: Use to route traffic to multiple resources in
-     proportions that you specify.
-
-*** Choosing Between Alias and Non-Alias Records
-Amazon Route 53 alias records provide a Route 53–specific extension to DNS
-functionality.  *Alias records* let you route traffic to selected AWS
-resources, such as CloudFront distributions and Amazon S3 buckets.  They also
-let you route traffic from one record in a hosted zone to another record.
-
-Unlike a =CNAME= record, you can create an alias record at the top node of a
-DNS namespace, also known as the /zone apex/.  For example, if you register the
-DNS name =example.com=, the /zone apex/ is =example.com=.  You can't create a
-=CNAME= record for =example.com=, but you can create an alias record for
-=example.com= that routes traffic to =www.example.com=.
-
-When Route 53 receives a DNS query for an alias record, Route 53 responds with
-the applicable value for that resource:
-- An Amazon API Gateway custom regional API or edge-optimized API
-- An Amazon VPC interface endpoint---Route 53 responds with one or more IP
-  addresses for your interface endpoint.
-- A CloudFront distribution
-- An Elastic Beanstalk environment
-- An ELB load balancer
-- An Amazon S3 bucket that is configured as a static website---Route 53
-  responds with one IP address for the Amazon S3 bucket.
-- Another Route 53 record in the same hosted zone
-
-
-Alias records are similar to CNAME records, but there are some important
-differences:
-
-- A CNAME record can redirect DNS queries to any DNS record. For example, you
-  can create a CNAME record that redirects queries from acme.example.com to
-  zenith.example.com or to acme.example.org. You don't need to use Route 53 as
-  the DNS service for the domain that you're redirecting queries to.
-
-- An alias record can only redirect queries to selected AWS resources, such as
-  the following:
-  - Amazon S3 buckets
-  - CloudFront distributions
-  - Another record in the Route 53 hosted zone that you're creating the alias
-    record in
-
-  #+BEGIN_QUOTE
-  For example, you can create an alias record named =acme.example.com= that
-  redirects queries to an Amazon S3 bucket that is also named
-  =acme.example.com=.  You can also create an =acme.example.com= alias record
-  that redirects queries to a record named =zenith.example.com= in the
-  =example.com= hosted zone.
-  #+END_QUOTE
-
-- You can't create a =CNAME= record that has the same name as the hosted zone
-  (the /zone apex/).  This is true both for hosted zones for domain names
-  (=example.com=) and for hosted zones for subdomains (=zenith.example.com=).
-
-- In most configurations, you can create an alias record that has the same name
-  as the hosted zone (the /zone apex/).  The one exception is when you want to
-  redirect queries from the zone apex (such as =example.com=) to a record in
-  the same hosted zone that has a type of =CNAME= (such as
-  =zenith.example.com=).  The alias record must have the same type as the
-  record you're routing traffic to, and creating a =CNAME= record for the zone
-  apex isn't supported even for an alias record.
-
-- Route 53 charges for CNAME queries.
-
-- Route 53 doesn't charge for alias queries to AWS resources.  For more
-  information, see [[https://aws.amazon.com/route53/pricing/][Amazon Route 53 Pricing]].
-
-- A CNAME record redirects DNS queries for a record name regardless of record
-  type, such as =A= or =AAAA=.
-
-- Route 53 responds to a DNS query only when the name of the alias record (such
-  as =acme.example.com=) and the type of the alias record (such as =A= or
-  =AAAA=) match the name and type in the DNS query.
-
-- A =CNAME= record appears as a =CNAME= record in response to =dig= or
-  =nslookup= queries.
-
-- An alias record appears as the record type that you specified when you
-  created the record, such as =A= or =AAAA=.  The =alias= property is visible
-  only in the Route 53 console or in the response to a programmatic request,
-  such as an AWS CLI ~list-resource-record-sets~ command.
-
-** Register a Domain Name and Connect to an EC2 Instance
-- [[https://aws.amazon.com/getting-started/tutorials/get-a-domain/?trk=gs_card][Register a Domain Name]]
-
-Register a new domain name for your website and connect that domain name
-through the Domain Name System (DNS) to a running EC2 instance (such as a
-WebApp, or website running WordPress, Apache, NGINX, IIS, or other Website
-platform).[fn:1]
-
-There's an annual fee to *register a domain*, ranging from $9 to several
-hundred dollars, depending on the top-level domain, such as =.com=.  For more
-information, see Amazon Route 53 Pricing for Domain Registration.
-
-*** Step 1---Obtain a Static URL
-
-*NOTE:* If you are using *Elastic Load Balancing* (Elastic Load Balancing is
-done automatically if you launched your app with Amazon Elastic Beanstalk) then
-you do not need to obtain a static IP address and can go directly to step 2.
-
- - [[https://us-east-1.console.aws.amazon.com/ec2/v2/home?region=us-east-1#Addresses:sort=publicIp][Open]] the Elastic IPs part of the /EC2 console/ in a new window and click
-   =Allocate New Address=.
-
- - Set /EIP used in:/ to =VPC= and click =Yes, Allocate=.  Note your new IP
-   address and click Close.
-    : New address request succeeded
-    : Elastic IP 3.211.150.216
-
-   *NOTE:* There is no charge for Elastic IP addresses (EIPs) that are
-   connected to running instances. If you remove the instance (e.g. the EIP is
-   no longer connected to a running instance) then there is a cost of $0.005/hr
-   for the EIP).
-
- - =Select the new IP address= in the /Elastic IP/ column.  Press the =Actions=
-   button and choose the =Associate Address= option.
-
- - Click in the =Instance= text box and =choose the option that has your
-   instance name=.
-
- - Verify that your new Elastic IP address is working by typing it into your
-   web browser.
-
-*** Step 2---Register a Domain Name
-
-You now have an IP address associated with your instance.  You now need to
-configure the Domain Name System (DNS) to point to this address.
-
-*NOTE:* In this example we will be acquiring a new domain name and associating
-it with the Elastic IP address we just created (which is attached to your
-instance). If you already have a domain name, or if you choose to use another
-domain registrar to get a domain name, please refer to their documentation on
-configuring DNS for your instance.
-
-- [[https://console.aws.amazon.com/route53/home?region=us-east-1][Open]] the Route 53 console in a new window (Route 53 is AWS’s DNS
-  service).  You can register new domain names with Route 53 as well as manage
-  DNS records for your domain.
-
-- Click the =Register Domain= button.  On the next screen, enter the domain you
-  want in the =Choose a Domain= box (cloudexamples is shown in the image, then
-  select a =Top Level Domain= (TLD) (e.g. =.com=, =.org=, =.co.uk=, etc.)  And
-  click the =Check= button to see if the domain is available. n If the domain
-  is available, click the =Add to cart= button and scroll to the bottom of the
-  page to click =Continue=.
-
-- Enter your =Contact Details=.  These are the details that will be associated
-  with your domain name.  When you are done, click =Continue= at the bottom of
-  the page.
-
-- Review the details as they are listed and, if they are correct, check the box
-  titled /I have read and agree to the AWS Domain Name Registration
-  Agreement/. Then click the =Complete Purchase= button.
-
-- If you registered a domain that has a /generic top-level domain/ (such as
-  =.com=), you'll receive an email that asks you to confirm your email address.
-  (We don't send an email if we already have confirmation that the email
-  address is valid.).  *You must follow the link in this email to confirm your
-  email address, or the domain won't be registered.*.  For all domains, you'll
-  receive an email when your domain registration has been approved.
-
-*** Step 3---Configure DNS
-
-The last step is to configure the DNS so that the new domain we created in step
-2 can point to the address we have for our server.  This can be the static IP
-address (from step 1) or a fully qualified domain name (FQDN) that is
-automatically created if you are using Amazon Elastic Beanstalk.
-
-Note that when you register a domain, we automatically create a *hosted zone*
-that has the same name as the domain.[fn:2]
-
-- Open the [[https://console.aws.amazon.com/route53/home?region=us-east-1#hosted-zones:][Hosted Zones]] part of the Route 53 console.  Click on the domain name
-  you created in step 2.
-
-- Click the =Create Record Set= button.  On the right side of the window, enter
-  =www= in the /Name/ text box.  Enter the Elastic IP address you created in
-  step 1 in the /Value/ box and then click =Create=.
-
-- Verify that you have a new entry in the main table with the value you
-  entered.
-
-- Verify that your website is now available at your new domain by typing your
-  new website address into your web browser.
-
 * Export Settings                                                  :noexport:
 #+OPTIONS: html-link-use-abs-url:nil html-postamble:auto html-preamble:t
 #+OPTIONS: html-scripts:t html-style:t html5-fancy:t tex:t num:3 H:6 ':t
@@ -1799,6 +1892,11 @@ that has the same name as the domain.[fn:2]
 
 [fn:11] You can create a hosted zone only for a domain that you have permission
 to administer.
+
+[fn:12] Your new records take time to propagate to the Route 53 DNS
+servers. Currently, the only way to verify that changes have propagated is to
+use the GetChange API action. Changes generally propagate to all Route 53 name
+servers within 60 seconds.
 
 [fn:3] There's an annual fee to register a domain, ranging from $9 to several
 hundred dollars, depending on the top-level domain, such as =.com=.
