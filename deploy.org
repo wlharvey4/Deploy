@@ -1,6 +1,131 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploying a Web Site on AWS
-#+DATE:<2019-04-13 Sat 10:02>
+#+DATE:<2019-04-13 Sat 18:29>
+
+* Amazon Web Services AWS Accounts
+** Sign Up for an AWS Account
+   - https://aws.amazon.com/getting-started/
+   - https://portal.aws.amazon.com/billing/signup
+
+When you sign up for AWS, your AWS account is automatically signed up for all
+services in AWS.  You are charged only for the services that you use.
+
+- Open https://aws.amazon.com/, and then choose =Create an AWS Account=.
+- Part of the sign-up procedure involves receiving a phone call and entering a
+  verification code using the phone keypad.
+- Note your AWS account number, because you'll need it later.
+
+** Access Your AWS Account
+You use AWS services by using any of the following options:
+- [[*Access Your Account Via the AWS Management Console][AWS Management Console]]
+- API for each service
+- AWS Command Line Interface (AWS CLI)
+- AWS Tools for Windows PowerShell
+- AWS SDKs
+
+*** Access Your Account Via the AWS Management Console
+
+**** The Root Identity and Account
+ To access the AWS Management Console for the first time, you provide an email
+ address and a password.
+
+ - This combination of your email address and password is called your *root
+   identity* or *root account credentials*.
+ - After you access your account for the first time, we strongly recommend that
+   you don't use your root account credentials again for everyday use.  Instead,
+   you should create new credentials by using AWS Identity and Access Management
+   (IAM) to create your [[*The IAM User][IAM User]].
+
+**** The IAM User Account
+ Create a user account for yourself known as an *IAM user*, and then add the IAM
+ user to an *IAM group* with /administrative permissions/ or grant the IAM user
+ /administrative permissions/.  You then can access AWS using a special URL and
+ the credentials for the IAM user.  You also can add other IAM users later, and
+ restrict their access to specified resources in the account.
+
+***** Create an IAM User
+ Perform the following procedures to create a group for administrators, create
+ an IAM user, and then add the IAM user to the administrators group.
+
+ 1. Use your AWS account email address and password to sign in as the *AWS
+    account root user* to [[https://console.aws.amazon.com/iam/][the IAM console]].
+
+ 2. In the navigation pane of the console, choose =Users=, and then choose =Add
+    user=.
+
+ 3. For =User name=, type =Administrator=.
+
+ 4. Select the check box next to *AWS Management Console* access, select =Custom
+    password=, and then type the new user's password in the text box.
+
+ 5. Choose =Next: Permissions=.
+
+ 6. On the =Set permissions= page, choose =Add user to group=.
+
+ 7. Choose =Create group=.
+
+ 8. In the =Create group= dialog box, for =Group name= type =Administrators=.
+
+ 9. For =Filter policies=, select the check box for =AWS managed - job
+    function=.
+
+ 10. In the policy list, select the check box for =AdministratorAccess=.  Then
+     choose =Create group=.
+
+ 11. Back in the list of groups, select the check box for your new group.  Choose
+     =Refresh= if necessary to see the group in the list.
+
+ 12. Choose =Next: Tags= to add metadata to the user by attaching tags as
+     key-value pairs.
+
+ 13. Choose =Next: Review= to see the list of group memberships to be added to
+     the new user.  When you are ready to proceed, choose =Create user=.
+
+
+ You can use this same process to create more groups and users, and to give your
+ users access to your AWS account resources.
+
+ To learn about using policies to restrict users' permissions to specific AWS
+ resources, go to [[https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_examples.html][Access Management and Example Policies]].
+
+***** Sign in as an IAM User
+ 1. Sign out of the AWS console.
+
+ 2. Sign in by using the following URL, where =your_aws_account_id= is your AWS
+    account number without the hyphens.
+    : https://your_aws_account_id.signin.aws.amazon.com/console/
+
+ 3. Enter the IAM user name (not your email address) and password that you just
+    created.  When you're signed in, the navigation bar displays
+    ="your_user_name @ your_aws_account_id"=.
+
+***** Create an Account Alias
+ If you don't want the URL for your sign-in page to contain your AWS account ID,
+ you can create an account alias.
+
+ 1. On the IAM console, choose =Dashboard= in the navigation pane.
+
+ 2. On the dashboard, choose =Customize= and enter an alias such as your company
+    name.
+
+ 3. Sign out of the AWS console.
+
+ 4. Sign in by using the following URL:
+    : https://your_account_alias.signin.aws.amazon.com/console/
+
+
+ To verify the sign-in link for IAM users for your account, open the IAM console
+ and check under IAM users sign-in link on the dashboard.
+
+*** Access the API, AWS CLI, AWS Tools for Windows PowerShell, or the AWS SDKs
+To use the API, the AWS CLI, AWS Tools for Windows PowerShell, or the AWS SDKs,
+you must create *access keys*.  These keys consist of an access key ID and
+secret access key, which are used to sign programmatic requests that you make
+to AWS.
+
+To create the keys, you sign in to the AWS Management Console. We strongly
+recommend that you sign in with your IAM user credentials instead of your root
+credentials.
 
 * Amazon Route 53
 Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web
@@ -47,133 +172,7 @@ this order:
    - For procedures, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html][Creating Amazon Route 53 Health Checks and Configuring
      DNS Failover]].
 
-** Setting Up Amazon Route 53
-
-- https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/setting-up-route-53.html
-
-
-*** Sign Up for AWS
-When you sign up for AWS, your AWS account is automatically signed up for all
-services in AWS, including Amazon Route 53.  You are charged only for the
-services that you use.
-
-- Open https://aws.amazon.com/, and then choose =Create an AWS Account=.
-- Part of the sign-up procedure involves receiving a phone call and entering a
-  verification code using the phone keypad.
-- Note your AWS account number, because you'll need it later.
-
-*** Access Your Account
-You use AWS services by using any of the following options:
-- [[*Access the Console][AWS Management Console]]
-- API for each service
-- AWS Command Line Interface (AWS CLI)
-- AWS Tools for Windows PowerShell
-- AWS SDKs
-
-
-**** Access the Console
-To access the AWS Management Console for the first time, you provide an email
-address and a password.
-
-- This combination of your email address and password is called your *root
-  identity* or *root account credentials*.
-- After you access your account for the first time, we strongly recommend that
-  you don't use your root account credentials again for everyday use.  Instead,
-  you should create new credentials by using *[[AWS Identity and Access Management][AWS Identity and Access
-  Management]]*.
-
-***** The IAM User
-Create a user account for yourself known as an *IAM user*, and then add the IAM
-user to an *IAM group* with /administrative permissions/ or grant the IAM user
-/administrative permissions/.  You then can access AWS using a special URL and
-the credentials for the IAM user.  You also can add other IAM users later, and
-restrict their access to specified resources in the account.
-
-****** Create an IAM User
-Perform the following procedures to create a group for administrators, create
-an IAM user, and then add the IAM user to the administrators group.
-
-1. Use your AWS account email address and password to sign in as the *AWS
-   account root user* to [[https://console.aws.amazon.com/iam/][the IAM console]].
-
-2. In the navigation pane of the console, choose =Users=, and then choose =Add
-   user=.
-
-3. For =User name=, type =Administrator=.
-
-4. Select the check box next to *AWS Management Console* access, select =Custom
-   password=, and then type the new user's password in the text box.
-
-5. Choose =Next: Permissions=.
-
-6. On the =Set permissions= page, choose =Add user to group=.
-
-7. Choose =Create group=.
-
-8. In the =Create group= dialog box, for =Group name= type =Administrators=.
-
-9. For =Filter policies=, select the check box for =AWS managed - job
-   function=.
-
-10. In the policy list, select the check box for =AdministratorAccess=.  Then
-    choose =Create group=.
-
-11. Back in the list of groups, select the check box for your new group.  Choose
-    =Refresh= if necessary to see the group in the list.
-
-12. Choose =Next: Tags= to add metadata to the user by attaching tags as
-    key-value pairs.
-
-13. Choose =Next: Review= to see the list of group memberships to be added to
-    the new user.  When you are ready to proceed, choose =Create user=.
-
-
-You can use this same process to create more groups and users, and to give your
-users access to your AWS account resources.
-
-To learn about using policies to restrict users' permissions to specific AWS
-resources, go to [[https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_examples.html][Access Management and Example Policies]].
-
-****** Sign in as an IAM User
-1. Sign out of the AWS console.
-
-2. Sign in by using the following URL, where =your_aws_account_id= is your AWS
-   account number without the hyphens.
-   : https://your_aws_account_id.signin.aws.amazon.com/console/
-
-3. Enter the IAM user name (not your email address) and password that you just
-   created.  When you're signed in, the navigation bar displays
-   ="your_user_name @ your_aws_account_id"=.
-
-****** Create an Account Alias
-If you don't want the URL for your sign-in page to contain your AWS account ID,
-you can create an account alias.
-
-1. On the IAM console, choose =Dashboard= in the navigation pane.
-
-2. On the dashboard, choose =Customize= and enter an alias such as your company
-   name.
-
-3. Sign out of the AWS console.
-
-4. Sign in by using the following URL:
-   : https://your_account_alias.signin.aws.amazon.com/console/
-
-
-To verify the sign-in link for IAM users for your account, open the IAM console
-and check under IAM users sign-in link on the dashboard.
-
-**** Access the API, AWS CLI, AWS Tools for Windows PowerShell, or the AWS SDKs
-To use the API, the AWS CLI, AWS Tools for Windows PowerShell, or the AWS SDKs,
-you must create *access keys*.  These keys consist of an access key ID and
-secret access key, which are used to sign programmatic requests that you make
-to AWS.
-
-To create the keys, you sign in to the AWS Management Console. We strongly
-recommend that you sign in with your IAM user credentials instead of your root
-credentials.
-
-*** Configuring Route 53 as a DNS Service
+** Configuring Route 53 as a DNS Service
 
 - https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-configuring.html
 
@@ -1073,6 +1072,10 @@ The following procedure explains how to create records using the Amazon Route
 
 9. If you're creating multiple records, repeat steps 6 through 8.
 
+** Setting Up Amazon Route 53
+
+- https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/setting-up-route-53.html
+
 ** Domain Names
 
 *** DNS Domain Name Format
@@ -1676,7 +1679,6 @@ the [[https://console.aws.amazon.com/s3/home][Amazon S3 console]]:
 
 5. You are prompted to provide the index document and any optional error
    documents and redirection rules that are needed.
-
 
 **** Configuring Index Document Support
 An /index document/ is a webpage that Amazon S3 returns when a request is made
