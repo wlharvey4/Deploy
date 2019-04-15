@@ -1,6 +1,6 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploying Web Sites
-#+DATE:<2019-04-14 Sun 16:38>
+#+DATE:<2019-04-15 Mon 03:29>
 
 * Deploying Web Sites using Amazon Web Services
 
@@ -162,6 +162,737 @@ credentials.
 
 The keys will be saved in =~/.aws/credentials=.
 
+*** Amazon Pricing
+- https://aws.amazon.com/pricing/
+
+**** Free Tier
+
+***** Always Free
+These free tier offers do not expire and are available to all AWS customers.
+
+****** Amazon DynamoDB
+- Fast and flexible NoSQL database with seamless scalability
+- 25 GB of storage
+- 25 provisioned Write Capacity Units (WCU)
+- 25 provisioned Read Capacity Units (RCU)
+- Enough to handle up to 200M requests per month.
+
+****** AWS Lambda
+Compute service that runs your code in response to events and automatically
+manages the compute resources
+
+- 1,000,000 free requests per month
+- Up to 3.2 million seconds of compute time per month
+
+****** Amazon SNS
+Fast, flexible, fully managed push messaging service
+
+- 1,000,000 Publishes
+- 100,000 HTTP/S Deliveries
+- 1,000 Email Deliveries
+
+****** Amazon CloudWatch
+Monitoring for AWS cloud resources and applications
+
+- 10 Custom Metrics and 10 Alarms
+- 1,000,000 API Requests
+- 5GB of Log Data Ingestion and 5GB of Log Data Archive
+- 3 Dashboards with up to 50 Metrics Each per Month
+
+****** Amazon Chime
+Amazon Chime is a modern unified communications service that offers
+frustration-free meetings with exceptional audio and video.
+
+- Amazon Chime Basic subscription is free to use for as long you'd like
+- Unlimited usage of Amazon Chime Basic
+
+****** Amazon Cognito
+Mobile user identity and synchronization
+
+- The Your User Pool feature has a free tier of 50,000 MAUs each month
+- 10 GB of cloud sync storage. Expires 12 months after sign-up.
+- 1,000,000 sync operations per month. Expires 12 months after sign-up.
+
+****** Amazon Glacier
+Long-term, secure, durable object storage
+
+- 10 GB of Amazon Glacier data retrievals per month for free. The free tier
+  allowance can be used at any time during the month and applies to Standard
+  retrievals
+
+****** Amazon Macie
+Discover, Classify, and Protect Your Data
+
+- 1 GB processed by the content classification engine
+- 100,000 events
+
+****** Amazon SES
+Cost-effective email service in the Cloud
+
+- 62,000 Outbound Messages per month to any recipient when you call Amazon SES
+  from an Amazon EC2 instance directly or through AWS Elastic Beanstalk.
+- 1,000 Inbound Messages per month
+
+****** Amazon SQS
+Scalable queue for storing messages as they travel between computers
+
+- 1,000,000 Requests
+
+****** Amazon SWF
+Task coordination and state management service for Cloud applications
+
+- 10,000 Activity Tasks
+- 30,000 Workflow-Days
+- 1,000 Initiated Executions
+
+****** AWS CodeBuild
+Fully managed build service that builds and tests code in the cloud
+
+- 100 build minutes per month of build.general1.small compute type usage
+
+****** AWS CodeCommit
+Highly scalable, managed source control service
+
+- 5 active users per month
+- 50 GB-month of storage per month
+- 10,000 Git requests per month
+
+****** AWS CodePipeline
+Continuous delivery service for fast and reliable application updates
+
+- 1 Active Pipeline per month
+
+****** AWS Database Migration Service
+Migrate databases with minimal downtime
+
+- 750 Hours of Amazon DMS Single-AZ dms.t2.micro instance usage
+- 50 GB of included General Purpose (SSD) storage
+
+****** AWS Glue
+Simple, flexible, and cost-effective extract, transform, and load (ETL) service
+
+- 1 Million objects stored in the AWS Glue Data Catalog
+- 1 Million requests made per month to the AWS Glue Data Catalog
+
+****** AWS Key Management Service
+AWS Key Management Service is a managed service that provides easy encryption
+with administrative controls
+
+- 20,000 free requests per month
+
+****** AWS License Manager
+Set rules to manage, discover, and report third-party license usage proactively
+
+- Unlimited - set as many rules as you want to manage third-party license usage
+- Use AWS License Manager on free instances without incurring charges. Normal
+  AWS rates are applied for applications that require more resources than the
+  default environment provides.
+
+****** AWS Step Functions
+Coordinate components of distributed applications
+
+- 4,000 state transitions per month
+
+****** AWS Storage Gateway
+Hybrid cloud storage with seamless local integration and optimized data
+transfer
+
+- First 100 GB per account is free
+- No transfer charges into AWS
+
+****** AWS Well-Architected Tool
+Review your architecture and adopt best practices with the AWS Well-Architected
+Tool
+
+- To use this free tool, define your workload, and answer a set of questions
+  across the five pillars of the Well Architected Framework. The AWS
+  Well-Architected Tool then provides a plan on how to architect for the cloud
+  using AWS best practices.
+
+****** AWS X-Ray
+Analyze and debug your applications
+
+- 100,000 traces recorded per month
+- 1,000,000 traces scanned or retrieved per month
+
+***** 12 Months Free
+Enjoy these offers for 12-months following your initial sign-up date to AWS.
+
+****** Amazon EC2
+Resizable compute capacity in the Cloud
+
+- 750 hours per month of Linux, RHEL, or SLES t2.micro instance usage
+- 750 hours per month of Windows t2.micro instance usage
+
+****** Amazon S3
+Secure, durable, and scalable object storage infrastructure
+
+- 5 GB of Standard Storage
+- 20,000 Get Requests
+- 2,000 Put Requests
+
+****** Amazon RDS
+Managed Relational Database Service for MySQL, PostgreSQL, MariaDB, Oracle
+BYOL, or SQL Server
+
+- 750 Hours per month of db.t2.micro database usage (applicable DB engines)
+- 20 GB of General Purpose (SSD) database storage
+- 20 GB of storage for database backups and DB Snapshots
+
+****** Amazon API Gateway
+Publish, maintain, monitor, and secure APIs at any scale
+
+- 1 Million API Calls Received per month
+
+****** Amazon Cloud Directory
+Fully-managed, cloud-native directory building service for data with multiple
+hierarchies
+
+- 1GB of storage per month
+- 10,000 combined strongly consistent read API calls and write API calls per
+  month
+- 100,000 eventually consistent read API calls per month
+
+****** Amazon CloudFront
+Web service to distribute content to end users with low latency and high data
+transfer speeds
+
+- 50 GB of Data Transfer Out
+- 2,000,000 HTTP or HTTPS Requests
+
+****** Amazon Comprehend
+Continuously trained and fully managed natural language processing (NLP)
+
+- 50K units of text (5M characters) for each API per month
+- 5 Topic Modeling Jobs up to 1MB each per month for the first 12 months
+
+****** Amazon Connect
+Amazon Connect is a simple to use, cloud-based contact center that scales to
+support any size business
+
+- 90 minutes per month of Amazon Connect usage
+- A local direct inward dial (DID) number for the region*
+- 30 minutes per month of local inbound DID calls*
+- 30 minutes per month of local outbound calls*
+- For US regions, a toll-free number for use per month and 30 minutes per month
+  of US inbound toll-free calls*
+
+****** Amazon EFS
+Simple, scalable, shared file storage service for Amazon EC2 instances
+
+- 5GB of storage
+
+****** Amazon Elastic Block Storage
+Persistent, durable, low-latency block-level storage volumes for EC2 instances
+
+- 30 GiB of Amazon EBS: any combination of General Purpose (SSD) or Magnetic
+
+****** Amazon Elastic Container Registry
+Store and retrieve Docker images
+
+- 500 MB-month of Storage
+
+****** Amazon Elastic Transcoder
+Fully managed media transcoding service
+
+- 20 Minutes of Audio Transcoding
+
+****** Amazon ElastiCache
+Web service that makes it easy to deploy, operate, and scale an in-memory cache
+in the Cloud
+
+- 750 Hours of cache.t2micro Node usage
+
+****** Amazon Elasticsearch Service
+Managed service that makes it easy to deploy, operate, and scale Elasticsearch
+clusters in the AWS Cloud
+
+- 750 hours per month of a single-AZ t2.small.elasticsearch instance
+- 10GB per month of optional EBS storage (Magnetic or General Purpose)
+
+****** Amazon GameLift
+Simple, fast, cost-effective dedicated game server hosting.
+
+- 125 hours per month of Amazon GameLift c4.large.gamelift On-Demand instance
+  usage
+- 50 GB EBS General Purpose (SSD) storage
+
+****** Amazon Lex
+Build Voice and Chat Text Chatbots
+
+- 10,000 text requests per month
+- 5,000 speech requests per month
+
+****** Amazon MQ
+Amazon MQ is a managed message broker service for Apache ActiveMQ
+
+- 750 hours of a single-instance mq.t2.micro broker per month
+- 1GB of storage per month
+
+****** Amazon Pinpoint
+Targeted Push Notifications for Mobile Apps
+
+- 5,000 free targeted users per month
+- 1,000,000 free push notifications per month
+- 100,000,000 events per month
+
+****** Amazon Polly
+Turn text into lifelike speech
+
+- 5M characters per month
+
+****** Amazon Rekognition
+Deep learning-based image recognition service
+
+- Analyze 5,000 images per month
+- Store up to 1,000 face metadata per month
+
+****** Amazon Sumerian
+Build and run virtual reality, augmented reality, and 3D applications
+
+- 50MB published scene that receives 100 views per month for free in the first
+  year
+
+****** Amazon Transcribe
+Add speech-to-text capability to your applications with automatic speech
+recognition
+
+- 60 minutes per month
+
+****** Amazon Translate
+Fast, high-quality, and affordable neural machine translation
+
+- 2 million characters per month
+
+****** AWS Amplify Console
+Build, deploy, and host cloud-powered modern web app
+
+- Build & Deploy - 1000 build minutes per month
+- Hosting - 5 GB stored per month & 15 GB served per month
+
+****** AWS Data Pipeline
+Orchestration for data-driven workflows
+
+- 3 Low Frequency Preconditions
+- 5 Low Frequency Activities
+
+****** AWS Greengrass
+Local compute, messaging, data caching, and sync capabilities for connected
+devices
+
+- 3 devices for free
+
+****** AWS IoT
+Connect devices to the cloud
+
+- 250,000 Messages (published or delivered) per month
+
+****** AWS IoT Device Management
+Onboard, organize, monitor, and remotely manage connected devices at scale
+
+- 50 remote actions per month
+
+****** AWS OpsWorks for Chef Automate
+Configuration management with Chef server and Chef Automate
+
+- 7,500 node hours (which equals 10 nodes) per month
+
+****** AWS OpsWorks for Puppet Enterprise
+Configuration management with Puppet Enterprise
+
+- 7,500 node hours (which equals 10 nodes) per month
+
+****** AWS RoboMaker
+AWS RoboMaker makes it easy to develop, simulate, and deploy intelligent
+robotics applications at scale
+
+- 25 SU-hours for free
+
+****** AWS Trusted Advisor
+AWS Cloud Optimization Expert
+
+- 4 best-practice checks on performance and security (service limits, security
+  groups, IAM, and MFA)
+
+****** Elastic Load Balancing
+Automatic distribution of incoming application traffic across multiple Amazon
+EC2 instances
+
+- 750 Hours per month shared between Classic and Application load balancers
+- 15 GB of data processing for Classic load balancers
+- 15 LCUs for Application load balancers
+
+***** Trials
+Short-term free trial offers are available through many different software
+solutions.
+
+****** Amazon SageMaker
+Fully managed platform to build, train, and deploy machine learning models
+
+- 250 hours per month of t2.medium notebook usage for the first two months
+- 50 hours per month of m4.xlarge for training for the first two months
+- 125 hours per month of m4.xlarge for hosting for the first two months
+
+****** Amazon Lightsail
+Virtual Private Servers made easy!  Everything you need to jumpstart your
+project on AWS with compute, storage, and networking.
+
+- 30-days free (750 hours per month)
+- Try the $3.50 USD Lightsail plan free for one month when using Linux/Unix
+- Try the $8 USD plan free for one month when using Lightsail for Microsoft
+  Windows Server
+
+****** Amazon GuardDuty
+Intelligent threat detection and continuous monitoring to protect your AWS
+accounts and workloads.
+
+- 30-day Free Trial
+
+****** Amazon Comprehend Medical
+A natural language processing service that makes it easy to use machine
+learning to extract relevant medical information from unstructured text
+
+- 25k units of text (2.5M characters) for the first 3 months from first use of
+  the service
+- Can be used for both the Medical Named Entity and Relationship Extraction
+  (NERe) API and the Protected Health Information Data Extraction and
+  Identification (PHId) API.
+
+****** Amazon Inspector
+Automated security assessment service to help improve the security and
+compliance of applications deployed on AWS
+
+- 90-day Free Trial or 250 agent-assessments. Which ever occurs first.
+
+****** Amazon Redshift
+Fast, simple, cost-effective data warehousing
+
+- Two-month free trial
+- 750 DC2.Large hours per month for 2 months
+
+****** Amazon SageMaker Ground Truth
+Build highly-accurate training datasets quickly, while reducing data labeling
+costs by up to 70%
+
+- First 500 objects labeled per month for the first two months after first use
+  of SageMaker (excluding any additional costs incurred by using a labeling
+  vendor or Amazon Mechanical Turk)
+
+****** Amazon WorkDocs
+Amazon WorkDocs is a secure, fully managed, content creation, file
+collaboration service that runs on AWS
+
+- 30-day Free Trial
+- with 1 TB of storage per user for up to 50 users
+- Amazon WorkSpaces users get Amazon WorkDocs with 50 GB of storage for no
+  additional charge
+
+****** Amazon WorkDocs & WorkSpaces Bundle
+Amazon WorkDocs & WorkSpaces bundle is a managed, content creation, file
+collaboration, secure cloud desktop service.
+
+- 50 GB of storage per WorkSpaces user
+- Upgrade to 1 TB of storage for discounted rate of $2 per WorkSpaces user per
+  month
+- Access to all WorkDocs features
+
+****** AWS Device Farm
+Test your iOS, Android and FireOS apps on real devices in the AWS cloud
+
+- Free one-time trial of 250 Device Minutes
+
+**** Overview
+AWS offers you a pay-as-you-go approach for pricing for over 120 cloud
+services.  With AWS you pay only for the individual services you need, for as
+long as you use them, and without requiring long-term contracts or complex
+licensing.  AWS pricing is similar to how you pay for utilities like water and
+electricity.  You only pay for the services you consume, and once you stop
+using them, there are no additional costs or termination fees.
+
+***** Pay-as-you-go
+Pay-as-you-go allows you to easily adapt to changing business needs without
+overcommitting budgets and improving your responsiveness to changes.  With a
+pay-as-you-go model, you can adapt your business depending on need and not on
+forecasts, reducing the risk of overpositioning or missing capacity.
+
+***** Save when you reserve
+For certain services like Amazon EC2 and Amazon RDS, you can invest in reserved
+capacity.  With Reserved Instances, you can save up to 75% over equivalent
+on-demand capacity.  When you buy Reserved Instances, the larger the upfront
+payment, the greater the discount.
+
+***** Pay less by using more
+With AWS, you can get volume based discounts and realize important savings as
+your usage increases.  For services such as S3, pricing is tiered, meaning the
+more you use, the less you pay per GB.  AWS also gives you options to acquire
+services that help you address your business needs.
+
+**** Services Pricing
+
+***** Compute
+****** EC2 Pricing
+There are four ways to pay for Amazon EC2 instances:
+1. On-Demand
+
+   With On-Demand instances, you pay for compute capacity by per hour or per
+   second depending on which instances you run. No longer-term commitments or
+   upfront payments are needed. You can increase or decrease your compute
+   capacity depending on the demands of your application and only pay the
+   specified per hourly rates for the instance you use.
+
+2. Reserved Instances
+
+   Reserved Instances provide you with a significant discount (up to 75%)
+   compared to On-Demand instance pricing. In addition, when Reserved Instances
+   are assigned to a specific Availability Zone, they provide a capacity
+   reservation, giving you additional confidence in your ability to launch
+   instances when you need them.
+
+3. Spot instances
+
+   Amazon EC2 Spot instances allow you to request spare Amazon EC2 computing
+   capacity for up to 90% off the On-Demand price.
+
+4. Dedicated Hosts
+
+   A Dedicated Host is a physical EC2 server dedicated for your use. Dedicated
+   Hosts can help you reduce costs by allowing you to use your existing
+   server-bound software licenses, including Windows Server, SQL Server, and
+   SUSE Linux Enterprise Server (subject to your license terms), and can also
+   help you meet compliance requirements.
+
+5. Per Second Billing
+
+   With per-second billing, you pay for only what you use. It takes cost of
+   unused minutes and seconds in an hour off of the bill, so you can focus on
+   improving your applications instead of maximizing usage to the
+   hour. Especially, if you manage instances running for irregular periods of
+   time, such as dev/testing, data processing, analytics, batch processing and
+   gaming applications, can benefit.
+
+****** Amazon Lightsail Pricing
+- https://aws.amazon.com/lightsail/pricing/
+
+Linux/Unix and Windows pricing; the following pricing is for Linux/Unix only.
+
+You can try the $3.50 USD Lightsail plan free for one month (up to 750 hours),
+the $8 USD plan free for one month when using Lightsail for Microsoft Windows
+Server, or the $15 USD free for one month when using the Managed databases
+plan. Choose appropriate plan when you launch your first Lightsail server, and
+we will credit one free month to your account.
+
+Included:
+- Static IP address
+- DNS management
+- Server monitoring
+- SSH terminal access (Linux/Unix)
+- Intuitive management console
+- RDP access (Windows)
+- Secure key management
+
+
+Pricing:
+- $3.50/month
+  - 512 MB Memory
+  - 1 Core Processor
+  - 20 GB SSD Disk
+  - 1 TB Transfer
+
+- $5.00/month
+  - 1 GB Memory
+  - 1 Core Processor
+  - 40 GB SSD Disk
+  - 2 TB Transfer
+
+- $10.00/month
+  - 2 GB Memory
+  - 1 Core Processor
+  - 60 GB SSD Disk
+  - 3 TB Transfer
+
+- $20.00/month
+  - 4 GB Memory
+  - 2 Core Processor
+  - 80 GB SSD Disk
+  - 4 TB Transfer
+
+- $40.00/month
+
+- $80.00/month
+
+- $160.00/month
+
+- Managed databases pricing
+
+  Choose between our standard plan or our high availability plan (includes
+  extra instances for redundancy or failovers).
+
+  - Standard plan
+    - $15
+    - $30
+    - $60
+    - $115
+
+  - High Availability plan
+
+  - Memory (RAM)
+    - 1 GB
+    - 2 GB
+    - 4 GB
+    - 8 GB
+
+  - Compute capacity
+
+  - SSD storage
+    - 40 GB
+    - 80 GB
+    - 120 GB
+    - 240 GB
+
+  - Data transfer allowance
+    - 100 GB
+    - 100 GB
+    - 100 GB
+    - 200 GB
+
+  - Data encrypted
+    - No
+    - Yes
+    - Yes
+    - Yes
+
+****** Amazon Elastic Container Service pricing
+- https://aws.amazon.com/ecs/pricing/
+
+There are two different charge models for Amazon Elastic Container Service
+(ECS).
+
+- Fargate Launch Type Model ::
+
+     With Fargate, you pay for the amount of vCPU and memory resources that
+     your containerized application requests. vCPU and memory resources are
+     calculated from the time your container images are pulled until the Amazon
+     ECS Task* terminates, rounded up to the nearest second. A minimum charge
+     of 1 minute applies.
+
+- EC2 Launch Type Model ::
+
+     There is no additional charge for EC2 launch type. You pay for AWS
+     resources (e.g. EC2 instances or EBS volumes) you create to store and run
+     your application. You only pay for what you use, as you use it; there are
+     no minimum fees and no upfront commitments.
+
+****** AWS Lambda Pricing
+- https://aws.amazon.com/lambda/pricing/
+
+With AWS Lambda, you pay only for what you use. You are charged based on the
+number of requests for your functions and the duration, the time it takes for
+your code to execute.
+
+Lambda counts a *request* each time it starts executing in response to an event
+notification or invoke call, including test invokes from the console. You are
+charged for the total number of requests across all your functions.
+
+*Duration* is calculated from the time your code begins executing until it
+returns or otherwise terminates, rounded up to the nearest 100ms. The price
+depends on the amount of memory you allocate to your function.
+
+The Lambda free tier includes 1M free requests per month and 400,000 GB-seconds
+of compute time per month. The memory size you choose for your Lambda functions
+determines how long they can run in the free tier. The Lambda free tier does
+not automatically expire at the end of your 12 month AWS Free Tier term, but is
+available to both existing and new AWS customers indefinitely.
+
+You may incur additional charges if your Lambda function utilizes other AWS
+services or transfers data. For example, if your Lambda function reads and
+writes data to or from Amazon S3, you will be billed for the read/write
+requests and the data stored in Amazon S3.
+
+Data transferred “in” to and “out” of your AWS Lambda functions from outside
+the region the function executed in will be charged at the EC2 data transfer
+rates as listed here under “Data transfer”.
+
+Data transferred between Amazon S3, Amazon Glacier, Amazon DynamoDB, Amazon
+SES, Amazon SQS, Amazon Kinesis, Amazon ECR, Amazon SNS, or Amazon SimpleDB and
+AWS Lambda functions in the same AWS Region is free.
+
+The usage of VPC or VPC peering with AWS Lambda functions will incur additional
+charges.
+
+- Requests ::
+              First 1M requests per month are free.
+
+              $0.20 PER 1M REQUESTS THEREAFTER
+
+- Duration ::
+              First 400,000 GB-seconds per month, up to 3.2M seconds of compute
+              time, are free.
+
+              $0.00001667 FOR EVERY GB-SECOND USED THEREAFTER
+
+***** Storage
+****** Amazon S3 Pricing
+- https://aws.amazon.com/s3/pricing/
+
+Pay only for what you use. There is no minimum fee. Estimate your monthly bill
+using the [[http://aws.amazon.com/calculator/][AWS Simple Monthly Calculator]].
+
+******* Storage pricing
+
+******** S3 Standard Storage
+- First 50 TB / Month $0.023 per GB
+- Next 450 TB / Month $0.022 per GB
+- Over 500 TB / Month $0.021 per GB
+
+***** Database
+****** Amazon DynamoDB pricing
+- https://aws.amazon.com/dynamodb/pricing/
+
+DynamoDB charges for reading, writing, and storing data in your DynamoDB
+tables, along with any optional features you choose to enable. DynamoDB has two
+capacity modes and those come with specific billing options for processing
+reads and writes on your tables: on-demand and provisioned. Click the following
+links to learn more about the billing options for each capacity mode.
+
+******* Pricing for on-demand capacity mode
+With on-demand capacity mode, DynamoDB charges you for the data reads and
+writes your application performs on your tables. You do not need to specify how
+much read and write throughput you expect your application to perform because
+DynamoDB instantly accommodates your workloads as they ramp up or down.
+
+On-demand capacity mode might be best if you:
+
+- Create new tables with unknown workloads.
+- Have unpredictable application traffic.
+- Prefer the ease of paying for only what you use.
+
+******* Pricing for provisioned capacity mode
+With provisioned capacity mode, you specify the number of reads and writes per
+second that you expect your application to require. You can use auto scaling to
+automatically adjust your table’s capacity based on the specified utilization
+rate to ensure application performance while reducing costs.
+
+Provisioned capacity mode might be best if you:
+
+- Have predictable application traffic.
+- Run applications whose traffic is consistent or ramps gradually.
+- Can forecast capacity requirements to control costs.
+
+***** Migration
+***** Networking and Delivery Content
+**** Cost Optimization
+- https://aws.amazon.com/pricing/cost-optimization/
+
+Optimize your costs when using AWS
+
+By following a few simple steps, you can effectively control your AWS costs: 1)
+Right-size your services to meet capacity needs at the lowest cost 2) Save
+money when you reserve 3) Use the spot market 4) Monitor and track service
+usage 5) Use Cost Explorer to optimize savings.
+
+***** SIMPLE MONTHLY CALCULATOR
+- https://calculator.s3.amazonaws.com/index.html
+
 ** Amazon Route 53
 Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web
 service.
@@ -207,15 +938,198 @@ this order:
    - For procedures, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html][Creating Amazon Route 53 Health Checks and Configuring
      DNS Failover]].
 
+*** Domain Names
+
+**** DNS Domain Name Format
+Domain names (including the names of domains, hosted zones, and records)
+consist of a series of labels separated by dots.  Each label can be up to 63
+bytes long.  The total length of a domain name cannot exceed 255 bytes,
+including the dots.  Amazon Route 53 supports any valid domain name.
+
+Naming requirements depend on whether you're registering a domain name or
+you're specifying the name of a hosted zone or a record.
+
+***** Formatting Domain Names for Domain Name Registration
+For domain name registration, a domain name can contain only the characters
+=a-z=, =0-9=, and =–= (hyphen).  You can't specify a hyphen at the beginning or
+end of a label.
+
+**** Hosted Zones
+When you register a domain with Route 53, we automatically create a hosted zone
+for the domain and charge a small monthly fee for the hosted zone in addition
+to the annual charge for the domain registration. This hosted zone is where you
+store information about how to route traffic for your domain, for example, to
+an Amazon EC2 instance or a CloudFront distribution. If you don't want to use
+your domain right now, you can delete the hosted zone; if you delete it within
+12 hours of registering the domain, there won't be any charge for the hosted
+zone on your AWS bill. We also charge a small fee for the DNS queries that we
+receive for your domain.
+
+**** Domain Name Registration
+https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-register.html
+
+If you want to create a website or a web application, you start by registering
+the name of your website, known as a domain name.  Your domain name is the
+name, such as =example.com=, that your users enter in a browser to display your
+website.
+
+Here's an overview of how you register a domain name with Amazon Route 53:
+
+1. You choose a domain name and confirm that it's available, meaning that no
+   one else has registered the domain name that you want.
+
+   For a list of the top-level domains that Route 53 supports, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html][Domains That
+   You Can Register with Amazon Route 53]].
+
+2. You register the domain name with Route 53. When you register a domain, you
+   provide names and contact information for the domain owner and other
+   contacts.
+
+   When you register a domain with Route 53, the service automatically makes
+   itself the DNS service for the domain by doing the following:
+
+   - Creates Hosted Zone :: Creates a hosted zone that has the same name as
+        your domain.
+
+   - Assigns Name Servers :: Assigns a set of four name servers to the hosted
+        zone.  When someone uses a browser to access your website, such as
+        =www.example.com=, these name servers tell the browser where to find
+        your resources, such as a web server or an Amazon S3 bucket.
+
+   - Adds Name Servers to Domain :: Gets the name servers from the hosted zone
+        and adds them to the domain.
+
+   For more information, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/welcome-dns-service.html][How Internet Traffic Is Routed to Your Website or
+   Web Application]].
+
+3. At the end of the registration process, we send your information to the
+   registrar for the domain.  The domain registrar is either Amazon Registrar,
+   Inc. or our registrar associate, Gandi.  To find out who the registrar is
+   for your domain, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html][Domains That You Can Register with Amazon Route 53]].
+
+4. The registrar sends your information to the registry for the domain.  A
+   registry is a company that sells domain registrations for one or more
+   top-level domains, such as =.com=.
+
+5. The registry stores the information about your domain in their own database
+   and also stores some of the information in the public WHOIS database.
+
+***** Register a New Domain
+When you want to register a new domain using the Amazon Route 53 console,
+perform the following procedure.
+
+1. Sign in to the AWS Management Console and open the Route 53 console.
+
+2. If you're new to Route 53, under =Domain Registration=, choose =Get Started
+   Now=.  If you're already using Route 53, in the navigation pane, choose
+   =Registered Domains=.
+
+3. Choose =Register Domain=, and specify the domain that you want to register:
+   - Enter the domain name that you want to register, and choose =Check= to
+     find out whether the domain name is available.
+
+   - If the domain is available, choose =Add to cart=.  The domain name appears
+     in your shopping cart.
+
+   - In the shopping cart, choose the number of years that you want to register
+     the domain for.
+
+   - To register more domains, repeat steps 3a through 3c.
+
+4. Choose =Continue=.
+
+5. On the =Contact Details for Your n Domains/ page, enter contact information
+   for the domain registrant, administrator, and technical contacts.  The
+   values that you enter here are applied to all of the domains that you're
+   registering.
+
+6. Choose =Continue=.
+
+7. Generic TLDs only --- If you're registering a domain that has a generic TLD,
+   such as .com, .org, or .net, and you specified an email address for the
+   registrant contact that has never been used to register a domain with Route
+   53, you need to verify that the address is valid.
+
+8. Review the information that you entered, read the terms of service, and
+   select the check box to confirm that you've read the terms of service.
+
+9. Choose =Complete Purchase=.
+
+10. Generic TLDs only --- Verify that the email address for the registrant
+    contact is valid.
+
+11. For all TLDs, you'll receive an email when your domain registration has
+    been approved.
+
+12. We configure the domain to automatically renew as the expiration date
+    approaches. If you want to change this setting, see =Enabling or Disabling
+    Automatic Renewal for a Domain=.
+
+13. When domain registration is complete, your next step depends on whether you
+    want to use Route 53 or another DNS service as the DNS service for the
+    domain:
+
+    - Route 53 ::
+
+                  In the hosted zone that Route 53 created when you registered
+                  the domain, create records to tell Route 53 how you want to
+                  route traffic for the domain and subdomains.
+
+                  For example, when someone enters your domain name in a
+                  browser and that query is forwarded to Route 53, do you want
+                  Route 53 to respond to the query with the IP address of a web
+                  server in your data center or with the name of an ELB load
+                  balancer?
+
+                  For more information, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/rrsets-working-with.html][Working with Records]].
+
+    - Another DNS service ::
+
+         Configure your new domain to route DNS queries to the other DNS
+         service.  See the next section.
+
+***** Update the name servers for your domain when you want to use another DNS service
+1. Use the process that is provided by your DNS service to get the name servers
+   for the domain.
+
+2. Sign in to the AWS Management Console and open the Route 53 console
+
+3. Choose =Registered Domains=
+
+4. Choose the name of the domain that you want to configure to use another DNS
+   service
+
+5. Choose =Add/Edit Name Servers=
+
+6. Change the names of the name servers to the name servers that you got from
+   your DNS service in step 1.
+
+7. Choose =Update=
+
+8. Delete the hosted zone that Route 53 created automatically when you
+   registered your domain.  This prevents you from being charged for a hosted
+   zone that you aren't using.
+
+   - choose =Hosted Zones=
+
+   - Select the radio button for the hosted zone that has the same name as your
+     domain.
+
+   - Choose =Delete Hosted Zone=
+
+   - Choose =Confirm=
+
 *** Configuring Route 53 as a DNS Service
+https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-configuring.html
 
-- https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-configuring.html
-
+You can use Amazon Route 53 as the DNS service for your domain, such as
+=example.com=.
 
 When Route 53 is your DNS service, it /routes/ internet traffic to your website
 by translating friendly domain names like =www.example.com= into numeric IP
-addresses, like =192.0.2.1=, that computers use to connect to each other.  When
-someone types your domain name in a browser or sends you an email, a *DNS
+addresses, like =192.0.2.1=, that computers use to connect to each other.
+
+When someone types your domain name in a browser or sends you an email, a *DNS
 query* is forwarded to Route 53, which responds with the appropriate value.
 For example, Route 53 might respond with the IP address for the web server for
 =example.com=.
@@ -1107,126 +2021,6 @@ The following procedure explains how to create records using the Amazon Route
 
 9. If you're creating multiple records, repeat steps 6 through 8.
 
-*** Setting Up Amazon Route 53
-
-- https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/setting-up-route-53.html
-
-*** Domain Names
-
-**** DNS Domain Name Format
-Domain names (including the names of domains, hosted zones, and records)
-consist of a series of labels separated by dots.  Each label can be up to 63
-bytes long.  The total length of a domain name cannot exceed 255 bytes,
-including the dots.  Amazon Route 53 supports any valid domain name.
-
-Naming requirements depend on whether you're registering a domain name or
-you're specifying the name of a hosted zone or a record.
-
-***** Formatting Domain Names for Domain Name Registration
-For domain name registration, a domain name can contain only the characters
-=a-z=, =0-9=, and =–= (hyphen).  You can't specify a hyphen at the beginning or
-end of a label.
-
-**** Register a Domain Name and Connect to an EC2 Instance
-- [[https://aws.amazon.com/getting-started/tutorials/get-a-domain/?trk=gs_card][Register a Domain Name]]
-
-Register a new domain name for your website and connect that domain name
-through the Domain Name System (DNS) to a running EC2 instance (such as a
-WebApp, or website running WordPress, Apache, NGINX, IIS, or other Website
-platform).[fn:1]
-
-There's an annual fee to *register a domain*, ranging from $9 to several
-hundred dollars, depending on the top-level domain, such as =.com=.  For more
-information, see Amazon Route 53 Pricing for Domain Registration.
-
-***** Step 1---Obtain a Static URL
-
-*NOTE:* If you are using *Elastic Load Balancing* (Elastic Load Balancing is
-done automatically if you launched your app with Amazon Elastic Beanstalk) then
-you do not need to obtain a static IP address and can go directly to step 2.
-
- - [[https://us-east-1.console.aws.amazon.com/ec2/v2/home?region=us-east-1#Addresses:sort=publicIp][Open]] the Elastic IPs part of the /EC2 console/ in a new window and click
-   =Allocate New Address=.
-
- - Set /EIP used in:/ to =VPC= and click =Yes, Allocate=.  Note your new IP
-   address and click Close.
-    : New address request succeeded
-    : Elastic IP 3.211.150.216
-
-   *NOTE:* There is no charge for Elastic IP addresses (EIPs) that are
-   connected to running instances. If you remove the instance (e.g. the EIP is
-   no longer connected to a running instance) then there is a cost of $0.005/hr
-   for the EIP).
-
- - =Select the new IP address= in the /Elastic IP/ column.  Press the =Actions=
-   button and choose the =Associate Address= option.
-
- - Click in the =Instance= text box and =choose the option that has your
-   instance name=.
-
- - Verify that your new Elastic IP address is working by typing it into your
-   web browser.
-
-***** Step 2---Register a Domain Name
-
-You now have an IP address associated with your instance.  You now need to
-configure the Domain Name System (DNS) to point to this address.
-
-*NOTE:* In this example we will be acquiring a new domain name and associating
-it with the Elastic IP address we just created (which is attached to your
-instance). If you already have a domain name, or if you choose to use another
-domain registrar to get a domain name, please refer to their documentation on
-configuring DNS for your instance.
-
-- [[https://console.aws.amazon.com/route53/home?region=us-east-1][Open]] the Route 53 console in a new window (Route 53 is AWS’s DNS
-  service).  You can register new domain names with Route 53 as well as manage
-  DNS records for your domain.
-
-- Click the =Register Domain= button.  On the next screen, enter the domain you
-  want in the =Choose a Domain= box (cloudexamples is shown in the image, then
-  select a =Top Level Domain= (TLD) (e.g. =.com=, =.org=, =.co.uk=, etc.)  And
-  click the =Check= button to see if the domain is available. n If the domain
-  is available, click the =Add to cart= button and scroll to the bottom of the
-  page to click =Continue=.
-
-- Enter your =Contact Details=.  These are the details that will be associated
-  with your domain name.  When you are done, click =Continue= at the bottom of
-  the page.
-
-- Review the details as they are listed and, if they are correct, check the box
-  titled /I have read and agree to the AWS Domain Name Registration
-  Agreement/. Then click the =Complete Purchase= button.
-
-- If you registered a domain that has a /generic top-level domain/ (such as
-  =.com=), you'll receive an email that asks you to confirm your email address.
-  (We don't send an email if we already have confirmation that the email
-  address is valid.).  *You must follow the link in this email to confirm your
-  email address, or the domain won't be registered.*.  For all domains, you'll
-  receive an email when your domain registration has been approved.
-
-***** Step 3---Configure DNS
-
-The last step is to configure the DNS so that the new domain we created in step
-2 can point to the address we have for our server.  This can be the static IP
-address (from step 1) or a fully qualified domain name (FQDN) that is
-automatically created if you are using Amazon Elastic Beanstalk.
-
-Note that when you register a domain, we automatically create a *hosted zone*
-that has the same name as the domain.[fn:2]
-
-- Open the [[https://console.aws.amazon.com/route53/home?region=us-east-1#hosted-zones:][Hosted Zones]] part of the Route 53 console.  Click on the domain name
-  you created in step 2.
-
-- Click the =Create Record Set= button.  On the right side of the window, enter
-  =www= in the /Name/ text box.  Enter the Elastic IP address you created in
-  step 1 in the /Value/ box and then click =Create=.
-
-- Verify that you have a new entry in the main table with the value you
-  entered.
-
-- Verify that your website is now available at your new domain by typing your
-  new website address into your web browser.
-
 ** Amazon Simple Storage Service S3
 "Object storage built to store and retrieve any amount of data from anywhere"
 
@@ -2027,9 +2821,111 @@ following URLs:
 - =http://example.com= :: Displays the index document in the =example.com= bucket.
 - =http://www.example.com= :: Redirects your request to =example.com=.
 
+** Amazon Elastic Compute Cloud
+*** Register a Domain Name and Connect to an EC2 Instance
+- [[https://aws.amazon.com/getting-started/tutorials/get-a-domain/?trk=gs_card][Register a Domain Name]]
+
+Register a new domain name for your website and connect that domain name
+through the Domain Name System (DNS) to a running EC2 instance (such as a
+WebApp, or website running WordPress, Apache, NGINX, IIS, or other Website
+platform).[fn:1]
+
+There's an annual fee to *register a domain*, ranging from $9 to several
+hundred dollars, depending on the top-level domain, such as =.com=.  For more
+information, see Amazon Route 53 Pricing for Domain Registration.
+
+**** Step 1---Obtain a Static URL
+
+*NOTE:* If you are using *Elastic Load Balancing* (Elastic Load Balancing is
+done automatically if you launched your app with Amazon Elastic Beanstalk) then
+you do not need to obtain a static IP address and can go directly to step 2.
+
+ - [[https://us-east-1.console.aws.amazon.com/ec2/v2/home?region=us-east-1#Addresses:sort=publicIp][Open]] the Elastic IPs part of the /EC2 console/ in a new window and click
+   =Allocate New Address=.
+
+ - Set /EIP used in:/ to =VPC= and click =Yes, Allocate=.  Note your new IP
+   address and click Close.
+    : New address request succeeded
+    : Elastic IP 3.211.150.216
+
+   *NOTE:* There is no charge for Elastic IP addresses (EIPs) that are
+   connected to running instances. If you remove the instance (e.g. the EIP is
+   no longer connected to a running instance) then there is a cost of $0.005/hr
+   for the EIP).
+
+ - =Select the new IP address= in the /Elastic IP/ column.  Press the =Actions=
+   button and choose the =Associate Address= option.
+
+ - Click in the =Instance= text box and =choose the option that has your
+   instance name=.
+
+ - Verify that your new Elastic IP address is working by typing it into your
+   web browser.
+
+**** Step 2---Register a Domain Name
+
+You now have an IP address associated with your instance.  You now need to
+configure the Domain Name System (DNS) to point to this address.
+
+*NOTE:* In this example we will be acquiring a new domain name and associating
+it with the Elastic IP address we just created (which is attached to your
+instance). If you already have a domain name, or if you choose to use another
+domain registrar to get a domain name, please refer to their documentation on
+configuring DNS for your instance.
+
+- [[https://console.aws.amazon.com/route53/home?region=us-east-1][Open]] the Route 53 console in a new window (Route 53 is AWS’s DNS
+  service).  You can register new domain names with Route 53 as well as manage
+  DNS records for your domain.
+
+- Click the =Register Domain= button.  On the next screen, enter the domain you
+  want in the =Choose a Domain= box (cloudexamples is shown in the image, then
+  select a =Top Level Domain= (TLD) (e.g. =.com=, =.org=, =.co.uk=, etc.)  And
+  click the =Check= button to see if the domain is available. n If the domain
+  is available, click the =Add to cart= button and scroll to the bottom of the
+  page to click =Continue=.
+
+- Enter your =Contact Details=.  These are the details that will be associated
+  with your domain name.  When you are done, click =Continue= at the bottom of
+  the page.
+
+- Review the details as they are listed and, if they are correct, check the box
+  titled /I have read and agree to the AWS Domain Name Registration
+  Agreement/. Then click the =Complete Purchase= button.
+
+- If you registered a domain that has a /generic top-level domain/ (such as
+  =.com=), you'll receive an email that asks you to confirm your email address.
+  (We don't send an email if we already have confirmation that the email
+  address is valid.).  *You must follow the link in this email to confirm your
+  email address, or the domain won't be registered.*.  For all domains, you'll
+  receive an email when your domain registration has been approved.
+
+**** Step 3---Configure DNS
+
+The last step is to configure the DNS so that the new domain we created in step
+2 can point to the address we have for our server.  This can be the static IP
+address (from step 1) or a fully qualified domain name (FQDN) that is
+automatically created if you are using Amazon Elastic Beanstalk.
+
+Note that when you register a domain, we automatically create a *hosted zone*
+that has the same name as the domain.[fn:2]
+
+- Open the [[https://console.aws.amazon.com/route53/home?region=us-east-1#hosted-zones:][Hosted Zones]] part of the Route 53 console.  Click on the domain name
+  you created in step 2.
+
+- Click the =Create Record Set= button.  On the right side of the window, enter
+  =www= in the /Name/ text box.  Enter the Elastic IP address you created in
+  step 1 in the /Value/ box and then click =Create=.
+
+- Verify that you have a new entry in the main table with the value you
+  entered.
+
+- Verify that your website is now available at your new domain by typing your
+  new website address into your web browser.
+
+
 * Export Settings                                                  :noexport:
 #+OPTIONS: html-link-use-abs-url:nil html-postamble:auto html-preamble:t
-#+OPTIONS: html-scripts:t html-style:t html5-fancy:t tex:t num:3 H:6 ':t toc:3
+#+OPTIONS: html-scripts:t html-style:t html5-fancy:t tex:t num:3 H:6 ':t toc:4
 #+HTML_DOCTYPE: html5
 #+HTML_CONTAINER: div
 #+DESCRIPTION:
