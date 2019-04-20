@@ -1,6 +1,6 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploying Web Sites
-#+DATE:<2019-04-15 Mon 03:29>
+#+DATE:<2019-04-20 Sat 11:12>
 
 * Deploying Web Sites using Amazon Web Services
 
@@ -938,7 +938,323 @@ this order:
    - For procedures, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html][Creating Amazon Route 53 Health Checks and Configuring
      DNS Failover]].
 
-*** Domain Names
+
+*** Route 53 Concepts
+
+**** Domain Registration
+
+***** Domain Name
+The name, such as =example.com=, that a user types in the address bar of a web
+browser to access a website or a web application.
+
+***** Domain Registrar
+A company that is accredited by ICANN (Internet Corporation for Assigned Names
+and Numbers) to process domain registrations for specific top-level domains
+(TLDs).
+
+***** Domain Registry
+A company that owns the right to sell domains that have a specific top-level
+domain.  A domain registry also maintains the authoritative database for all of
+the domain names that have the same TLD.  The registry's database contains
+information such as contact information and the name servers for each domain.
+
+***** Domain Reseller
+A company that sells domain names for registrars such as Amazon
+Registrar. Amazon Route 53 is a domain reseller for Amazon Registrar and for
+our registrar associate, Gandi.
+
+***** Top-Level Domain---TLD
+The last part of a domain name, such as =.com=, =.org=, or =.ninja=.  There are
+two types of top-level domains:
+
+****** Generic top-level domains
+These TLDs typically give users an idea of what they'll find on the
+website. For example, domain names that have a TLD of .bike often are
+associated with websites for motorcycle or bicycle businesses or organizations.
+
+****** Geographic top-level domains
+These TLDs are associated with geographic areas such as countries or
+cities. Some registries for geographic TLDs have residency requirements, while
+others, such as .io, allow or even encourage use as a generic TLD.
+
+
+For a list of the TLDs that you can use when you register a domain name with
+Route 53, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html][Domains That You Can Register with Amazon Route 53]].
+
+**** Domain Name System---DNS Concepts
+
+***** Alias record
+A type of record that you can create with Amazon Route 53 to route traffic to
+AWS resources such as Amazon CloudFront distributions and Amazon S3 buckets.
+
+***** Authoritative Name Server
+A name server that has definitive information about one part of the Domain Name
+System (DNS) and that responds to requests from a DNS resolver by returning the
+applicable information.  Route 53 name servers are the authoritative name
+servers for every domain that uses Route 53 as the DNS service. The name
+servers know how you want to route traffic for your domain and subdomains based
+on the records that you created in the hosted zone for the domain.
+
+***** DNS query
+Usually a request that is submitted by a device, such as a computer or a smart
+phone, to the Domain Name System (DNS) for a resource that is associated with a
+domain name.
+
+***** DNS resolver
+A DNS server, often managed by an internet service provider (ISP), that acts as
+an intermediary between user requests and DNS name servers. When you open a
+browser and enter a domain name in the address bar, your query goes first to a
+DNS resolver. The resolver communicates with DNS name servers to get the IP
+address for the corresponding resource, such as a web server. A DNS resolver is
+also known as a recursive name server because it sends requests to a sequence
+of authoritative DNS name servers until it gets the response (typically an IP
+address) that it returns to a user's device, for example, a web browser on a
+laptop computer.
+
+***** Domain Name System
+A worldwide network of servers that help computers, smart phones, tablets, and
+other IP-enabled devices to communicate with one another. The Domain Name
+System translates easily understood names such as example.com into the numbers,
+known as IP addresses, that allow computers to find each other on the internet.
+
+***** Hosted zone
+A *container* for records, which include information about how you want to
+route traffic for a domain (such as =example.com=) and all of its subdomains
+(such as =www.example.com=, =retail.example.com=, and
+=seattle.accounting.example.com=).  A hosted zone has the same name as the
+corresponding domain.
+
+***** IP address
+A number that is assigned to a device on the internet—such as a laptop, a smart
+phone, or a web server—that allows the device to communicate with other devices
+on the internet.
+
+***** Name servers
+Servers in the Domain Name System (DNS) that help to translate domain names
+into the IP addresses that computers use to communicate with one another. Name
+servers are either recursive name servers (also known as DNS resolver) or
+authoritative name servers.
+
+***** Private DNS
+A local version of the Domain Name System (DNS) that lets you route traffic for
+a domain and its subdomains to Amazon EC2 instances within one or more Amazon
+virtual private clouds (VPCs).
+
+***** Recursive name server
+
+***** DNS Record
+An object in a hosted zone that you use to define how you want to route traffic
+for the domain or a subdomain.
+
+***** Reusable delegation set
+A set of four authoritative name servers that you can use with more than one
+hosted zone.  By default, Route 53 assigns a random selection of name servers
+to each new hosted zone. To make it easier to migrate DNS service to Route 53
+for a large number of domains, you can create a reusable delegation set and
+then associate the reusable delegation set with new hosted zones.
+
+You create a reusable delegation set and associate it with a hosted zone
+programmatically; using the Route 53 console isn't supported. For more
+information, see [[https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateHostedZone.html][CreateHostedZone]] and [[https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateReusableDelegationSet.html][CreateReusableDelegationSet]] in the Amazon
+Route 53 API Reference. The same feature is also available in the [[https://docs.aws.amazon.com/][AWS SDK]]s, the
+[[https://docs.aws.amazon.com/cli/latest/reference/route53/index.html][AWS Command Line Interface]], and [[https://docs.aws.amazon.com/powershell/latest/reference/][AWS Tools for Windows PowerShell]].
+
+***** Routing policy
+A setting for records that determines how Route 53 responds to DNS queries.
+
+****** Simple routing policy
+Use to route internet traffic to a single resource that performs a given
+function for your domain, for example, a web server that serves content for the
+example.com website.
+
+***** Subdomain
+A domain name that has one or more labels prepended to the registered domain
+name.  For example, if you register the domain name =example.com=, then
+=www.example.com= is a subdomain.  If you create the hosted zone
+=accounting.example.com= for the =example.com= domain, then
+=seattle.accounting.example.com= is a subdomain.
+
+To *route traffic* for a subdomain, create a record that has the name that you
+want, such as =www.example.com=, and specify the applicable values, such as the
+IP address of a web server.
+
+***** Time-to-live---TLD
+The amount of time, in seconds, that you want a DNS resolver to cache (store)
+the values for a record before submitting another request to Route 53 to get
+the current values for that record.
+
+*** Domain Name System---DNS
+
+#+begin_quote
+The Domain Name System (DNS) is a hierarchical and decentralized naming system
+for computers, services, or other resources connected to the Internet or a
+private network. It associates various information with domain names assigned
+to each of the participating entities. Most prominently, it translates more
+readily memorized domain names to the numerical IP addresses needed for
+locating and identifying computer services and devices with the underlying
+network protocols.
+
+---Wikipedia
+#+end_quote
+
+DNS, or the Domain Name System, translates human readable domain names (for
+example, =www.amazon.com=) to machine readable IP addresses (for example,
+=192.0.2.44=).[fn::This is not quite accurate.  DNS is a /naming system/, not a
+service.  DNS name servers provide this service by using the DNS to translate
+domain names into IP addresses.]
+
+All computers on the Internet find and communicate with one another by using
+numbers.  These numbers are known as *IP addresses*.  When you open a web browser
+and go to a website, you don't have to remember and enter a long number.
+Instead, you can enter a domain name like =example.com= and still end up in the
+right place.
+
+A *DNS service* such as /Amazon Route 53/ is a globally distributed service
+that translates human readable names like =www.example.com= into the numeric IP
+addresses like =192.0.2.1= that computers use to connect to each other.  The
+Internet’s DNS system works much like a phone book by managing the mapping
+between names and numbers.  *DNS servers* translate requests for names into IP
+addresses, controlling which server an end user will reach when they type a
+domain name into their web browser.  These requests are called *queries*.
+
+**** DNS Name Servers
+A *DNS name server* is a server that stores the DNS records for a domain; a DNS
+name server responds with answers to queries against its database.  The most
+common types of records stored in the DNS database are for
+- Start of Authority (SOA)
+- IP addresses (A and AAAA)
+- SMTP mail exchangers (MX)
+- name servers (NS)
+- pointers for reverse DNS lookups (PTR)
+- domain name aliases (CNAME).
+
+
+#+begin_quote
+A name server is a computer application that implements a network service for
+providing responses to queries against a directory service. It translates an
+often humanly meaningful, text-based identifier to a system-internal, often
+numeric identification or addressing component. This service is performed by
+the server in response to a service protocol request.
+
+---Wikipedia
+#+end_quote
+
+- Authoritative DNS ::
+
+     An *authoritative DNS service* provides an update mechanism that
+     developers use to manage their public DNS names.  It then answers DNS
+     queries, translating domain names into IP address so computers can
+     communicate with each other.  Authoritative DNS has the final authority
+     over a domain and is responsible for providing answers to recursive DNS
+     servers with the IP address information.
+
+     Amazon Route 53 is an authoritative DNS system.
+
+- Recursive DNS ::
+
+     Clients typically do not make queries directly to authoritative DNS
+                   services.  Instead, they generally connect to another type
+                   of DNS service known as a *resolver*, or a *recursive DNS
+                   service*.  A recursive DNS service acts like a hotel
+                   concierge: while it doesn't own any DNS records, it acts as
+                   an intermediary which can get the DNS information on your
+                   behalf.  If a recursive DNS has the DNS reference *cached*,
+                   or stored for a period of time, then it answers the DNS
+                   query by providing the source or IP information.  If not, it
+                   passes the query to one or more authoritative DNS servers to
+                   find the information.
+
+
+#+caption:Domain name resolvers determine the domain name servers responsible for the domain name in question by a sequence of queries starting with the right-most (top-level) domain label.
+#+name:address-resolution-mechanism
+[[file:https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Example_of_an_iterative_DNS_resolver.svg/800px-Example_of_an_iterative_DNS_resolver.svg.png]]
+
+Assuming the resolver has no cached records to accelerate the process, the
+resolution process starts with a /query/ to one of the *root servers*.  In
+typical operation, the root servers do not answer directly, but respond with a
+*referral* to more authoritative servers, e.g., a query for =www.wikipedia.org=
+is referred to the =org= servers.  The resolver now queries the servers
+referred to, and iteratively repeats this process until it receives an
+*authoritative answer*.  The diagram illustrates this process for the host that
+is named by the fully qualified domain name "www.wikipedia.org".
+
+**** The Root Domain
+The DNS is a hierarchical naming system for computers, services, or any
+resource participating in the Internet.  The top of that hierarchy is the *root
+domain*.  The root domain does not have a formal name and its label in the DNS
+hierarchy is an /empty string/.  All *fully qualified domain names (FQDNs)* on
+the Internet can be regarded as ending with this empty string for the root
+domain, and therefore ending in a full stop character (the label delimiter),
+e.g., ="www.example.com."=.  This is generally implied rather than explicit, as
+modern DNS software does not actually require that the terminating dot be
+included when attempting to translate a domain name to an IP address.
+
+The root domain contains all *top-level domains (=TLD='s)* of the Internet.  As
+of July 2015, it contains 1058 =TLD='s, including 730 generic top-level domains
+(=gTLD='s) and 301 country code top-level domains (=ccTLD='s) in the root
+domain.  In addition, the ARPA domain is used for technical name spaces in the
+management of Internet addressing and other resources.  A TEST domain is used
+for testing internationalized domain names.
+
+**** The Root Name Servers
+The term *"root name server"* is generally used to describe the thirteen
+well-known root name servers that implement the root name space domain for the
+Internet's official global implementation of the Domain Name System.  There are
+13 logical root name servers, operated by 12 independent organisations,
+specified, with logical names in the form /letter/ =.root-servers.net=, where
+/letter/ ranges from =a= to =m=.  An informational homepage exists for every
+logical server (except G-Root) under the [[http://www.root-servers.org/][Root Server Technical Operations
+Association]] domain with web addresses in the form
+=http://<letter>.root-servers.org/=, where =<letter>= ranges from =a= to =m=.
+
+**** The Root Zone File
+The *root zone file* is a small (about 2MB) data set whose publication is the
+primary purpose of root name
+servers[fn::https://www.iana.org/domains/root/files].  The root zone file is at
+the apex of a hierarchical distributed database called the *Domain Name System
+(DNS)*.  This database is used by almost all Internet applications to translate
+worldwide unique names such as =www.wikipedia.org= into other identifiers such
+as IP addresses.  The contents of the root zone file is a list of names and
+numeric IP addresses of the *authoritative DNS servers* for all top-level
+domains (=TLD='s) such as =com=, =org=, =edu=, and the country code top-level
+domains.
+
+**** How a DNS Routes Traffic
+The following diagram gives an overview of how recursive and authoritative DNS
+services work together to route an end user to your website or application.
+
+[[file:https://d1.awsstatic.com/Route53/how-route-53-routes-traffic.8d313c7da075c3c7303aaef32e89b5d0b7885e7c.png]]
+
+1. A user opens a web browser, enters =www.example.com= in the address bar, and
+   presses Enter.
+2. The request for =www.example.com= is routed to a *DNS resolver*, which is
+   typically managed by the user's Internet service provider (ISP), such as a
+   cable Internet provider, a DSL broadband provider, or a corporate network.
+3. The *DNS resolver* for the ISP forwards the request for =www.example.com= to a
+   *DNS root name server*.
+4. The *DNS resolver* for the ISP forwards the request for =www.example.com=
+   again, this time to one of the *TLD name servers* for =.com= domains. The
+   name server for =.com= domains responds to the request with the names of the
+   four *Amazon Route 53 name servers* that are associated with the
+   =example.com= domain.
+5. The *DNS resolver* for the ISP chooses an *Amazon Route 53 name server* and
+   forwards the request for =www.example.com= to that name server.
+6. The *Amazon Route 53 name server* looks in the =example.com= hosted zone for
+   the =www.example.com= record, gets the associated value, such as the IP
+   address for a web server, =192.0.2.44=, and returns the IP address to the
+   DNS resolver.
+7. The *DNS resolver* for the ISP finally has the IP address that the user
+   needs. The resolver returns that value to the web browser. The DNS resolver
+   also /caches/ (stores) the IP address for =example.com= for an amount of
+   time that you specify so that it can respond more quickly the next time
+   someone browses to example.com. For more information, see time to live
+   (TTL).
+8. The *web browser* sends a request for =www.example.com= to the IP address
+   that it got from the DNS resolver. This is where your content is, for
+   example, a web server running on an Amazon EC2 instance or an Amazon S3
+   bucket that's configured as a website endpoint.
+9. The *web server* or other resource at =192.0.2.44= returns the web page for
+   =www.example.com= to the web browser, and the web browser displays the page.
 
 **** DNS Domain Name Format
 Domain names (including the names of domains, hosted zones, and records)
@@ -949,24 +1265,20 @@ including the dots.  Amazon Route 53 supports any valid domain name.
 Naming requirements depend on whether you're registering a domain name or
 you're specifying the name of a hosted zone or a record.
 
-***** Formatting Domain Names for Domain Name Registration
 For domain name registration, a domain name can contain only the characters
 =a-z=, =0-9=, and =–= (hyphen).  You can't specify a hyphen at the beginning or
 end of a label.
 
-**** Hosted Zones
-When you register a domain with Route 53, we automatically create a hosted zone
-for the domain and charge a small monthly fee for the hosted zone in addition
-to the annual charge for the domain registration. This hosted zone is where you
-store information about how to route traffic for your domain, for example, to
-an Amazon EC2 instance or a CloudFront distribution. If you don't want to use
-your domain right now, you can delete the hosted zone; if you delete it within
-12 hours of registering the domain, there won't be any charge for the hosted
-zone on your AWS bill. We also charge a small fee for the DNS queries that we
-receive for your domain.
-
 **** Domain Name Registration
 https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-register.html
+
+#+begin_quote
+When a domain is registered with a domain name registrar, the zone
+administrator provides the list of *name servers* (typically at least two, for
+redundancy[7]) that are /authoritative/ for the zone that contains the domain.
+
+---Wikipedia
+#+end_quote
 
 If you want to create a website or a web application, you start by registering
 the name of your website, known as a domain name.  Your domain name is the
@@ -1118,6 +1430,17 @@ perform the following procedure.
    - Choose =Delete Hosted Zone=
 
    - Choose =Confirm=
+
+**** Hosted Zones
+When you register a domain with Route 53, we automatically create a hosted zone
+for the domain and charge a small monthly fee for the hosted zone in addition
+to the annual charge for the domain registration. This hosted zone is where you
+store information about how to route traffic for your domain, for example, to
+an Amazon EC2 instance or a CloudFront distribution. If you don't want to use
+your domain right now, you can delete the hosted zone; if you delete it within
+12 hours of registering the domain, there won't be any charge for the hosted
+zone on your AWS bill. We also charge a small fee for the DNS queries that we
+receive for your domain.
 
 *** Configuring Route 53 as a DNS Service
 https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-configuring.html
@@ -2921,7 +3244,6 @@ that has the same name as the domain.[fn:2]
 
 - Verify that your website is now available at your new domain by typing your
   new website address into your web browser.
-
 
 * Export Settings                                                  :noexport:
 #+OPTIONS: html-link-use-abs-url:nil html-postamble:auto html-preamble:t
