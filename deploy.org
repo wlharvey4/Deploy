@@ -1,7 +1,7 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploy!
 #+AUTHOR:Pinecone062
-#+DATE:<2019-04-21 Sun 15:24>
+#+DATE:<2019-04-21 Sun 15:30>
 #+SUBTITLE:A Hands-On Guide to the How and Why of Deploying Websites Using a Variety of Services @@html:<br>@@
 #+SUBTITLE:By {{{author}}} @@html:<br>@@
 #+SUBTITLE:/Last Updated {{{date(%c)}}}/
@@ -3575,7 +3575,7 @@ that has the same name as the domain.[fn:13]
   new website address into your web browser.
 * Export Settings                                                  :noexport:
 #+OPTIONS: html-link-use-abs-url:nil html-postamble:auto html-preamble:t
-#+OPTIONS: html-scripts:t html-style:t html5-fancy:t tex:t num:3 H:6 ':t toc:4
+#+OPTIONS: html-scripts:t html-style:t html5-fancy:t tex:t num:3 H:6 ':t toc:3
 #+HTML_DOCTYPE: html5
 #+HTML_CONTAINER: div
 #+DESCRIPTION:
