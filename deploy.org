@@ -1,7 +1,7 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploy!
 #+AUTHOR:Pinecone062
-#+DATE:<2019-04-21 Sun 16:06>
+#+DATE:<2019-04-21 Sun 16:18>
 #+SUBTITLE:A Hands-On Guide to the How and Why of Deploying Websites Using a Variety of Services @@html:<br>@@
 #+SUBTITLE:By {{{author}}} @@html:<br>@@
 #+SUBTITLE:/Last Updated {{{date(%c)}}}/
@@ -120,15 +120,15 @@ that universe, in particular to those areas touching upon:
 
 The basic services involved will be:
 
-- Route 53 (for domain name registration and domain name services)
-- Simple Storage Service (for hosting static content)
-- Elastic Cloud Compute (for hosting dynamic content)
-- Lightsail (for hosting dynamic content efficiently and cheaply)
+- [[https://aws.amazon.com/route53/][Route 53]] (for domain name registration and domain name services)
+- [[https://aws.amazon.com/s3/][Simple Storage Service (S3)]] (for hosting static content and single page apps)
+- [[https://aws.amazon.com/ec2/][Elastic Cloud Compute (EC2)]] (for hosting dynamic content and databases)
+- [[https://aws.amazon.com/lightsail/][Amazon Lightsail]] (for hosting dynamic content efficiently and cheaply)
 
 ** Static Web Sites on AWS
 
 ** Dynamic Web Sites on AWS
-
+** Dynamic Web Sites on AWS using Lightsail
 ** Single Page React Apps on AWS
 * General Overview of the Domain Name System
 
