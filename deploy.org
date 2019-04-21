@@ -1,7 +1,7 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploy!
 #+AUTHOR:Pinecone062
-#+DATE:<2019-04-21 Sun 15:00>
+#+DATE:<2019-04-21 Sun 15:24>
 #+SUBTITLE:A Hands-On Guide to the How and Why of Deploying Websites Using a Variety of Services @@html:<br>@@
 #+SUBTITLE:By {{{author}}} @@html:<br>@@
 #+SUBTITLE:/Last Updated {{{date(%c)}}}/
@@ -33,6 +33,12 @@ but also the "why" of it, how and why things work under the hood.  It begins
 with a overview of the steps, with links to explanations throughout.  Each
 level becomes more detailed the deeper you delve.
 
+This guide will also discuss some of the tools involved with the Internet and
+servers operating on the Internet, such as:
+
+- =dig=
+- =nslookup=
+
 * The Server and the IP Address
 The first step in this journey is getting access to a server connected to the
 Internet via an IP address.  While there are numerous such services available,
@@ -55,9 +61,9 @@ Assuming you do not have access to the Internet backbone yourself, you will be
 reliant on someone else who does.  Therefore, in all cases, you sign up for an
 account with a service that has access to the Internet, and then you access
 that company's server or servers, which by definition have associated IP
-addresses.  You will not have any direct involvement with the machines or the
-assignment of the IP addresses, but you will be able to see the results of
-those steps having taken place.
+addresses.  In most cases, you will not have any direct involvement with the
+machines or the assignment of the IP addresses, but you will be able to see the
+results of those steps having taken place.
 
 * Understanding Domain Names in the Context of Web Sites
 While it is true that a client browser contacts a server via the server's IP
@@ -73,6 +79,29 @@ getting access to a server with an IP address, the second step is associating
 that server and IP address with a "Domain Name" that uniquely maps to that
 address.
 
+You obtain a domain name by registering a unique name with a Domain Name
+Registrar.  The registration costs money on an annual basis, and must be
+figured into the overall cost of your web site.  There are hundreds of
+Registrars, each offering different services in association with the domain
+name registration.  What is important for the discussion at hand, however, is
+obtaining a domain name that is yours to use, and that reflects the purpose and
+content of the web site it will be associated with.
+
+Once you have that name, and a server with an IP address, you can configure the
+domain name system to associate the domain name with the IP address, so that
+whenever a user of a browser types in the domain name, the browser is able to
+obtain the IP address to access the server.
+
+Note that with Amazon Web Services' static web sites, you can deploy content
+without associating that content with your own domain name.  What happens is
+that AWS assigns its own domain name to the site, and associates that domain
+name with the IP address of the machine hosting automatically.  This process
+occurs in every case, and you are given the opportunity to assign your own
+domain name in place of the generated domain name if you wish.  If you do not,
+then your content will be accessible via the generated name only.  While this
+might be fine in some cases, the generated name is for all intends and purposes
+random and without meaning, and therefore not memorable or even easily usable,
+by general browsers of the Internet.
 * Deploy Web Sites using Amazon Web Services
 Amazon Web Services ("AWS") is a huge conglomeration of services devoted to all
 thrings "Cloudy" and "Webby".  This guide is limited to only a small corner of
@@ -86,24 +115,16 @@ that universe, in particular to those areas touching upon:
 
 The basic services involved will be:
 
-- Route 53
-- Simple Storage Service
-- Elastic Cloud Compute
-- Lightsail
-
-
-This guide will also discuss some of the tools involved with the Internet and
-servers operating on the Internet, such as:
-
-- =dig=
-- =nslookup=
+- Route 53 (for domain name registration and domain name services)
+- Simple Storage Service (for hosting static content)
+- Elastic Cloud Compute (for hosting dynamic content)
+- Lightsail (for hosting dynamic content efficiently and cheaply)
 
 ** Static Web Sites on AWS
 
 ** Dynamic Web Sites on AWS
 
 ** Single Page React Apps on AWS
-
 * General Overview of the Domain Name System
 
 #+begin_quote
