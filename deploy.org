@@ -1,6 +1,6 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploying Web Sites
-#+DATE:<2019-04-20 Sat 12:48>
+#+DATE:<2019-04-21 Sun 09:00>
 
 * Deploying Web Sites using Amazon Web Services
 
@@ -912,10 +912,10 @@ this order:
    name for your website or web application, known as a domain name.
 
    - for an overview, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/welcome-domain-registration.html][How Domain Registration Works]].
-   - for a precedure, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-register.html][Registering a New Domain]].
+   - for a procedure, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-register.html][Registering a New Domain]].
    - For a tutorial that takes you through registering a domain and creating a
-     simple website in an Amazon S3 bucket, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/getting-started.html][Getting Started with Amazon
-     Route 53]].
+     simple website in an Amazon S3 bucket,
+     see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/getting-started.html][Getting Started with Amazon Route 53]].
 
 2. Route internet traffic to the resources for your domain
 
@@ -938,56 +938,12 @@ this order:
    - For procedures, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html][Creating Amazon Route 53 Health Checks and Configuring
      DNS Failover]].
 
-
-*** Route 53 Concepts
-
-**** Domain Registration
-
-***** Domain Name
-The name, such as =example.com=, that a user types in the address bar of a web
-browser to access a website or a web application.
-
-***** Domain Registrar
-A company that is accredited by ICANN (Internet Corporation for Assigned Names
-and Numbers) to process domain registrations for specific top-level domains
-(TLDs).
-
-***** Domain Registry
-A company that owns the right to sell domains that have a specific top-level
-domain.  A domain registry also maintains the authoritative database for all of
-the domain names that have the same TLD.  The registry's database contains
-information such as contact information and the name servers for each domain.
-
-***** Domain Reseller
-A company that sells domain names for registrars such as Amazon
-Registrar. Amazon Route 53 is a domain reseller for Amazon Registrar and for
-our registrar associate, Gandi.
-
-***** Top-Level Domain---TLD
-The last part of a domain name, such as =.com=, =.org=, or =.ninja=.  There are
-two types of top-level domains:
-
-****** Generic top-level domains
-These TLDs typically give users an idea of what they'll find on the
-website. For example, domain names that have a TLD of .bike often are
-associated with websites for motorcycle or bicycle businesses or organizations.
-
-****** Geographic top-level domains
-These TLDs are associated with geographic areas such as countries or
-cities. Some registries for geographic TLDs have residency requirements, while
-others, such as .io, allow or even encourage use as a generic TLD.
-
-
-For a list of the TLDs that you can use when you register a domain name with
-Route 53, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html][Domains That You Can Register with Amazon Route 53]].
-
-**** Domain Name System---DNS Concepts
-
-***** Alias record
+*** Route 53 Domain Name System Concepts
+**** Alias record
 A type of record that you can create with Amazon Route 53 to route traffic to
 AWS resources such as Amazon CloudFront distributions and Amazon S3 buckets.
 
-***** Authoritative Name Server
+**** Authoritative Name Server
 A name server that has definitive information about one part of the Domain Name
 System (DNS) and that responds to requests from a DNS resolver by returning the
 applicable information.  Route 53 name servers are the authoritative name
@@ -995,12 +951,12 @@ servers for every domain that uses Route 53 as the DNS service. The name
 servers know how you want to route traffic for your domain and subdomains based
 on the records that you created in the hosted zone for the domain.
 
-***** DNS query
+**** DNS query
 Usually a request that is submitted by a device, such as a computer or a smart
 phone, to the Domain Name System (DNS) for a resource that is associated with a
 domain name.
 
-***** DNS resolver
+**** DNS resolver
 A DNS server, often managed by an internet service provider (ISP), that acts as
 an intermediary between user requests and DNS name servers. When you open a
 browser and enter a domain name in the address bar, your query goes first to a
@@ -1011,42 +967,42 @@ of authoritative DNS name servers until it gets the response (typically an IP
 address) that it returns to a user's device, for example, a web browser on a
 laptop computer.
 
-***** Domain Name System
+**** Domain Name System
 A worldwide network of servers that help computers, smart phones, tablets, and
 other IP-enabled devices to communicate with one another. The Domain Name
 System translates easily understood names such as example.com into the numbers,
 known as IP addresses, that allow computers to find each other on the internet.
 
-***** Hosted zone
+**** Hosted zone
 A *container* for records, which include information about how you want to
 route traffic for a domain (such as =example.com=) and all of its subdomains
 (such as =www.example.com=, =retail.example.com=, and
 =seattle.accounting.example.com=).  A hosted zone has the same name as the
 corresponding domain.
 
-***** IP address
+**** IP address
 A number that is assigned to a device on the internet—such as a laptop, a smart
 phone, or a web server—that allows the device to communicate with other devices
 on the internet.
 
-***** Name servers
+**** Name servers
 Servers in the Domain Name System (DNS) that help to translate domain names
 into the IP addresses that computers use to communicate with one another. Name
 servers are either recursive name servers (also known as DNS resolver) or
 authoritative name servers.
 
-***** Private DNS
+**** Private DNS
 A local version of the Domain Name System (DNS) that lets you route traffic for
 a domain and its subdomains to Amazon EC2 instances within one or more Amazon
 virtual private clouds (VPCs).
 
-***** Recursive name server
+**** Recursive name server
 
-***** DNS Record
+**** DNS Record
 An object in a hosted zone that you use to define how you want to route traffic
 for the domain or a subdomain.
 
-***** Reusable delegation set
+**** Reusable delegation set
 A set of four authoritative name servers that you can use with more than one
 hosted zone.  By default, Route 53 assigns a random selection of name servers
 to each new hosted zone. To make it easier to migrate DNS service to Route 53
@@ -1059,15 +1015,15 @@ information, see [[https://docs.aws.amazon.com/Route53/latest/APIReference/API_C
 Route 53 API Reference. The same feature is also available in the [[https://docs.aws.amazon.com/][AWS SDK]]s, the
 [[https://docs.aws.amazon.com/cli/latest/reference/route53/index.html][AWS Command Line Interface]], and [[https://docs.aws.amazon.com/powershell/latest/reference/][AWS Tools for Windows PowerShell]].
 
-***** Routing policy
+**** Routing policy
 A setting for records that determines how Route 53 responds to DNS queries.
 
-****** Simple routing policy
+***** Simple routing policy
 Use to route internet traffic to a single resource that performs a given
 function for your domain, for example, a web server that serves content for the
 example.com website.
 
-***** Subdomain
+**** Subdomain
 A domain name that has one or more labels prepended to the registered domain
 name.  For example, if you register the domain name =example.com=, then
 =www.example.com= is a subdomain.  If you create the hosted zone
@@ -1078,18 +1034,18 @@ To *route traffic* for a subdomain, create a record that has the name that you
 want, such as =www.example.com=, and specify the applicable values, such as the
 IP address of a web server.
 
-***** Time-to-live---TLD
+**** Time-to-live---TLD
 The amount of time, in seconds, that you want a DNS resolver to cache (store)
 the values for a record before submitting another request to Route 53 to get
 the current values for that record.
 
-*** Domain Name System---DNS
+*** About the Domain Name System---DNS
 
 #+begin_quote
 The Domain Name System (DNS) is a hierarchical and decentralized naming system
 for computers, services, or other resources connected to the Internet or a
-private network. It associates various information with domain names assigned
-to each of the participating entities. Most prominently, it translates more
+private network.  It associates various information with domain names assigned
+to each of the participating entities.  Most prominently, it translates more
 readily memorized domain names to the numerical IP addresses needed for
 locating and identifying computer services and devices with the underlying
 network protocols.
@@ -1097,11 +1053,10 @@ network protocols.
 ---Wikipedia
 #+end_quote
 
-DNS, or the Domain Name System, translates human readable domain names (for
-example, =www.amazon.com=) to machine readable IP addresses (for example,
-=192.0.2.44=).[fn::This is not quite accurate.  DNS is a /naming system/, not a
-service.  DNS name servers provide this service by using the DNS to translate
-domain names into IP addresses.]
+DNS, or the Domain Name System, is a system that translates human readable
+domain names (for example, =www.amazon.com=) to machine readable IP addresses
+(for example, =192.0.2.44=).  It is designed to be decentralized, scalable, and
+efficient to use from anywhere in the world.
 
 All computers on the Internet find and communicate with one another by using
 numbers.  These numbers are known as *IP addresses*.  When you open a web browser
@@ -1116,6 +1071,22 @@ Internet’s DNS system works much like a phone book by managing the mapping
 between names and numbers.  *DNS servers* translate requests for names into IP
 addresses, controlling which server an end user will reach when they type a
 domain name into their web browser.  These requests are called *queries*.
+
+**** Domain Registry
+A company that owns the right to sell domains that have a specific top-level
+domain.  A domain registry also maintains the authoritative database for all of
+the domain names that have the same TLD.  The registry's database contains
+information such as contact information and the name servers for each domain.
+
+**** Domain Registrar
+A company that is accredited by ICANN (Internet Corporation for Assigned Names
+and Numbers) to process domain registrations for specific top-level domains
+(TLDs).
+
+**** Domain Reseller
+A company that sells domain names for registrars such as Amazon Registrar.
+Amazon Route 53 is a domain reseller for Amazon Registrar and for our registrar
+associate, Gandi.
 
 **** DNS Name Servers
 A *DNS name server* is a server that stores the DNS records for a domain; a DNS
@@ -1164,6 +1135,9 @@ the server in response to a service protocol request.
                    passes the query to one or more authoritative DNS servers to
                    find the information.
 
+                   Verisign offers a free, public recursive domain name server
+                   at [[https://www.verisign.com/en_US/security-services/public-dns/index.xhtml][Public DNS]].
+
 
 #+caption:Domain name resolvers determine the domain name servers responsible for the domain name in question by a sequence of queries starting with the right-most (top-level) domain label.
 #+name:address-resolution-mechanism
@@ -1196,6 +1170,24 @@ domain.  In addition, the ARPA domain is used for technical name spaces in the
 management of Internet addressing and other resources.  A TEST domain is used
 for testing internationalized domain names.
 
+**** The Top-Level Domain---TLD
+The last part of a domain name, such as =.com=, =.org=, or =.ninja=.  There are
+two types of top-level domains:
+
+***** Generic top-level domains
+These TLDs typically give users an idea of what they'll find on the
+website. For example, domain names that have a TLD of .bike often are
+associated with websites for motorcycle or bicycle businesses or organizations.
+
+***** Geographic top-level domains
+These TLDs are associated with geographic areas such as countries or
+cities. Some registries for geographic TLDs have residency requirements, while
+others, such as .io, allow or even encourage use as a generic TLD.
+
+
+For a list of the TLDs that you can use when you register a domain name with
+Route 53, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html][Domains That You Can Register with Amazon Route 53]].
+
 **** The Root Name Servers
 The term *"root name server"* is generally used to describe the thirteen
 well-known root name servers that implement the root name space domain for the
@@ -1218,6 +1210,10 @@ as IP addresses.  The contents of the root zone file is a list of names and
 numeric IP addresses of the *authoritative DNS servers* for all top-level
 domains (=TLD='s) such as =com=, =org=, =edu=, and the country code top-level
 domains.
+
+[[https://www.verisign.com][Verisign]], which is the registry for the =.com= and =.net= top level domains,
+discusses its zone file [[https://www.verisign.com/en_US/channel-resources/domain-registry-products/zone-file/index.xhtml][here]].  [[https://www.icann.org][ICANN]] also has a [[https://czds.icann.org/home][portal]] at which registered
+parties can access any zone file for any generic top-level domain (gTLD).
 
 **** How a DNS Routes Traffic
 The following diagram gives an overview of how recursive and authoritative DNS
@@ -1257,6 +1253,9 @@ services work together to route an end user to your website or application.
    =www.example.com= to the web browser, and the web browser displays the page.
 
 **** DNS Domain Name Format
+A DNS Name is the name, such as =example.com=, that a user types in the address
+bar of a web browser to access a website or a web application.
+
 Domain names (including the names of domains, hosted zones, and records)
 consist of a series of labels separated by dots.  Each label can be up to 63
 bytes long.  The total length of a domain name cannot exceed 255 bytes,
