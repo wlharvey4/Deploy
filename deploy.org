@@ -1,8 +1,33 @@
 # -*- mode:org; fill-column:79; -*-
-#+TITLE:Deploying Web Sites
-#+DATE:<2019-04-21 Sun 11:36>
+#+TITLE:Deploy
+#+AUTHOR:Pinecone062
+#+DATE:<2019-04-21 Sun 13:54>
+#+SUBTITLE:Guide on How to Deploy Websites Using a Variaety of Services @@html:<br>@@
+#+SUBTITLE:Last Updated {{{date(%c)}}} by {{{author}}}
 
-* General Overivew of the Domain Name System---DNS
+* Introduction
+At its most fundamental, to deploy a web site on the Internet, one needs to
+meet three conditions:
+
+- content comprised of HTML, CSS, and JavaScript
+- which is hosted on a server
+- which is connected to the Internet via an IP address
+
+
+Given those three conditions, other Internet users can access the content via a
+client server (generally a browser) that has access to the Internet.  The
+client contacts the server via its IP address and requests the content.  The
+server sends the content to the client, and the client displays the content
+according to the instructions given by the HTML, CSS, and JavaScript.
+
+This guide is devoted to exploring the second and third conditions.  The first
+condition is all about web development, a huge topic all to itself.
+
+This guide will explain not only the ``how'' of it, but also the ``why'' of
+it.  It begins with a summary of the steps, with links to explanations
+throughout.  Each level becomes more detailed the deeper you delve.
+
+* General Overview of the Domain Name System
 
 #+begin_quote
 The Domain Name System (DNS) is a hierarchical and decentralized naming system
@@ -247,7 +272,7 @@ the name of your website, known as a domain name.  Your domain name is the
 name, such as =example.com=, that your users enter in a browser to display your
 website.
 
-* Deploying Web Sites using Amazon Web Services
+* How to Deploy Websites Using Amazon Web Services
 ** AWS Accounts
 You sign up for accss to Amazon Web Services to obtain a *root account* and
 *root account credentials*.  For this step, you use your email address and a
@@ -3462,7 +3487,6 @@ that has the same name as the domain.[fn:13]
 #+HTML_MATHJAX:
 #+HTML_HEAD:
 #+HTML_HEAD_EXTRA:
-#+SUBTITLE:
 #+INFOJS_OPT:
 #+CREATOR: <a href="https://www.gnu.org/software/emacs/">Emacs</a> 26.1 (<a href="https://orgmode.org">Org</a> mode 9.1.14)
 #+LATEX_HEADER:
