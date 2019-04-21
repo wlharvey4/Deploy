@@ -1,7 +1,7 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploy!
 #+AUTHOR:Pinecone062
-#+DATE:<2019-04-21 Sun 16:00>
+#+DATE:<2019-04-21 Sun 16:06>
 #+SUBTITLE:A Hands-On Guide to the How and Why of Deploying Websites Using a Variety of Services @@html:<br>@@
 #+SUBTITLE:By {{{author}}} @@html:<br>@@
 #+SUBTITLE:/Last Updated {{{date(%c)}}}/
@@ -44,13 +44,13 @@ The first step in this journey is getting access to a server connected to the
 Internet via an IP address.  While there are numerous such services available,
 this guide looks at the following several means to this end:
 
-- Amazon Web Services
-- Google Cloud Platform
-- Microsoft Azure
-- Heroku
-- DigitalOcean
-- Netlify
-- Github Pages
+- [[https://aws.amazon.com/][Amazon Web Services]]
+- [[https://cloud.google.com/][Google Cloud Platform]]
+- [[https://azure.microsoft.com/en-us/][Microsoft Azure]]
+- [[https://www.heroku.com/][Heroku]]
+- [[https://www.digitalocean.com/][DigitalOcean]]
+- [[https://www.netlify.com/][Netlify]]
+- [[https://pages.github.com/][Github Pages]]
 
 
 The purpose of this guide is not just to provide a simple step-by-step guide on
@@ -65,7 +65,7 @@ with associated IP addresses.  In most cases, you will not have any direct
 involvement with the machines or the assignment of the IP addresses, but you
 will be able to see the results of those steps having taken place.
 
-* Understanding Domain Names in the Context of Web Sites
+* Understanding Domain Names and the Domain Name System
 While it is true that a client browser contacts a server via the server's IP
 address (a string of numbers), it is also true that humans do not ordinarly
 work directly with IP addresses because they do not work well with strings of
