@@ -1,7 +1,7 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploy!
 #+AUTHOR:Pinecone062
-#+DATE:<2019-04-21 Sun 15:54>
+#+DATE:<2019-04-21 Sun 16:00>
 #+SUBTITLE:A Hands-On Guide to the How and Why of Deploying Websites Using a Variety of Services @@html:<br>@@
 #+SUBTITLE:By {{{author}}} @@html:<br>@@
 #+SUBTITLE:/Last Updated {{{date(%c)}}}/
@@ -104,7 +104,9 @@ generated domain name if you wish.  If you do not, then your content will be
 accessible via the generated name only.  While this might be fine in some
 cases, the generated name is for all intends and purposes random and without
 meaning, and therefore not memorable or even easily usable, by general browsers
-of the Internet.
+of the Internet.  For example, here is the generated domain name for this web
+site hosted by AWS:
+: https://s3-us-west-2.amazonaws.com/pine-central.com/deploy.html
 * Deploy Web Sites using Amazon Web Services
 Amazon Web Services ("AWS") is a huge conglomeration of services devoted to all
 thrings "Cloudy" and "Webby".  This guide is limited to only a small corner of
