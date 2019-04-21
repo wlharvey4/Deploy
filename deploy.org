@@ -1,31 +1,108 @@
 # -*- mode:org; fill-column:79; -*-
-#+TITLE:Deploy
+#+TITLE:Deploy!
 #+AUTHOR:Pinecone062
-#+DATE:<2019-04-21 Sun 13:54>
-#+SUBTITLE:Guide on How to Deploy Websites Using a Variaety of Services @@html:<br>@@
-#+SUBTITLE:Last Updated {{{date(%c)}}} by {{{author}}}
+#+DATE:<2019-04-21 Sun 15:00>
+#+SUBTITLE:A Hands-On Guide to the How and Why of Deploying Websites Using a Variety of Services @@html:<br>@@
+#+SUBTITLE:By {{{author}}} @@html:<br>@@
+#+SUBTITLE:/Last Updated {{{date(%c)}}}/
 
 * Introduction
 At its most fundamental, to deploy a web site on the Internet, one needs to
-meet three conditions:
+meet four conditions:
 
-- content comprised of HTML, CSS, and JavaScript
-- which is hosted on a server
-- which is connected to the Internet via an IP address
+- a network (the "Internet")
+- source content comprised of HTML, CSS, and JavaScript (the "Web Site")
+- access to a server connected to the Internet via an IP Address
+- a way to place the web site content on the server
 
 
-Given those three conditions, other Internet users can access the content via a
+Given those four conditions, other Internet users can access the content via a
 client server (generally a browser) that has access to the Internet.  The
 client contacts the server via its IP address and requests the content.  The
-server sends the content to the client, and the client displays the content
-according to the instructions given by the HTML, CSS, and JavaScript.
+server sends the content to the requesting client, and the client assembles and
+displays the content according to the instructions given by the HTML, CSS, and
+JavaScript.
 
-This guide is devoted to exploring the second and third conditions.  The first
-condition is all about web development, a huge topic all to itself.
+The first condition is all about web development, a huge topic all to itself.
+The second condition is about networking, also a hugh topic unto itself.  This
+guide is devoted to exploring the third and fourth conditions---getting content
+on a server connected to the Internet so others can access it.
 
-This guide will explain not only the ``how'' of it, but also the ``why'' of
-it.  It begins with a summary of the steps, with links to explanations
-throughout.  Each level becomes more detailed the deeper you delve.
+This guide will explain not only the "how" of working with Internet servers,
+but also the "why" of it, how and why things work under the hood.  It begins
+with a overview of the steps, with links to explanations throughout.  Each
+level becomes more detailed the deeper you delve.
+
+* The Server and the IP Address
+The first step in this journey is getting access to a server connected to the
+Internet via an IP address.  While there are numerous such services available,
+this guide looks at the following several means to this end:
+
+- Amazon Web Services
+- Google Cloud Platform
+- Microsoft Azure
+- Heroku
+- DigitalOcean
+- Netlify
+- Github
+
+
+The purpose of this guide is not just to provide a simple step-by-step guide on
+the "How" of it, but to explain the "How" in terms of the "Why" so that you can
+make informed decisions as to the best means for the job at hand.
+
+Assuming you do not have access to the Internet backbone yourself, you will be
+reliant on someone else who does.  Therefore, in all cases, you sign up for an
+account with a service that has access to the Internet, and then you access
+that company's server or servers, which by definition have associated IP
+addresses.  You will not have any direct involvement with the machines or the
+assignment of the IP addresses, but you will be able to see the results of
+those steps having taken place.
+
+* Understanding Domain Names in the Context of Web Sites
+While it is true that a client browser contacts a server via the server's IP
+address (a string of numbers), it is also true that humans do not ordinarly
+work directly with IP addresses because they do not work well with strings of
+numbers.  Therefore, the Internet community created the concept of the "Domain
+Name", human-understandable phrases that map directly 1:1 to IP addresses, and
+the Domain Name System ("DNS"), a system that implements that mapping in a
+global, decentralized, efficient, and scalable manner.
+
+Therefore, while the first step in getting a web site up and accessible is
+getting access to a server with an IP address, the second step is associating
+that server and IP address with a "Domain Name" that uniquely maps to that
+address.
+
+* Deploy Web Sites using Amazon Web Services
+Amazon Web Services ("AWS") is a huge conglomeration of services devoted to all
+thrings "Cloudy" and "Webby".  This guide is limited to only a small corner of
+that universe, in particular to those areas touching upon:
+
+- domain names and domain name services
+- static web sites
+- "smallish" dynamic web sites
+- single-page apps of the React kind
+
+
+The basic services involved will be:
+
+- Route 53
+- Simple Storage Service
+- Elastic Cloud Compute
+- Lightsail
+
+
+This guide will also discuss some of the tools involved with the Internet and
+servers operating on the Internet, such as:
+
+- =dig=
+- =nslookup=
+
+** Static Web Sites on AWS
+
+** Dynamic Web Sites on AWS
+
+** Single Page React Apps on AWS
 
 * General Overview of the Domain Name System
 
