@@ -1,7 +1,7 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploy!
 #+AUTHOR:Pinecone062
-#+DATE:<2019-04-23 Tue 14:48>
+#+DATE:<2019-04-23 Tue 16:06>
 #+SUBTITLE:A Hands-On Guide to the How and Why of Deploying Websites Using a Variety of Services @@html:<br>@@
 #+SUBTITLE:By {{{author}}} @@html:<br>@@
 #+SUBTITLE:/Last Updated {{{date(%c)}}}/
@@ -103,6 +103,8 @@ the discussion at hand, however, is obtaining a registered domain name that is
 yours to use, and that reflects the purpose and content of the web site it will
 represent.
 
+[[https://www.icann.org/registrar-reports/accredited-list.html][ICANN-Accredited Registrars]]
+
 Once you have that name, and a server with an IP address, you configure the
 domain name system to associate the domain name with the IP address, so that
 whenever a user of a browser types in the domain name, the browser is able to
@@ -152,6 +154,8 @@ information such as contact information and the name servers for each domain.
 A company that is accredited by ICANN (Internet Corporation for Assigned Names
 and Numbers) to process domain registrations for specific top-level domains
 (TLDs).
+
+[[https://www.icann.org/registrar-reports/accredited-list.html][ICANN-Accredited Registrars]]
 
 ** Domain Reseller
 A company that sells domain names for registrars such as Amazon Registrar.
@@ -236,6 +240,10 @@ others, such as .io, allow or even encourage use as a generic TLD.
 
 For a list of the TLDs that you can use when you register a domain name with
 Route 53, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html][Domains That You Can Register with Amazon Route 53]].
+
+*** List of TLDs
+
+https://tld-list.com/tlds-from-a-z
 
 ** DNS Name Servers
 A *DNS name server* is a server that stores the DNS records for a domain; a DNS
