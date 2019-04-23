@@ -1,7 +1,7 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploy!
 #+AUTHOR:Pinecone062
-#+DATE:<2019-04-21 Sun 16:18>
+#+DATE:<2019-04-23 Tue 14:48>
 #+SUBTITLE:A Hands-On Guide to the How and Why of Deploying Websites Using a Variety of Services @@html:<br>@@
 #+SUBTITLE:By {{{author}}} @@html:<br>@@
 #+SUBTITLE:/Last Updated {{{date(%c)}}}/
@@ -65,7 +65,21 @@ with associated IP addresses.  In most cases, you will not have any direct
 involvement with the machines or the assignment of the IP addresses, but you
 will be able to see the results of those steps having taken place.
 
-* Understanding Domain Names and the Domain Name System
+* General Overview of the Domain Name System
+
+#+begin_quote
+The Domain Name System (DNS) is a hierarchical and decentralized naming system
+for computers, services, or other resources connected to the Internet or a
+private network.  It associates various information with domain names assigned
+to each of the participating entities.  Most prominently, it translates more
+readily memorized domain names to the numerical IP addresses needed for
+locating and identifying computer services and devices with the underlying
+network protocols.
+
+---Wikipedia
+#+end_quote
+
+** Introduction to Domain Names and the Domain Name System
 While it is true that a client browser contacts a server via the server's IP
 address (a string of numbers), it is also true that humans do not ordinarly
 work directly with IP addresses because they do not work well with strings of
@@ -107,43 +121,8 @@ meaning, and therefore not memorable or even easily usable, by general browsers
 of the Internet.  For example, here is the generated domain name for this web
 site hosted by AWS:
 : https://s3-us-west-2.amazonaws.com/pine-central.com/deploy.html
-* Deploy Web Sites using Amazon Web Services
-Amazon Web Services ("AWS") is a huge conglomeration of services devoted to all
-thrings "Cloudy" and "Webby".  This guide is limited to only a small corner of
-that universe, in particular to those areas touching upon:
 
-- domain names and domain name services
-- static web sites
-- "smallish" dynamic web sites
-- single-page apps of the React kind
-
-
-The basic services involved will be:
-
-- [[https://aws.amazon.com/route53/][Route 53]] (for domain name registration and domain name services)
-- [[https://aws.amazon.com/s3/][Simple Storage Service (S3)]] (for hosting static content and single page apps)
-- [[https://aws.amazon.com/ec2/][Elastic Cloud Compute (EC2)]] (for hosting dynamic content and databases)
-- [[https://aws.amazon.com/lightsail/][Amazon Lightsail]] (for hosting dynamic content efficiently and cheaply)
-
-** Static Web Sites on AWS
-
-** Dynamic Web Sites on AWS
-** Dynamic Web Sites on AWS using Lightsail
-** Single Page React Apps on AWS
-* General Overview of the Domain Name System
-
-#+begin_quote
-The Domain Name System (DNS) is a hierarchical and decentralized naming system
-for computers, services, or other resources connected to the Internet or a
-private network.  It associates various information with domain names assigned
-to each of the participating entities.  Most prominently, it translates more
-readily memorized domain names to the numerical IP addresses needed for
-locating and identifying computer services and devices with the underlying
-network protocols.
-
----Wikipedia
-#+end_quote
-
+** The Doman Name System
 DNS, or the Domain Name System, is a system that translates human readable
 domain names (for example, =www.amazon.com=) to machine readable IP addresses
 (for example, =192.0.2.44=).  It is designed to be decentralized, scalable, and
@@ -375,7 +354,25 @@ the name of your website, known as a domain name.  Your domain name is the
 name, such as =example.com=, that your users enter in a browser to display your
 website.
 
-* How to Deploy Websites Using Amazon Web Services
+* Deploy Web Sites using Amazon Web Services
+Amazon Web Services ("AWS") is a huge conglomeration of services devoted to all
+thrings "Cloudy" and "Webby".  This guide is limited to only a small corner of
+that universe, in particular to those areas touching upon:
+
+- domain names and domain name services
+- static web sites
+- "smallish" dynamic web sites
+- single-page apps of the React kind
+
+
+The basic services involved will be:
+
+- Account Management
+- [[https://aws.amazon.com/route53/][Route 53]] (for domain name registration and domain name services)
+- [[https://aws.amazon.com/s3/][Simple Storage Service (S3)]] (for hosting static content and single page apps)
+- [[https://aws.amazon.com/ec2/][Elastic Cloud Compute (EC2)]] (for hosting dynamic content and databases)
+- [[https://aws.amazon.com/lightsail/][Amazon Lightsail]] (for hosting dynamic content efficiently and cheaply)
+
 ** AWS Accounts
 You sign up for accss to Amazon Web Services to obtain a *root account* and
 *root account credentials*.  For this step, you use your email address and a
@@ -1265,7 +1262,7 @@ usage 5) Use Cost Explorer to optimize savings.
 ***** SIMPLE MONTHLY CALCULATOR
 - https://calculator.s3.amazonaws.com/index.html
 
-** Amazon Route 53
+*** Amazon Route 53
 Amazon Route 53 is a highly available and scalable Domain Name System (DNS) web
 service.
 
@@ -1309,12 +1306,12 @@ this order:
    - For an overview, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/welcome-health-checks.html][How Amazon Route 53 Checks the Health of Your Resources]].
    - For procedures, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html][Creating Amazon Route 53 Health Checks and Configuring
      DNS Failover]].
-*** Route 53 Domain Name System Concepts
-**** Alias record
+**** Route 53 Domain Name System Concepts
+***** Alias record
 A type of record that you can create with Amazon Route 53 to route traffic to
 AWS resources such as Amazon CloudFront distributions and Amazon S3 buckets.
 
-**** Authoritative Name Server
+***** Authoritative Name Server
 A name server that has definitive information about one part of the Domain Name
 System (DNS) and that responds to requests from a DNS resolver by returning the
 applicable information.  Route 53 name servers are the authoritative name
@@ -1322,12 +1319,12 @@ servers for every domain that uses Route 53 as the DNS service. The name
 servers know how you want to route traffic for your domain and subdomains based
 on the records that you created in the hosted zone for the domain.
 
-**** DNS query
+***** DNS query
 Usually a request that is submitted by a device, such as a computer or a smart
 phone, to the Domain Name System (DNS) for a resource that is associated with a
 domain name.
 
-**** DNS resolver
+***** DNS resolver
 A DNS server, often managed by an internet service provider (ISP), that acts as
 an intermediary between user requests and DNS name servers. When you open a
 browser and enter a domain name in the address bar, your query goes first to a
@@ -1338,42 +1335,42 @@ of authoritative DNS name servers until it gets the response (typically an IP
 address) that it returns to a user's device, for example, a web browser on a
 laptop computer.
 
-**** Domain Name System
+***** Domain Name System
 A worldwide network of servers that help computers, smart phones, tablets, and
 other IP-enabled devices to communicate with one another. The Domain Name
 System translates easily understood names such as example.com into the numbers,
 known as IP addresses, that allow computers to find each other on the internet.
 
-**** Hosted zone
+***** Hosted zone
 A *container* for records, which include information about how you want to
 route traffic for a domain (such as =example.com=) and all of its subdomains
 (such as =www.example.com=, =retail.example.com=, and
 =seattle.accounting.example.com=).  A hosted zone has the same name as the
 corresponding domain.
 
-**** IP address
+***** IP address
 A number that is assigned to a device on the internet—such as a laptop, a smart
 phone, or a web server—that allows the device to communicate with other devices
 on the internet.
 
-**** Name servers
+***** Name servers
 Servers in the Domain Name System (DNS) that help to translate domain names
 into the IP addresses that computers use to communicate with one another. Name
 servers are either recursive name servers (also known as DNS resolver) or
 authoritative name servers.
 
-**** Private DNS
+***** Private DNS
 A local version of the Domain Name System (DNS) that lets you route traffic for
 a domain and its subdomains to Amazon EC2 instances within one or more Amazon
 virtual private clouds (VPCs).
 
-**** Recursive name server
+***** Recursive name server
 
-**** DNS Record
+***** DNS Record
 An object in a hosted zone that you use to define how you want to route traffic
 for the domain or a subdomain.
 
-**** Reusable delegation set
+***** Reusable delegation set
 A set of four authoritative name servers that you can use with more than one
 hosted zone.  By default, Route 53 assigns a random selection of name servers
 to each new hosted zone. To make it easier to migrate DNS service to Route 53
@@ -1386,15 +1383,15 @@ information, see [[https://docs.aws.amazon.com/Route53/latest/APIReference/API_C
 Route 53 API Reference. The same feature is also available in the [[https://docs.aws.amazon.com/][AWS SDK]]s, the
 [[https://docs.aws.amazon.com/cli/latest/reference/route53/index.html][AWS Command Line Interface]], and [[https://docs.aws.amazon.com/powershell/latest/reference/][AWS Tools for Windows PowerShell]].
 
-**** Routing policy
+***** Routing policy
 A setting for records that determines how Route 53 responds to DNS queries.
 
-***** Simple routing policy
+****** Simple routing policy
 Use to route internet traffic to a single resource that performs a given
 function for your domain, for example, a web server that serves content for the
 example.com website.
 
-**** Subdomain
+***** Subdomain
 A domain name that has one or more labels prepended to the registered domain
 name.  For example, if you register the domain name =example.com=, then
 =www.example.com= is a subdomain.  If you create the hosted zone
@@ -1405,12 +1402,12 @@ To *route traffic* for a subdomain, create a record that has the name that you
 want, such as =www.example.com=, and specify the applicable values, such as the
 IP address of a web server.
 
-**** Time-to-live---TLD
+***** Time-to-live---TLD
 The amount of time, in seconds, that you want a DNS resolver to cache (store)
 the values for a record before submitting another request to Route 53 to get
 the current values for that record.
-*** Register a New Domain Name on Route 53
-**** Overview
+**** Register a New Domain Name on Route 53
+***** Overview
 Here's an overview of how you register a domain name with Amazon Route 53:
 
 1. You choose a domain name and confirm that it's available, meaning that no
@@ -1452,7 +1449,7 @@ Here's an overview of how you register a domain name with Amazon Route 53:
 5. The registry stores the information about your domain in their own database
    and also stores some of the information in the public WHOIS database.
 
-**** Route 53 Hosted Zones
+***** Route 53 Hosted Zones
 When you register a domain with Route 53, we automatically create a hosted zone
 for the domain and charge a small monthly fee for the hosted zone in addition
 to the annual charge for the domain registration.  This hosted zone is where you
@@ -1463,7 +1460,7 @@ your domain right now, you can delete the hosted zone; if you delete it within
 zone on your AWS bill.  We also charge a small fee for the DNS queries that we
 receive for your domain.
 
-***** Public Hosted Zones
+****** Public Hosted Zones
 A public hosted zone is a *container* that holds information about how you want
 to route traffic on the internet for a specific domain, such as =example.com=,
 and its subdomains (=acme.example.com=, =zenith.example.com=).
@@ -1482,12 +1479,12 @@ want to route traffic for the domain and subdomains.  You can also use a Route
 53 *private hosted zone* to route traffic within one or more VPCs that you create
 with the Amazon VPC service.
 
-****** NS and SOA Records
+******* NS and SOA Records
 When you create a hosted zone, Amazon Route 53 automatically creates a *name
 server (NS) record* and a *start of authority (SOA) record* for the zone.
 Don't change these records.
 
-******* Name Server Record---NS
+******** Name Server Record---NS
 - Amazon Route 53 automatically creates a name server (NS) record that has the
   same name as your hosted zone.  It lists the four name servers that are the
   authoritative name servers for your hosted zone.  Do not add, change, or
@@ -1518,7 +1515,7 @@ to be the same as the domain name of your hosted zone, for example,
 /vanity name servers/ or /private name servers/.  See [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/white-label-name-servers.htmlhttps://docs.aws.amazon.com/Route53/latest/DeveloperGuide/white-label-name-servers.html][Configuring White-Label
 Name Servers]].
 
-******* Start of Authority Record---SOA
+******** Start of Authority Record---SOA
 The *start of authority (SOA) record* identifies the /base DNS/ information
 about the domain, for example:
 : ns-2048.awsdns-64.net. hostmaster.example.com. 1 7200 900 1209600 86400
@@ -1540,7 +1537,7 @@ A SOA record includes the following elements:
   too old to be reliable.
 - The minimum time to live (TTL).
 
-****** Create a Public Hosted Zone
+******* Create a Public Hosted Zone
 You can create a hosted zone only for a domain that you have permission to
 administer.  Typically, this means that you own the domain, but you might also
 be developing an application for the domain registrant.
@@ -1577,7 +1574,7 @@ be developing an application for the domain registrant.
    - If the domain is registered with Route 53, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-name-servers-glue-records.html][Adding or Changing Name
      Servers and Glue Records for a Domain]].
 
-****** Getting the Name Servers for a Public Hosted Zone
+******* Getting the Name Servers for a Public Hosted Zone
 If you're currently using another DNS service and you want to migrate to Amazon
 Route 53, you begin by creating a hosted zone.  Route 53 automatically assigns
 four name servers to your hosted zone.
@@ -1607,7 +1604,7 @@ your name servers using the ~dig~ utility (for Mac, Unix, or Linux) or the
 
 4. In the right pane, make note of the four servers listed for =Name Servers=.
 
-****** Preventing Traffic from Being Routed to Your Domain
+******* Preventing Traffic from Being Routed to Your Domain
 If you want to keep your domain registration but you want to stop routing
 internet traffic to your website or web application, we recommend that you
 /delete records/ in the hosted zone instead of deleting the hosted zone.  If
@@ -1618,7 +1615,7 @@ could hijack the domain and route traffic to their own resources using your
 domain name.
 
 If you want to avoid the monthly charge for the hosted zone, you can transfer
-DNS service for the domain to a free DNS service.[fn:2] When you transfer DNS
+DNS service for the domain to a free DNS service.[fn:3] When you transfer DNS
 service, you have to update the name servers for the domain registration.
 
 - If the domain is registered with Route 53, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-name-servers-glue-records.html][Adding or Changing Name
@@ -1628,7 +1625,7 @@ service, you have to update the name servers for the domain registration.
 - If the domain is registered with another registrar, use the method provided
   by the registrar to update name servers for the domain registration.
 
-**** Procedure
+***** Procedure
 When you want to register a new domain using the Amazon Route 53 console,
 perform the following procedure.
 
@@ -1702,7 +1699,7 @@ perform the following procedure.
          Configure your new domain to route DNS queries to the other DNS
          service.
 
-**** Working with Records
+***** Working with Records
 After you create a hosted zone for your domain, such as =example.com=, you
 create *records* to tell the Domain Name System (DNS) how you want traffic to
 be /routed/ for that domain.
@@ -1734,7 +1731,7 @@ contain records for a =www.example.ca= subdomain.
 
 Amazon Route 53 doesn't charge for the records that you add to a hosted zone.
 
-***** Choosing a Routing Policy
+****** Choosing a Routing Policy
 When you create a record, you choose a *routing policy*, which determines how
 Amazon Route 53 responds to queries:
 - Simple routing policy :: Use for a single resource that performs a given
@@ -1947,7 +1944,7 @@ Amazon Route 53 responds to queries:
 - Weighted routing policy :: Use to route traffic to multiple resources in
      proportions that you specify.
 
-***** Choosing Between Alias and Non-Alias Records
+****** Choosing Between Alias and Non-Alias Records
 Amazon Route 53 alias records provide a Route 53–specific extension to DNS
 functionality.  *Alias records* let you route traffic to selected AWS
 resources, such as CloudFront distributions and Amazon S3 buckets.  They also
@@ -2027,7 +2024,7 @@ differences:
   only in the Route 53 console or in the response to a programmatic request,
   such as an AWS CLI ~list-resource-record-sets~ command.
 
-***** Supported DNS Record Types
+****** Supported DNS Record Types
 Amazon Route 53 supports the DNS record types that are listed in this
 section. Each record type also includes an example of how to format the Value
 element when you are accessing Route 53 using the API.
@@ -2064,7 +2061,7 @@ element when you are accessing Route 53 using the API.
 - TXT Record Type :: A TXT record contains one or more strings that are
      enclosed in double quotation marks (="=).
 
-***** Creating Records by Using the Amazon Route 53 Console
+****** Creating Records by Using the Amazon Route 53 Console
 The following procedure explains how to create records using the Amazon Route
 53 console.
 
@@ -2100,11 +2097,11 @@ The following procedure explains how to create records using the Amazon Route
    - [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-values-basic.html][Values for Basic Records]]
    - [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-values-alias.html][Values for Alias Records]]
 
-8. Choose =Create=.[fn:3]
+8. Choose =Create=.[fn:4]
 
 9. If you're creating multiple records, repeat steps 6 through 8.
 
-*** Configure Route 53 as a DNS Service---Route Traffic to your Domain Name
+**** Configure Route 53 as a DNS Service---Route Traffic to your Domain Name
 https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-configuring.html
 
 You can use Amazon Route 53 as the DNS service for your domain, such as
@@ -2125,7 +2122,7 @@ traffic/ to the right place, how to /migrate DNS service to Route 53/ if you're
 currently using another DNS service, and how to /use Route 53 as the DNS
 service/ for a new domain.
 
-**** Overview of How to Configure Route 53 to Route Internet Traffic
+***** Overview of How to Configure Route 53 to Route Internet Traffic
 1. You /register/ the domain name that you want your users to use to access
    your content.
 
@@ -2155,7 +2152,7 @@ service/ for a new domain.
 For more information about routing internet traffic to your resources, see:
 - [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-configuring.html][Configuring Amazon Route 53 as Your DNS Service]]
 
-***** Alias Records
+****** Alias Records
 You can also create special Route 53 records, called *alias records*, that route
 traffic to
 - Amazon S3 buckets,
@@ -2167,7 +2164,7 @@ For more information, see:
 - [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-choosing-alias-non-alias.html][Choosing Between Alias and Non-Alias Records]]
 - [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-aws-resources.html][Routing Internet Traffic to Your AWS Resources]]
 
-**** Configure DNS Routing for a New Domain
+***** Configure DNS Routing for a New Domain
 When you register a domain with Route 53, we automatically make Route 53 the
 DNS service for the domain.
 
@@ -2186,7 +2183,7 @@ example.com hosted zone, and you specify the Elastic IP address for the EC2
 instance.
 #+END_QUOTE
 
-**** Configure DNS Routing for an Existing Domain
+***** Configure DNS Routing for an Existing Domain
 If you're transferring one or more domain registrations to Route 53, and you're
 currently using a domain registrar that doesn't provide paid DNS service, you
 need to migrate DNS service before you migrate the domain.
@@ -2197,13 +2194,13 @@ process.  However, in the unlikely event that there are issues, the first option
 lets you roll back the migration quickly.  With the second option, your domain
 could be unavailable for a couple of days.
 
-***** Making Route 53 the DNS Service for a Domain That's in Use
+****** Making Route 53 the DNS Service for a Domain That's in Use
 If you want to migrate DNS service to Amazon Route 53 for a domain that is
 currently getting traffic---for example, if your users are using the domain
 name to browse to a website or access a web application---perform the
 procedures in this section.
 
-****** Step 1---Get Your Current DNS Configuration from the Current DNS Service Provider
+******* Step 1---Get Your Current DNS Configuration from the Current DNS Service Provider
 When you migrate DNS service from another provider to Route 53, you reproduce
 your current DNS configuration in Route 53.
 
@@ -2236,7 +2233,7 @@ configuration:
      creating the corresponding records in your hosted zone.
 
      Try asking customer support with your current DNS service provider how to
-     get a *zone file* or a *records list*.[fn:4]
+     get a *zone file* or a *records list*.[fn:5]
 
 - If your current DNS configuration is more complex, and you're interested in Route 53 routing features :: 
 
@@ -2284,9 +2281,9 @@ If you can't get a zone file or if you want to manually create records in Route
 
      For a list of supported record types, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html][Supported DNS Record Types]].
 
-****** Step 2---Create a Hosted Zone
+******* Step 2---Create a Hosted Zone
 To tell Amazon Route 53 how you want to route traffic for your domain, you
-- create a hosted zone that has the same name as your domain[fn:5], and then
+- create a hosted zone that has the same name as your domain[fn:6], and then
 - you create records in the hosted zone.
 
 
@@ -2312,7 +2309,7 @@ NS and SOA records.
 5. For =Type=, accept the default value of =Public Hosted Zone=.
 6. Choose =Create=.
 
-****** Step 3---Create Records
+******* Step 3---Create Records
 After you create a hosted zone, you /create/ *records* in the hosted zone that
 define where you want to route traffic for a domain (=example.com=) or
 subdomain (=www.example.com=).  For example, if you want to route traffic for
@@ -2350,7 +2347,7 @@ You can create records in a variety of ways:
      If you're using a programming language that AWS doesn't provide an SDK
      for, you can also use the Route 53 API.
 
-****** Step 4---Lower TTL Settings
+******* Step 4---Lower TTL Settings
 The *TTL (time to live)* setting for a record specifies how long you want DNS
 resolvers to cache the record and used the cached information.  When the TTL
 expires, a resolver sends another query to the DNS service provider for a
@@ -2381,7 +2378,7 @@ We recommend that you change the TTL on the following NS records:
      between 60 seconds and 900 seconds (15 minutes).
   6. Choose =Save Record Set=
 
-****** Step 5---Wait for the Old TTL to Expire
+******* Step 5---Wait for the Old TTL to Expire
 If your domain is in use---for example, if your users are using the domain name
 to browse to a website or access a web application---then DNS resolvers have
 cached the names of the name servers that were provided by your current DNS
@@ -2394,7 +2391,7 @@ resolvers request the name servers for your domain, the resolvers will get the
 current name servers and will also get the new TTL that you specified in Step
 4: Lower TTL Settings.
 
-****** Step 6---Update the NS Record with Your Current DNS Service Provider to Use Route 53 Name Servers
+******* Step 6---Update the NS Record with Your Current DNS Service Provider to Use Route 53 Name Servers
 To begin using Amazon Route 53 as the DNS service for a domain, update the NS
 record with the current DNS service provider for the domain.
 
@@ -2431,7 +2428,7 @@ domain can be registered with Route 53 or with another domain registrar.
      - Add all four Route 53 name servers that you got in step 1 of this
        procedure.
 
-****** Step 7---Monitor Traffic for the Domain
+******* Step 7---Monitor Traffic for the Domain
 Monitor traffic for the domain, including website or application traffic, and
 email:
 - If the traffic slows or stops ::
@@ -2444,7 +2441,7 @@ email:
 
 - If the traffic is unaffected :: Continue to Step 8
 
-****** Step 8---Update the Domain Registration to Use Amazon Route 53 Name Servers
+******* Step 8---Update the Domain Registration to Use Amazon Route 53 Name Servers
 When you're confident that migrating DNS service to Route 53 was successful,
 you can change the DNS service for your domain to Amazon Route 53. Perform the
 following procedure to update settings with the domain registrar.
@@ -2466,7 +2463,7 @@ following procedure to update settings with the domain registrar.
      - If the domain is registered with Route 53, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-name-servers-glue-records.html][Adding or Changing Name
        Servers and Glue Records for a Domain]].
 
-****** Step 9---Change the TTL for the NS Record Back to a Higher Value
+******* Step 9---Change the TTL for the NS Record Back to a Higher Value
 In the Amazon Route 53 hosted zone for the domain, change the TTL for the NS
 record to a more typical value, for example, 172800 seconds (two days). This
 improves latency for your users because they don't have to wait as often for
@@ -2481,17 +2478,17 @@ DNS resolvers to send a query for the name servers for your domain.
    =172800 seconds=.
 6. Choose =Save Record Set=
 
-****** Step 10---Transfer Domain Registration to Amazon Route 53
+******* Step 10---Transfer Domain Registration to Amazon Route 53
 Now that you've transferred DNS service for a domain to Amazon Route 53, you
 can optionally transfer registration for the domain to Route 53.
 
 - see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-transfer-to-route-53.html][Transferring Registration for a Domain to Amazon Route 53]]
 
-***** Making Route 53 the DNS Service for an Inactive Domain
+****** Making Route 53 the DNS Service for an Inactive Domain
 To migrate DNS service to Amazon Route 53 for a domain that isn't getting any
 traffic (or is getting very little traffic):
 
-****** Step 1---Get Your Current DNS Configuration from the Current DNS Service Provider
+******* Step 1---Get Your Current DNS Configuration from the Current DNS Service Provider
 When you migrate DNS service from another provider to Route 53, you reproduce
 your current DNS configuration in Route 53.
 
@@ -2521,7 +2518,7 @@ configuration:
      creating the corresponding records in your hosted zone.
 
      Try asking customer support with your current DNS service provider how to
-     get a zone file or a records list.[fn:4]
+     get a zone file or a records list.[fn:5]
 
 - If your current DNS configuration is more complex, and you're interested in Route 53 routing features ::
 
@@ -2569,10 +2566,10 @@ If you can't get a zone file or if you want to manually create records in Route
 
      For a list of supported record types, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html][Supported DNS Record Types]].
 
-****** Step 2---Create a Hosted Zone (Inactive Domains)
+******* Step 2---Create a Hosted Zone (Inactive Domains)
 To tell Amazon Route 53 how you want to route traffic for your domain, you
 - create a *hosted zone* that has the same name as your domain, and then
-- create *records* in the hosted zone.[fn:5]
+- create *records* in the hosted zone.[fn:6]
 
 
 When you create a hosted zone, Route 53 automatically creates a *name server
@@ -2593,7 +2590,7 @@ delete the existing NS and SOA records.
 5. For =Type=, accept the default value of =Public Hosted Zone=
 6. Choose =Create=
 
-****** Step 3---Create Records (Inactive Domains)
+******* Step 3---Create Records (Inactive Domains)
 After you create a hosted zone, you create records in the hosted zone that
 define where you want to route traffic for a domain (=example.com=) or subdomain
 (=www.example.com=).
@@ -2630,7 +2627,7 @@ You can create records in a variety of ways:
      Tools for Windows PowerShell.  If you're using a programming language that
      AWS doesn't provide an SDK for, you can also use the Route 53 API.
 
-****** Step 4---Update the Domain Registration to Use Amazon Route 53 Name Servers (Inactive Domains)
+******* Step 4---Update the Domain Registration to Use Amazon Route 53 Name Servers (Inactive Domains)
 When you've finished creating records for the domain, you can change the DNS
 service for your domain to Amazon Route 53.  Perform the following procedure to
 update settings with the domain registrar.
@@ -2647,7 +2644,7 @@ update settings with the domain registrar.
    - If the domain is registered with Route 53, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-name-servers-glue-records.html][Adding or Changing Name
      Servers and Glue Records for a Domain]].
 
-**** Update the name servers for your domain when you want to use another DNS service
+***** Update the name servers for your domain when you want to use another DNS service
 1. Use the process that is provided by your DNS service to get the name servers
    for the domain.
 
@@ -2678,7 +2675,7 @@ update settings with the domain registrar.
 
    - Choose =Confirm=
 
-** Amazon Simple Storage Service---S3
+*** Amazon Simple Storage Service---S3
 "Object storage built to store and retrieve any amount of data from anywhere"
 
 #+BEGIN_QUOTE
@@ -2705,9 +2702,9 @@ It gives any developer access to the same highly scalable, reliable, fast,
 inexpensive data storage infrastructure that Amazon uses to run its own global
 network of web sites.
 
-*** S3 Basics
+**** S3 Basics
 
-**** Sign Up for S3
+***** Sign Up for S3
 You will not be charged for Amazon S3 until you use it.
 
 1. Go to https://aws.amazon.com/s3/ and choose Get started with Amazon S3.
@@ -2717,7 +2714,7 @@ You will not be charged for Amazon S3 until you use it.
 AWS will notify you by email when your account is active and available for you
 to use.
 
-**** Create a Bucket
+***** Create a Bucket
 Every object in Amazon S3 is stored in a bucket. Before you can store data in
 Amazon S3, you must create a bucket.  You are not charged for creating a
 bucket; you are charged only for storing objects in the bucket and for
@@ -2737,7 +2734,7 @@ transferring objects in and out of the bucket.
    bucket to reside.
 5. Choose =Create=.
 
-**** Add an Object to a Bucket
+***** Add an Object to a Bucket
 An object can be any kind of file: a text file, a photo, a video, and so on.
 
 1. In the =Bucket name= list, choose the name of the bucket that you want to
@@ -2747,7 +2744,7 @@ An object can be any kind of file: a text file, a photo, a video, and so on.
 4. Choose a file to upload, and then choose =Open=.
 5. Choose =Upload=.
 
-**** View an Object
+***** View an Object
 You can view information about your object and download the object to your
 local computer.
 
@@ -2755,7 +2752,7 @@ local computer.
 2. In the =Name list=, select the check box next to the object that you
    uploaded, and then choose =Download= on the object overview panel.
 
-**** Move an Object
+***** Move an Object
 Now we create a folder and move the object into the folder by copying and
 pasting the object.
 
@@ -2769,7 +2766,7 @@ pasting the object.
 5. Choose =More=, and then choose =Paste=.
 6. Choose =Paste=.
 
-**** Delete an Object and Bucket
+***** Delete an Object and Bucket
 If you no longer need to store the object that you uploaded and made a copy of
 while going through this guide, you should delete the objects to prevent
 further charges.
@@ -2807,10 +2804,10 @@ To delete a bucket:
 2. In the =Delete bucket= dialog box, type the name of the bucket for delete
    confirmation and then choose =Confirm=.
 
-*** Creating a Static Website Using an Amazon S3 Bucket
+**** Creating a Static Website Using an Amazon S3 Bucket
 This Getting Started tutorial shows you how to perform the following tasks:
 
-- Register a domain name, such as example.com[fn:6]
+- Register a domain name, such as example.com[fn:7]
 - Create an Amazon S3 bucket and configure it to host a website
 - Create a sample website and save the file in your S3 bucket
 - Configure Amazon Route 53 to route traffic to your new website
@@ -2836,9 +2833,9 @@ domain, and view your website.
 - Before you begin, be sure that you've completed the steps in [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/setting-up-route-53.html][Setting Up
   Amazon Route 53]].
 
-**** Step 1---Register a Domain
+***** Step 1---Register a Domain
 
-**** Step 2---Create an S3 Bucket and Configure It to Host a Website
+***** Step 2---Create an S3 Bucket and Configure It to Host a Website
 <<step-2>>You can use S3 to host a static website in a bucket.
 
 1. Open the Amazon S3 console at https://console.aws.amazon.com/s3/.
@@ -2891,7 +2888,7 @@ domain, and view your website.
 
 14. Choose =Save=.
 
-**** Step 3---(Optional) Create Another S3 Bucket, for =www.your-domain-name=
+***** Step 3---(Optional) Create Another S3 Bucket, for =www.your-domain-name=
 In the preceding procedure, you created a bucket for your domain name, such as
 =example.com=.  This allows your users to access your website by using your domain
 name, such as =example.com=.
@@ -2913,7 +2910,7 @@ To create an S3 bucket for =www.your-domain-name=:
 - For =Redirect all requests to=, enter your domain name.
 - Choose =Save=.
 
-**** Step 4---Create a Website and Upload It to Your S3 Bucket
+***** Step 4---Create a Website and Upload It to Your S3 Bucket
 Now that you have an S3 bucket to save your website in, you can create the
 first page for your website and upload it to (save it in) your bucket.
 
@@ -2953,7 +2950,7 @@ first page for your website and upload it to (save it in) your bucket.
 6. Follow the on-screen prompts to select ~index.html~, and then choose =Start
    Upload=.
 
-**** Step 5---Route DNS Traffic for Your Domain to Your Website Bucket
+***** Step 5---Route DNS Traffic for Your Domain to Your Website Bucket
 You now have a one-page website in your S3 bucket.  To start routing internet
 traffic for your domain to your S3 bucket, perform the following procedure.
 
@@ -2963,7 +2960,7 @@ traffic for your domain to your S3 bucket, perform the following procedure.
 
 3. In the list of hosted zones, choose the name of your domain.
 
-4. Choose =Create Record Set=.[fn:7]
+4. Choose =Create Record Set=.[fn:8]
 
 5. Specify the following values:
 
@@ -3004,7 +3001,7 @@ traffic for your domain to your S3 bucket, perform the following procedure.
 7. If you created a second S3 bucket, for =www.your-domain-name=, repeat steps 4
    through 6 to create a record for =www.your-domain-name=.
 
-**** Step 6---Test Your Website
+***** Step 6---Test Your Website
 To verify that the website is working correctly, open a web browser and browse
 to the following URLs:
 
@@ -3016,9 +3013,9 @@ to the following URLs:
 
 In some cases, you might need to clear the cache to see the expected behavior.
 
-**** Step 7---(Optional) Use Amazon CloudFront to Speed Up Distribution of Your Content
+***** Step 7---(Optional) Use Amazon CloudFront to Speed Up Distribution of Your Content
 
-*** Hosting a Static Website on Amazon S3
+**** Hosting a Static Website on Amazon S3
 You can host a static website on Amazon Simple Storage Service (Amazon S3).
 
 #+BEGIN_QUOTE
@@ -3037,7 +3034,7 @@ By contrast, a dynamic website relies on server-side processing, including
 server-side scripts such as PHP, JSP, or ASP.NET.  Amazon S3 does not support
 server-side scripting.
 
-**** Overview
+***** Overview
 - Deploy a static website using Amazon S3 ::
 
      Amazon S3 will provide the origin for your website as well as storage for
@@ -3089,7 +3086,7 @@ server-side scripting.
     website on AWS---compute, storage, and networking---for a low, predictable
     price.
 
-**** Description
+***** Description
 To host a static website:
 - configure an Amazon S3 bucket for website hosting;
 - upload your website content to the bucket.
@@ -3140,7 +3137,7 @@ buckets.
 - [[https://aws.amazon.com/premiumsupport/knowledge-center/cloudfront-https-requests-s3/][How do I use CloudFront to serve HTTPS requests for my Amazon S3 bucket?]]
 - [[https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-https-cloudfront-to-s3-origin.html][Requiring HTTPS for Communication Between CloudFront and Your Amazon S3 Origin]]
 
-**** Configuring a Bucket for Website Hosting
+***** Configuring a Bucket for Website Hosting
 You can host a static website in an Amazon Simple Storage Service (Amazon S3)
 bucket after some configuration.
 
@@ -3149,7 +3146,7 @@ The required configuration includes:
 2. adding index document support
 3. adding universal read access permission
 
-***** Enabling Website Hosting
+****** Enabling Website Hosting
 Follow these steps to enable website hosting for your Amazon S3 buckets using
 the [[https://console.aws.amazon.com/s3/home][Amazon S3 console]]:
 
@@ -3166,7 +3163,7 @@ the [[https://console.aws.amazon.com/s3/home][Amazon S3 console]]:
 5. You are prompted to provide the index document and any optional error
    documents and redirection rules that are needed.
 
-***** Configuring Index Document Support
+****** Configuring Index Document Support
 An /index document/ is a webpage that Amazon S3 returns when a request is made
 to the root of a website or any subfolder.
 
@@ -3180,7 +3177,7 @@ is not requesting any specific page. In that case, Amazon S3 serves up the
 document.* You then upload an object with this name and configure it to be
 publicly readable.
 
-****** Index Documents and Folders
+******* Index Documents and Folders
 In Amazon S3, a *bucket* is /a flat container of objects/; it does not provide
 any hierarchical organization as the file system on your computer does. You can
 create a /logical hierarchy/ by using object key names that /imply/ a folder
@@ -3227,7 +3224,7 @@ document is found, Amazon S3 returns a =302 Found= message and points to the
 ~photos/index.html~. If the index document is not found, Amazon S3 returns an
 error.
 
-***** Setting Permissions Required for Website Access
+****** Setting Permissions Required for Website Access
 When you configure a bucket as a website, *you must make the objects that you
 want to serve publicly readable*.  To do this:
 - write a bucket policy that grants everyone =s3:GetObject= permission
@@ -3241,7 +3238,7 @@ want to serve publicly readable*.  To do this:
 
 
 The following sample bucket policy grants everyone access to the objects in the
-specified folder.[fn:8]
+specified folder.[fn:9]
 
 #+BEGIN_EXAMPLE
 {
@@ -3261,7 +3258,7 @@ specified folder.[fn:8]
 You can grant public read permission to your objects by using either a bucket
 policy or an object ACL.  To make an object publicly readable using an ACL,
 grant =READ= permission to the =AllUsers= group, as shown in the following
-grant element.  Add this grant element to the object ACL.[fn:9]
+grant element.  Add this grant element to the object ACL.[fn:10]
 
 #+BEGIN_EXAMPLE
 <Grant>
@@ -3273,9 +3270,9 @@ grant element.  Add this grant element to the object ACL.[fn:9]
 </Grant>
 #+END_EXAMPLE
 
-**** Optional Bucket Configurations
+***** Optional Bucket Configurations
 
-***** Configuring Web Traffic Logging
+****** Configuring Web Traffic Logging
 If you want to track the number of visitors who access your website, enable
 logging for the root domain bucket. Enabling logging is optional.
 
@@ -3294,7 +3291,7 @@ logging for the root domain bucket. Enabling logging is optional.
    bucket in a folder named root so that they are easy to locate.
 8. Choose =Save=.
 
-***** Custom Error Document Support
+****** Custom Error Document Support
 The following table lists the subset of HTTP response codes that Amazon S3
 returns when an error occurs.
 
@@ -3325,18 +3322,18 @@ error occurs, ignoring the error document that Amazon S3 returns. For example,
 when an HTTP 404 Not Found error occurs, Google Chrome might ignore the error
 document that Amazon S3 returns and display its own error.
 
-***** Configuring a Webpage Redirect
+****** Configuring a Webpage Redirect
 If your Amazon S3 bucket is configured for website hosting, you can redirect
 requests for an object to another object in the same bucket or to an external
 URL.
 
-**** Setting Up a Static Website Using a Custom Domain
+***** Setting Up a Static Website Using a Custom Domain
 Configure a bucket for website hosting, upload a sample index document, and
 test the website using the Amazon S3 website endpoint for the bucket.  You can
 use your own domain, such as =example.com=, instead of the S3 bucket website
 endpoint, and serve content from an Amazon S3 bucket configured as a website.
 
-***** Create and Configure Buckets and Upload Data
+****** Create and Configure Buckets and Upload Data
 To support requests from both the root domain such as =example.com= and
 subdomain such as =www.example.com=, you create two buckets.  One bucket
 contains the content.  You configure the other bucket to redirect requests.
@@ -3366,7 +3363,7 @@ contains the content.  You configure the other bucket to redirect requests.
                create two buckets.  One bucket contains the content. You
                configure the other bucket to redirect requests.
 
-****** Create Two Buckets
+******* Create Two Buckets
 
 Your website will support requests from both =example.com= and
 =www.example.com=.  You will host your content out of the root domain bucket
@@ -3380,7 +3377,7 @@ family photos, videos—--whatever you want.
 2. [[https://console.aws.amazon.com/s3/][open the Amazon S3 console]].
 
 3. create the following two buckets that match your domain name and
-  subdomain:[fn:10]
+  subdomain:[fn:11]
   + =example.com=
   + =www.example.com=
 
@@ -3388,9 +3385,9 @@ family photos, videos—--whatever you want.
   Like domains, subdomains must have their own S3 buckets, and the buckets must
   share the exact names as the subdomains.
 
-- Upload your website data to the =example.com= bucket.[fn:11]
+- Upload your website data to the =example.com= bucket.[fn:12]
 
-****** Configure Buckets for Website Hosting
+******* Configure Buckets for Website Hosting
 When you configure a bucket for website hosting, you can access the website
 using the Amazon S3 assigned bucket website endpoint.  In this step, you
 configure both buckets for website hosting. First, you configure =example.com=
@@ -3406,7 +3403,7 @@ to the =example.com bucket=.
    Document= box, type the name that you gave your index page.
 6. Choose =Save=.
 
-****** Configure Your Website Redirect
+******* Configure Your Website Redirect
 Now that you have configured your bucket for website hosting, configure the
 =www.example.com= bucket to redirect all requests for =www.example.com= to
 =example.com=.
@@ -3419,17 +3416,17 @@ Now that you have configured your bucket for website hosting, configure the
    =example.com=.
 5. Choose =Save=.
 
-****** Configure Logging for Website Traffic
+******* Configure Logging for Website Traffic
 Optionally, you can configure logging to track the number of visitors accessing
 your website.  To do that, you enable logging for the root domain bucket.
 - see [[https://docs.aws.amazon.com/AmazonS3/latest/dev/LoggingWebsiteTraffic.html][(Optional) Configuring Web Traffic Logging]].
 
-****** Test Your Endpoint and Redirect
+******* Test Your Endpoint and Redirect
 To test the website, type the URL of the endpoint in your browser.  Your
 request is redirected, and the browser displays the index document for
 =example.com=.
 
-***** Add Alias Records for example.com and www.example.com
+****** Add Alias Records for example.com and www.example.com
 In this step, you create the alias records that you add to the hosted zone for
 your domain maps =example.com= and =www.example.com= to the corresponding S3
 buckets.  Instead of using IP addresses, the alias records use the Amazon S3
@@ -3438,7 +3435,7 @@ records and the IP addresses where the Amazon S3 buckets reside.
 
 1. Open the [[https://console.aws.amazon.com/route53/][Route 53 console]]
 2. In the list of hosted zones, choose the name of your domain.
-3. Choose =Create Record Set=.[fn:12]
+3. Choose =Create Record Set=.[fn:13]
 4. Specify the following values:
    - Name ::
 
@@ -3471,27 +3468,27 @@ records and the IP addresses where the Amazon S3 buckets reside.
 
 6. For =www.example.com=, repeat steps 4 through 6 to create a record.
 
-***** Testing
+****** Testing
 To verify that the website is working correctly, in your browser, try the
 following URLs:
 
 - =http://example.com= :: Displays the index document in the =example.com= bucket.
 - =http://www.example.com= :: Redirects your request to =example.com=.
 
-** Amazon Elastic Compute Cloud---EC2
-*** Register a Domain Name and Connect to an EC2 Instance
+*** Amazon Elastic Compute Cloud---EC2
+**** Register a Domain Name and Connect to an EC2 Instance
 - [[https://aws.amazon.com/getting-started/tutorials/get-a-domain/?trk=gs_card][Register a Domain Name]]
 
 Register a new domain name for your website and connect that domain name
 through the Domain Name System (DNS) to a running EC2 instance (such as a
 WebApp, or website running WordPress, Apache, NGINX, IIS, or other Website
-platform).[fn:13]
+platform).[fn:14]
 
 There's an annual fee to *register a domain*, ranging from $9 to several
 hundred dollars, depending on the top-level domain, such as =.com=.  For more
 information, see Amazon Route 53 Pricing for Domain Registration.
 
-**** Step 1---Obtain a Static URL
+***** Step 1---Obtain a Static URL
 
 *NOTE:* If you are using *Elastic Load Balancing* (Elastic Load Balancing is
 done automatically if you launched your app with Amazon Elastic Beanstalk) then
@@ -3519,7 +3516,7 @@ you do not need to obtain a static IP address and can go directly to step 2.
  - Verify that your new Elastic IP address is working by typing it into your
    web browser.
 
-**** Step 2---Register a Domain Name
+***** Step 2---Register a Domain Name
 
 You now have an IP address associated with your instance.  You now need to
 configure the Domain Name System (DNS) to point to this address.
@@ -3556,7 +3553,7 @@ configuring DNS for your instance.
   email address, or the domain won't be registered.*.  For all domains, you'll
   receive an email when your domain registration has been approved.
 
-**** Step 3---Configure DNS
+***** Step 3---Configure DNS
 
 The last step is to configure the DNS so that the new domain we created in step
 2 can point to the address we have for our server.  This can be the static IP
@@ -3564,7 +3561,7 @@ address (from step 1) or a fully qualified domain name (FQDN) that is
 automatically created if you are using Amazon Elastic Beanstalk.
 
 Note that when you register a domain, we automatically create a *hosted zone*
-that has the same name as the domain.[fn:14]
+that has the same name as the domain.[fn:15]
 
 - Open the [[https://console.aws.amazon.com/route53/home?region=us-east-1#hosted-zones:][Hosted Zones]] part of the Route 53 console.  Click on the domain name
   you created in step 2.
@@ -3578,6 +3575,203 @@ that has the same name as the domain.[fn:14]
 
 - Verify that your website is now available at your new domain by typing your
   new website address into your web browser.
+** Static Web Sites on AWS using S3
+
+** Dynamic Web Sites on AWS using EC2
+*** Introducing Amazon EC2---Elastic Compute Cloud
+"Secure and resizable compute capacity in the cloud. Launch applications when
+needed without upfront commitments."
+
+Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides
+secure, resizable *compute capacity* in the cloud.  It is designed to make
+web-scale cloud computing easier for developers.
+
+Just as Amazon Simple Storage Service (Amazon S3) enables storage in the cloud,
+Amazon EC2 enables “compute” in the cloud.
+- Amazon EC2’s *simple web service interface* allows you to obtain and
+  configure capacity with minimal friction.  The “Elastic” nature of the
+  service allows developers to instantly scale to meet spikes in traffic or
+  demand.
+- It provides you with *complete control* of your computing resources and lets
+  you run on Amazon’s proven computing environment.
+- Amazon EC2 *reduces the time* required to obtain and boot new server
+  instances to minutes, allowing you to quickly scale capacity, both up and
+  down, as your computing requirements change.
+- Amazon EC2 changes the *economics of computing* by allowing you to pay only
+  for capacity that you actually use.
+
+To sign up for Amazon EC2, click the “Sign up for This Web Service” button on
+the Amazon EC2 detail page.  You must have an Amazon Web Services account to
+access this service; if you do not already have one, you will be prompted to
+create one when you begin the Amazon EC2 sign-up process.  After signing up,
+please refer to the Amazon EC2 documentation, which includes our [[https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html][Getting
+Started Guide]].
+
+Once you have set up your account and selected or created your AMIs, you are
+ready to boot your instance.  You can start your AMI on any number of On-Demand
+instances by using the =RunInstances= API call.  You simply need to indicate
+how many instances you wish to launch.  If Amazon EC2 is able to fulfill your
+request, RunInstances will return success, and we will start launching your
+instances.  You can check on the status of your instances using the
+=DescribeInstances= API call.  You can also programmatically terminate any
+number of your instances using the =TerminateInstances= API call.  If you
+prefer, you can also perform all these actions from the AWS Management Console
+or through the command line using our command line tools, which have been
+implemented with this web service API.
+
+{{{heading(EC2 Web Service Interface)}}}
+
+Amazon EC2’s simple web service interface allows you to obtain and configure
+capacity with minimal friction.  It provides you with complete control of your
+*computing resources* and lets you run on Amazon’s proven *computing
+environment*.  Amazon EC2 reduces the time required to obtain and boot new
+server instances to minutes, allowing you to quickly scale capacity, both up
+and down, as your computing requirements change.  Amazon EC2 changes the
+economics of computing by allowing you to pay only for capacity that you
+actually use.  Amazon EC2 provides developers the tools to build failure
+resilient applications and isolate them from common failure scenarios.
+
+{{{heading(EC2 Free Tier)}}}
+
+AWS Free Tier includes 750 hours of Linux and Windows =t2.micro= instances each
+month for one year.  To stay within the Free Tier, use only EC2 Micro
+instances.
+
+{{{heading(Benefits to Using EC2)}}}
+
+- Elasticity :: Amazon EC2 enables you to increase or decrease capacity within
+                minutes, not hours or days.  You can commission one, hundreds,
+                or even thousands of server instances simultaneously.
+
+- Control :: You have complete control of your instances including root access
+             and the ability to interact with them as you would any machine.
+             You can stop any instance while retaining the data on the boot
+             partition, and then subsequently restart the same instance using
+             web service APIs.  Instances can be rebooted remotely using web
+             service APIs, and you also have access to their console output.
+
+- Flexibility :: You have the choice of multiple instance types, operating
+                 systems, and software packages.  Amazon EC2 allows you to
+                 select a configuration of memory, CPU, instance storage, and
+                 the boot partition size that is optimal for your choice of
+                 operating system and application.
+
+- Integration :: Amazon EC2 is integrated with most AWS services such as Amazon
+                 Simple Storage Service (Amazon S3), Amazon Relational Database
+                 Service (Amazon RDS), and Amazon Virtual Private Cloud (Amazon
+                 VPC) to provide a complete, secure solution for computing,
+                 query processing, and cloud storage across a wide range of
+                 applications.
+
+- Reliability :: Amazon EC2 offers a highly reliable environment where
+                 replacement instances can be rapidly and predictably
+                 commissioned.
+
+- Security :: Cloud security at AWS is the highest priority. As an AWS
+              customer, you will benefit from a data center and network
+              architecture built to meet the requirements of the most
+              security-sensitive organizations.
+
+- Economical :: Amazon EC2 passes on to you the financial benefits of Amazon’s
+                scale. You pay a very low rate for the compute capacity you
+                actually consume.
+
+- Ease-of-Use :: There are several ways to get started with Amazon EC2.
+  + [[https://aws.amazon.com/ec2/getting-started/#console][AWS Management Console]]
+  + AWS Command Line Tools (CLI)
+  + [[https://aws.amazon.com/ec2/getting-started/#SDKs][AWS SDKs]]
+
+**** EC2 Functionality
+To use Amazon EC2, you simply:
+
+- Select a pre-configured, templated Amazon Machine Image (AMI) to get up and
+  running immediately. Or create an AMI containing your applications,
+  libraries, data, and associated configuration settings.
+
+- Configure security and network access on your Amazon EC2 instance.
+
+- Choose which instance type(s) you want, then start, terminate, and monitor as
+  many instances of your AMI as needed, using the web service APIs or the
+  variety of management tools provided.
+
+- Determine whether you want to run in multiple locations, utilize static IP
+  endpoints, or attach persistent block storage to your instances.
+
+- Pay only for the resources that you actually consume, like instance-hours or
+  data transfer.
+
+**** Operating systems
+Amazon Machine Images (AMIs) are preconfigured with an ever-growing list of
+operating systems. We work with our partners and community to provide you with
+the most choice possible. You are also empowered to use our bundling tools to
+upload your own operating systems. The operating systems currently available to
+use with your Amazon EC2 instances include:
+
+- Amazon Linux
+- Microsoft Server 2012
+- CentOS 6.5
+- Debian 7.4
+
+**** EC2 Instance Types
+Amazon EC2 provides a wide selection of instance types optimized to fit
+different use cases. Instance types comprise varying combinations of CPU,
+memory, storage, and networking capacity and give you the flexibility to choose
+the appropriate mix of resources for your applications. Each instance type
+includes one or more instance sizes, allowing you to scale your resources to
+the requirements of your target workload.
+
+***** General Purpose
+- A1 ::  Amazon EC2 A1 instances deliver significant cost savings and are
+        ideally suited for scale-out and Arm-based workloads that are supported
+        by the extensive Arm ecosystem. A1 instances are the first EC2
+        instances powered by AWS Graviton Processors that feature 64-bit Arm
+        Neoverse cores and custom silicon designed by AWS.
+- T3 :: T3 instances are the next generation burstable general-purpose instance
+        type that provide a baseline level of CPU performance with the ability
+        to burst CPU usage at any time for as long as required. T3 instances
+        offer a balance of compute, memory, and network resources and are
+        designed for applications with moderate CPU usage that experience
+        temporary spikes in use.
+- T2 :: T2 instances are Burstable Performance Instances that provide a
+        baseline level of CPU performance with the ability to burst above the
+        baseline.  T2 instances are a good choice for a variety of
+        general-purpose workloads including micro-services, low-latency
+        interactive applications, small and medium databases, virtual desktops,
+        development, build and stage environments, code repositories, and
+        product prototypes.  Use cases include Websites and web applications,
+        development environments, build servers, code repositories, micro
+        services, test and staging environments, and line of business
+        applications.
+
+  - High frequency Intel Xeon processors
+  - Burstable CPU, governed by CPU Credits, and consistent baseline performance
+  - Lowest-cost general purpose instance type, and Free Tier eligible[fn:2]
+  - Balance of compute, memory, and network resources
+
+- M5 :: M5 instances are the latest generation of General Purpose
+        Instances. This family provides a balance of compute, memory, and
+        network resources, and is a good choice for many applications.  Use
+        cases include Small and mid-size databases, data processing tasks that
+        require additional memory, caching fleets, and for running backend
+        servers for SAP, Microsoft SharePoint, cluster computing, and other
+        enterprise applications
+
+- M5a :: M5a instances are the latest generation of General Purpose
+         Instances. This family provides a balance of compute, memory, and
+         network resources, and is a good choice for many applications.
+
+- M4 :: M4 instances provide a balance of compute, memory, and network
+        resources, and it is a good choice for many applications.
+
+***** Other Instance Type Categories
+- Compute Optimized
+- Memory Optimized
+- Accelerated Computing
+- Storage Optimized
+
+** Dynamic Web Sites on AWS using Lightsail
+** Single Page React Apps on AWS
+
 * Export Settings                                                  :noexport:
 #+OPTIONS: html-link-use-abs-url:nil html-postamble:auto html-preamble:t
 #+OPTIONS: html-scripts:t html-style:t html5-fancy:t tex:t num:3 H:6 ':t toc:3
@@ -3594,6 +3788,8 @@ that has the same name as the domain.[fn:14]
 #+CREATOR: <a href="https://www.gnu.org/software/emacs/">Emacs</a> 26.1 (<a href="https://orgmode.org">Org</a> mode 9.1.14)
 #+LATEX_HEADER:
 
+#+MACRO: heading @@html:<h2>$1</h2>@@
+
 * Footnotes
 
 [fn:1]An Internet backbone is a very high-speed data transmission line that
@@ -3605,45 +3801,48 @@ commercial, educational, government and military entities because they provide
 a consistent way for Internet service providers (ISPs) to keep and maintain
 online information in a secure manner.
 
-[fn:2] For more information, perform an internet search on "free DNS service."
+[fn:2]t2.micro only. If configured as T2 Unlimited, charges may apply if
+average CPU utilization exceeds the baseline of the instance.
 
-[fn:3] Your new records take time to propagate to the Route 53 DNS
+[fn:3] For more information, perform an internet search on "free DNS service."
+
+[fn:4] Your new records take time to propagate to the Route 53 DNS
 servers. Currently, the only way to verify that changes have propagated is to
 use the GetChange API action. Changes generally propagate to all Route 53 name
 servers within 60 seconds.
 
-[fn:4] For information about the required format of the zone file, see
+[fn:5] For information about the required format of the zone file, see
 [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resource-record-sets-creating-import.html][Creating Records By Importing a Zone File]].
 
-[fn:5] You can create a hosted zone only for a domain that you have permission
+[fn:6] You can create a hosted zone only for a domain that you have permission
 to administer.
 
-[fn:6] There's an annual fee to register a domain, ranging from $9 to several
+[fn:7] There's an annual fee to register a domain, ranging from $9 to several
 hundred dollars, depending on the top-level domain, such as =.com=.
 
-[fn:7] Each record contains information about how you want to route traffic for
+[fn:8] Each record contains information about how you want to route traffic for
 one domain (such as =example.com=) or subdomain (such as =www.example.com= or
 =test.example.com=).  Records are stored in the hosted zone for your domain.
 
-[fn:8] For more information about bucket policies, see
+[fn:9] For more information about bucket policies, see
 [[https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html][Using Bucket Policies and User Policies]]
 
-[fn:9] For information about managing ACLs, see [[https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html][Managing Access with ACLs]].
+[fn:10] For information about managing ACLs, see [[https://docs.aws.amazon.com/AmazonS3/latest/dev/S3_ACLs_UsingACLs.html][Managing Access with ACLs]].
 
-[fn:10] see [[https://docs.aws.amazon.com/AmazonS3/latest/user-guide/create-bucket.html][How Do I Create an S3 Bucket?]]
+[fn:11] see [[https://docs.aws.amazon.com/AmazonS3/latest/user-guide/create-bucket.html][How Do I Create an S3 Bucket?]]
 
-[fn:11] For step-by-step instructions, see [[https://docs.aws.amazon.com/AmazonS3/latest/user-guide/upload-objects.html][How Do I Upload an Object to an S3
+[fn:12] For step-by-step instructions, see [[https://docs.aws.amazon.com/AmazonS3/latest/user-guide/upload-objects.html][How Do I Upload an Object to an S3
 Bucket?]] in the Amazon Simple Storage Service Console User Guide.
 
-[fn:12] Each record contains information about how you want to route traffic for
+[fn:13] Each record contains information about how you want to route traffic for
 one domain (example.com) or subdomain (www.example.com). Records are stored in
 the hosted zone for your domain.
 
-[fn:13] If you already have a domain name registered, do step 1 and then refer
+[fn:14] If you already have a domain name registered, do step 1 and then refer
 to your domain registrar’s documentation for how to set the DNS record for your
 new site.
 
-[fn:14] A hosted zone is a container for records, and records contain
+[fn:15] A hosted zone is a container for records, and records contain
 information about how you want to route traffic for a specific domain, such as
 example.com, and its subdomains (acme.example.com, zenith.example.com). A
 hosted zone and the corresponding domain have the same name.
