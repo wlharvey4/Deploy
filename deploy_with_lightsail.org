@@ -1,6 +1,6 @@
 # -*- mode:org; fill-column:79; -*-
 #+title:Amazon Lightsail: Deploying and Scaling Your First Cloud Application
-#+date:<2019-04-24 Wed 15:15>
+#+date:<2019-04-24 Wed 15:35>
 #+author:AWS Training
 * About the Course
 Amazon Lightsail is a cloud platform that's cost-effective, fast, and reliable
@@ -530,6 +530,7 @@ additional front-end capacity was needed.
 
 #+CINDEX:separate front end, database
 #+CINDEX:Lightsail database, point PHP front end to
+#+CINDEX:MySQL database
 To ﬁx this issue, the front end and database need to be separated.  In this
 task, you will adjust the conﬁguration for the PHP front end to point to the
 previously deployed Lightsail database.
@@ -566,6 +567,7 @@ This demonstration video will take you step by step through the lab process.
     {{{env(LS_ENDPOINT)}}} to hold the value of the endpoint of your database:
     : LS_ENDPOINT=$(pbpaste)
 
+    #+CINDEX:environment variables, Lightsail database
 58. Create an environment variable for the default user name (~dbmasteruser~)
     and the password (~taskstasks~):
     : LS_USERNAME=dbmasteruser
@@ -576,6 +578,7 @@ This demonstration video will take you step by step through the lab process.
     : echo "Username ="$LS_USERNAME
     : echo "Password ="$LS_PASSWORD
 
+    #+CINDEX:configuration file, Lightsail database
 60. Create a new configuration file that points to the Lightsail database:
 
     #+BEGIN_SRC sh
@@ -595,6 +598,7 @@ This demonstration video will take you step by step through the lab process.
 63. Verify:
     : cat /opt/bitnami/apache2/configs/config.php
 
+    #+CINDEX:install Lightsail database
 64. In a new browser tab run the ~install.php~ script to configure the
     database:
     : http://<IP-address>/install.php
@@ -603,6 +607,7 @@ This demonstration video will take you step by step through the lab process.
     : http://<IP-address>
     There should not be any tasks displayed.
 
+    #+CINDEX:migrate data to Lightsail database
     Migrate the data out of your local MySQL database and into the Lightsail
     database.  This is accomplished using two command line utilities:
     ~mysqldump~ and ~mysql~.  ~mysqldump~ extracts the content from the local
@@ -634,11 +639,16 @@ This demonstration video will take you step by step through the lab process.
 
 #+CINDEX:scalability, add
 #+CINDEX:fault tolerance, add
-#+CINDEX:instances, deploy additional
 Now that you have the front end and database separated, let's take a look at
-how we can add some scalability and fault tolerance to the web tier.  In this
-section, you will take a snapshot of the web front end, and deploy two
+how we can add some scalability and fault tolerance to the web tier.
+
+{{{subheading(Deploy Additional Web Tier Instances)}}}
+
+#+CINDEX:instances, deploy additional
+In this section, you will take a snapshot of the web front end, and deploy two
 additional web tier instances from that snapshot.
+
+{{{subheading(Add a Load Balancer)}}}
 
 #+CINDEX:load balancer, add
 #+CINDEX:web application, two-tier
@@ -650,7 +660,7 @@ version of a sample two-tier web application.
 After you complete this task, you will have a scaled-out and fault-tolerant
 version of a sample two-tier web application.
 
-{{{heading(Amazon Lightsail load balancers)}}}
+{{{heading(Amazon Lightsail Load Balancers)}}}
 
 - Simple version of Amazon Elastic Load Balancer (ELB)
 - Can be set up in a few clicks
@@ -659,7 +669,7 @@ version of a sample two-tier web application.
 - Balance traffic across ports 80 and 443
 
 
-{{{heading(Horizontal scaling with snapshots)}}}
+{{{heading(Horizontal Scaling with Snapshots)}}}
 
 - Create a copy of Amazon Lightsail instance's system disk includes instance
   configuration information (processing power, memory, data transfer, and disk
@@ -678,8 +688,77 @@ This demonstration video will take you step by step through the lab process.
 [[file:./videos/task_4-scale_PHP_front_end.mp4]]
 
 *** Scale the Front End
+#+CINDEX:snapshots, create
+Lightsail makes it straightforward to create snapshots of your instances with a
+single click.  These snapshots can be used to back up and restore instances,
+scale up instance sizes, and/or to deploy a new instance.
+
+67. [@67]Return to the Lightsail console home page.
+
+68. Next to ~PHP-fe-1~:
+    - Click the three dots;
+    - Click =Manage=
+
+69. From the horizontal menu, click =Snapshots=.
+
+70. Click =Create snapshot=.
+
+71. Wait for the process to complete before moving forward.  This can take up
+    to 5 minutes.
+
+    #+CINDEX:create new instances
+    #+CINDEX:new instances, create
+    #+CINDEX:instances, create new
+72. To the right of your snapshot:
+    - Click the three dots;
+    - Click =Create new instance=
+
+73. Scroll down to the =Identify your instance= section.
+
+74. Below =Identify your instance=:
+    - Enter ~PHP-fe-2~
+    - Click =Create instance=
+
+75. Repeat the previous three steps to create a third front-end instance using
+    your snapshot.  Name this new instance ~PHP-fe-3~.
+
+76. Test the public IP address of each of the two newly created front-end
+    instances in your web browser.  Notice that the hostname for that
+    particular web front-end instance is listed under your task list, and that
+    it changes based on which instance you visit in your web browser.
 
 *** Load-balance the Front End
+
+77. [@77]Return to the Lightsail console home page.
+
+78. From the horizontal menu click =Networking=, then click the three dots,
+    then select =Manage=.
+
+79. Under the =Target instances=
+    - Select ~PHP-fe-1~
+    - Click =Attach=
+
+80. Click =Attach another=
+
+81. Repeat these steps for ~PHP-fe-2~ and ~PHP-fe-3~.  Wait for them all to
+    pass their health checks before moving on.
+
+82. Scroll up to the top of the screen.
+
+    #+CINDEX:DNS name
+83. Copy your =DNS name=.
+
+    Your =DNS name= should look similar to
+    =82f80d8b8bf5f434083381be722632d2-1378146635.us-west-2.elb.amazonaws.com=.
+    This is the URL for your Lightsail load balancer.  Any requests to this URL
+    will be routed to one of your three front-end instances.
+
+84. Paste the string into the web browser, and the application should load.
+
+85. Reload the page.
+
+86. Notice how the hostname at the bottom of the screen changes.  This
+    indicates that traffic is being routed appropriately.
 
 ** Task 5---Migrating to Amazon Relational Database Service
 {{{heading(Lesson 9. What are You Going to Do?)}}}
