@@ -1,6 +1,6 @@
 # -*- mode:org; fill-column:79; -*-
 #+title:Amazon Lightsail: Deploying and Scaling Your First Cloud Application
-#+date:<2019-04-24 Wed 15:35>
+#+date:<2019-04-24 Wed 16:24>
 #+author:AWS Training
 * About the Course
 Amazon Lightsail is a cloud platform that's cost-effective, fast, and reliable
@@ -801,10 +801,200 @@ This demonstration video will take you step by step through the lab process.
 [[file:./videos/migrate.mp4]]
 
 *** Modify the RDS Security Group
+#+CINDEX:RDS Security Group, modify
+#+CINDEX:Lightsail VPC address range
+#+CINDEX:VPC, Lightsail address range
+#+CINDEX:address range for Lightsail VPC
+The first step in migrating the database component to Amazon RDS is to ensure
+that traffic coming from the Amazon Lightsail VPC is allowed to reach Amazon
+RDS. This step is done by adding the IP address range (=172.26.0.0/16=) of the
+Amazon Lightsail VPC to the existing Amazon RDS security group.
+
+#+CINDEX:RDS databases page
+87. [@87]Navigate to the [[https://console.aws.amazon.com/rds/home#databases:][Amazon RDS databases page]].
+
+88. From the list of databases, click ~task-db~.
+
+    #+CINDEX:VPC security group
+89. Under the =Connectivity= section, click your =VPC security group=.
+
+    Your VPC security group will look similar to /rds-launch-wizard
+    (sg-05fde746966bcff7d)/.
+
+90. Click the =Inbound= tab.
+
+    #+CINDEX:rules defining inbound traffic
+    This will allow you to access the rules that define what traffic is allowed
+    to reach the Amazon RDS database.
+
+91. Click =Edit=
+
+92. Click =Add rule= then configure:
+    - =Type:= /MYSQL/Aurora/
+    - =Source:= /Custom / =172.26.0.0/16=
+
+93. Click =Save=.
 
 *** Enable Virtual Private Cloud (VPC) Peering
+#+CINDEX:peering, VPC
+#+CINDEX:VPC peering
+The next step is to ensure that the Lightsail VPC can communicate with your
+default AWS VPC.  By default, services in AWS cannot access services that run
+in Amazon Lightsail (and vice versa).  However, this situation can be addressed
+by using a feature called VPC peering.  {{{dfn(VPC)}}} peering makes it
+possible for certain AWS services to communicate with Amazon Lightsail
+resources (in this case, the Amazon RDS database will communicate with the web
+front end, which runs on an Amazon Lightsail instance).
+
+94. [@94]Navigate to the Amazon Lightsail account settings page.
+
+95. From the horizontal menu, click =Advanced=.
+
+96. Scroll down to the =VPC peering= section.
+
+97. Next to the region that you deployed your Lightsail resources, select
+    =Enable VPC peering=.
 
 *** Reconﬁgure the Database Connection
+In this task, you will again update your application configuration file
+(~config.php~) to point to the Amazon RDS database.
+
+Because your current Lightsail instances all run under a load balancer, it
+would be unwise to reconfigure only some of them to point to the Amazon RDS
+database.  Doing so could result in a situation where the load balancer would
+present some front ends that connect to the Lightsail database, and other front
+ends that connect to the Amazon RDS database.
+
+To avoid this situation, you will deploy a new PHP front end instance based on
+your existing snapshot, and then modify that instance.
+
+98. [@98]Navigate to the Lightsail snapshots page.
+
+99. Next to ~PHP-fe-1~:
+    - Expand => Instance snapshot=
+    - Click the three dots
+    - Click =Create new instance=
+
+100. Name the instance ~php-fe-rds~.
+
+101. Scroll to the bottom of the screen and click =Create instance=.
+
+     Now that you have a new instance to work from, you can reconfigure the
+     configuration file to point to the Amazon RDS database.
+
+102. Connect to the ~php-fe-rds~ instance through SSH.
+
+103. Navigate to the Amazon RDS databases page.
+
+104. From the list of databases, click the name of the Amazon RDS database you
+     created earlier (the suggested name for this database was ~tasks-db~ to
+     access the database details screen.
+
+105. In the =Connectivity= section, copy your /Endpoint/.
+
+     - Your /Endpoint/ should look similar to
+       /tasks-db.cdih0wyzznav.us-west-2.rds.amazonaws.com/
+
+106. Return to the SSH session for the ~php-fe-rds~ instance.
+
+107. Create an environment variable ({{{env(RDS_ENDPOINT)}}}) to hold the value
+     of your RDS database endpoint by:
+     : RDS_ENDPOINT=<rds-endpoint>
+
+108. Set environment variables for the default user name (~dbmasteruser~) and
+     the password (~taskstasks~):
+     : RDS_USERNAME=dbmasteruser
+     : RDS_PASSWORD=taskstasks
+
+109. Verify the environment variables are set correctly:
+     : echo "Endpoint = "$RDS_ENDPOINT
+     : echo "Username = "$RDS_USERNAME
+     : echo "Password = "$RDS_PASSWORD
+
+110. Create a new configuration file that points to the Amazon RDS database:
+     #+BEGIN_SRC sh
+     cat /opt/bitnami/apache2/configs/config.php.bak | \
+         sed "s/<endpoint>/$RDS_ENDPOINT/; \
+         s/<username>/$RDS_USERNAME/; \
+         s/<password>/$RDS_PASSWORD/;" \
+         > /opt/bitnami/apache2/configs/config.php.rds_db
+     #+END_SRC
+
+111. Activate the new configuration by replacing the existing ~config.php~ with
+     the new version:
+     : cp /opt/bitnami/apache2/configs/config.php.rds_db /opt/bitnami/apache2/configs/config.php
+
+112. Verify the values of the new ~config.php~ file:
+     : cat /opt/bitnami/apache2/configs/config.php
+
+113. In a browser tap install the new database:
+     : http://PHP-FE-RDS/install.php
+
+     You should get the following error:
+     : SQLSTATE[HY000] [1049] Unknown database 'tasks'
+     This is because while you can reach the Amazon RDS server, the 'tasks'
+     database has not yet been created.
+
+114. In the final step, you will migrate the data from your Amazon Lightsail
+     database into your Amazon RDS database.
+
+     In the SSH window create an environment variable name
+     {{{env(LS_ENDPOINT)}}} to hold the value of the endpoint of your database.
+     : LS_ENDPOINT=<IP-address>
+
+     Your variable should look similar to:
+     : LS_ENDPOINT='ls-966d5bf6be8ee5178432a633398bf4256bfcab69.cucxkvhp11zu.us-west-2.rds.amazonaws.com'
+
+115. Set environment variables for the default user name (~dbmasteruser~) and
+     the password (~taskstasks~):
+     : LS_USERNAME=dbmasteruser
+     : LS_PASSWORD=taskstasks
+
+116. Check to make sure the environment variables are set correctly (the output
+     from the command below should match the values you just set for the LS
+     endpoint, the user name, and the password):
+     : echo "Endpoint = "$LS_ENDPOINT
+     : echo "username = "$LS_USERNAME
+     : echo "Password = "$RDS_PASSWORD
+
+117. Issue the following command to export the database file into a file
+     ~tasks.sql~:
+     #+BEGIN_SRC sh
+     mysqldump -u $LS_USERNAME \
+        --host $LS_ENDPOINT \
+        --databases tasks \
+        --single-transaction \
+        --compress \
+        --order-by-primary  \
+        --set-gtid-purged=OFF \
+        -p$LS_PASSWORD  > tasks.sql
+     #+END_SRC
+
+118. Access your RDS instance via the ~mysql~ command line tool:
+     #+BEGIN_SRC sh
+     mysql -u $RDS_username \
+       --port=3306 \
+       --host=$RDS_ENDPOINT \
+       -p$RDS_PASSWORD
+     #+END_SRC
+
+119. Import the previously created database dump file into MySQL:
+     : source tasks.sql
+
+120. In a browser tab:
+     : http://<IP-address>
+
+     You should see that the tasks you created originally are now present in
+     the database that is managed by Amazon RDS.
+
+     From this point, you could repeat the steps from Task 4 and create a new
+     snapshot from your ~php-fe-rds~ instance, deploy two new instances from
+     that new snapshot, and replace the existing instances in your load
+     balancer with your three new instances that use Amazon RDS.
+
+     This process would give you a redundant web front end that runs in Amazon
+     Lightsail, with the database running in Amazon RDS.  However, for this lab
+     you will not do that.
 
 ** Task 6---Upgrading to Amazon Elastic Cmpute Cloud
 {{{heading(Lesson 10. What are You Going to Do?)}}}
@@ -900,3 +1090,4 @@ have a better understanding of Amazon Lightsail and how it could benefit you.
 #+macro: cite @@texinfo:@cite{$1}@@
 #+macro: command @@texinfo:@command{$1}@@
 #+macro: env @@texinfo:@env{$1}@@
+#+macro: dfn @@texinfo:@dfn{$1}@@
