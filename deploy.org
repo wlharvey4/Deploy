@@ -1,7 +1,7 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploy!
 #+AUTHOR:Pinecone062
-#+DATE:<2019-04-23 Tue 16:06>
+#+DATE:<2019-04-24 Wed 09:38>
 #+SUBTITLE:A Hands-On Guide to the How and Why of Deploying Websites Using a Variety of Services @@html:<br>@@
 #+SUBTITLE:By {{{author}}} @@html:<br>@@
 #+SUBTITLE:/Last Updated {{{date(%c)}}}/
@@ -3590,9 +3590,13 @@ that has the same name as the domain.[fn:15]
 "Secure and resizable compute capacity in the cloud. Launch applications when
 needed without upfront commitments."
 
-Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides
-secure, resizable *compute capacity* in the cloud.  It is designed to make
-web-scale cloud computing easier for developers.
+Amazon Elastic Compute Cloud (Amazon EC2) provides *scalable computing
+capacity* in the /Amazon Web Services (AWS) cloud/.  Using Amazon EC2 eliminates
+your need to invest in hardware up front, so you can develop and deploy
+applications faster.  You can use Amazon EC2 to launch as many or as few virtual
+servers as you need, configure security and networking, and manage
+storage.  Amazon EC2 enables you to scale up or down to handle changes in
+requirements or spikes in popularity, reducing your need to forecast traffic.
 
 Just as Amazon Simple Storage Service (Amazon S3) enables storage in the cloud,
 Amazon EC2 enables “compute” in the cloud.
@@ -3608,18 +3612,22 @@ Amazon EC2 enables “compute” in the cloud.
 - Amazon EC2 changes the *economics of computing* by allowing you to pay only
   for capacity that you actually use.
 
-To sign up for Amazon EC2, click the “Sign up for This Web Service” button on
-the Amazon EC2 detail page.  You must have an Amazon Web Services account to
-access this service; if you do not already have one, you will be prompted to
-create one when you begin the Amazon EC2 sign-up process.  After signing up,
-please refer to the Amazon EC2 documentation, which includes our [[https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html][Getting
+*** Overview to Using EC2
+
+Sign up for Amazon Web Services first.  You must have an Amazon Web Services
+account to access this service; if you do not already have one, you will be
+prompted to create one when you begin the Amazon EC2 sign-up process
+
+Then open the Amazon EC2 console.  To sign up for Amazon EC2, click the “Sign
+up for This Web Service” button on the Amazon EC2 detail page.  After signing
+up, please refer to the Amazon EC2 documentation, which includes our [[https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html][Getting
 Started Guide]].
 
 Once you have set up your account and selected or created your AMIs, you are
 ready to boot your instance.  You can start your AMI on any number of On-Demand
 instances by using the =RunInstances= API call.  You simply need to indicate
 how many instances you wish to launch.  If Amazon EC2 is able to fulfill your
-request, RunInstances will return success, and we will start launching your
+request, =RunInstances= will return success, and we will start launching your
 instances.  You can check on the status of your instances using the
 =DescribeInstances= API call.  You can also programmatically terminate any
 number of your instances using the =TerminateInstances= API call.  If you
@@ -3645,7 +3653,7 @@ AWS Free Tier includes 750 hours of Linux and Windows =t2.micro= instances each
 month for one year.  To stay within the Free Tier, use only EC2 Micro
 instances.
 
-{{{heading(Benefits to Using EC2)}}}
+*** Benefits of EC2
 
 - Elasticity :: Amazon EC2 enables you to increase or decrease capacity within
                 minutes, not hours or days.  You can commission one, hundreds,
@@ -3776,6 +3784,42 @@ the requirements of your target workload.
 - Memory Optimized
 - Accelerated Computing
 - Storage Optimized
+
+*** EC2 Concepts
+
+- Instances :: Virtual computing environments
+
+- Amazon Machine Images (AMIs) :: Preconfigured templates for your instances
+     that package the bits you need for your server (including the operating
+     system and additional software)
+
+- Instance types :: Various configurations of CPU, memory, storage, and
+                    networking capacity for your instances
+
+- Key pairs :: Secure login information for your instances (AWS stores the
+               public key, and you store the private key in a secure place)
+
+- Instance store volumes :: Storage volumes for temporary data that's deleted
+     when you stop or terminate your instance
+
+- Amazon EBS volumes :: Persistent storage volumes for your data using Amazon
+     Elastic Block Store (Amazon EBS)
+
+- Regions and Availability Zones :: Multiple physical locations for your
+     resources, such as instances and Amazon EBS volumes
+
+- Security groups :: A firewall that enables you to specify the protocols,
+     ports, and source IP ranges that can reach your instances
+
+- Elastic IP addresses :: Static IPv4 addresses for dynamic cloud computing
+
+- Tags :: Metadata that you can create and assign to your Amazon EC2 resources
+
+- Virtual Private Clouds (VPCs) :: Virtual networks you can create that are
+     logically isolated from the rest of the AWS cloud, and that you can
+     optionally connect to your own network
+
+
 
 ** Dynamic Web Sites on AWS using Lightsail
 ** Single Page React Apps on AWS
