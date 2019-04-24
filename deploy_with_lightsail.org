@@ -1,6 +1,6 @@
 # -*- mode:org; fill-column:79; -*-
 #+title:Amazon Lightsail: Deploying and Scaling Your First Cloud Application
-#+date:<2019-04-24 Wed 12:47>
+#+date:<2019-04-24 Wed 13:45>
 #+author:AWS Training
 * About the Course
 Amazon Lightsail is a cloud platform that's cost-effective, fast, and reliable
@@ -411,11 +411,11 @@ database to an Amazon RDS database.
 #+CINDEX:Apache server
 #+CINDEX:database, MySQL
 #+CINDEX:PHP front end, connect to MySQL database
-Now, you will deploy a LAMP stack application into your previously launched
-Amazon Lightsail instance by copying in the application code and supplying the
-parameters to connect the PHP front end and the local MySQL database.  When you
-are ﬁnished, both the Apache / PHP front end and the MySQL database will be
-running on the same host.
+In this task you will deploy a LAMP stack application into your previously
+launched Amazon Lightsail instance by copying in the application code and
+supplying the parameters to connect the PHP front end and the local MySQL
+database.  When you are ﬁnished, both the Apache / PHP front end and the MySQL
+database will be running on the same host.
 
 #+attr_texinfo: :alt IMAGE: Monolithic Lightsail Application
 [[./img/mono-LAMP-app.png]]
@@ -425,6 +425,8 @@ This demonstration video will take you step by step through the lab process.
 [[file:./videos/task_2-deploy_LAMP_app.mp4]]
 
 *** Deploy a LAMP Stack Application
+#+CINDEX:deploy application code in Lightsail instance
+#+CINDEX:configure PHP application
 In this task, you will deploy the application code into your Lightsail
 instance, as well as configure the connection between the PHP application and
 the locally running MySQL database.
@@ -434,61 +436,88 @@ The following steps are performed from the LAMP instance command line by using
 either your own SSH client, or the web-based SSH access provided by Lightsail.
 #+end_quote
 
-1. Move into the Apache directory and remove the default web site installed by
-   Lightsail
-   : cd /opt/bitnami/apache2/htdocs
-   : rm -rf *
-   : ls
+#+CINDEX:SSH into LAMP instance
+39. [@39]SSH into the LAMP instance.
 
-2. Use the application ~wget~ to download the application code as a Zip file:
-   : wget https://s3-us-west-2.amazonaws.com/us-west-2-aws-training/awsu-spl/spl-220/scripts/todo.zip -O /tmp/todo.zip
+40. The LAMP Bitnami image has some default web pages installed, and you must
+    remove them so you can deploy the PHP application.  Move into the Apache
+    directory and remove the default web site installed by Lightsail
+    : cd /opt/bitnami/apache2/htdocs
+    : rm -rf *
 
-3. Unzip the file into the ~htdocs~ directory
-   : unzip /tmp/todo.zip
-   : ls
+41. Use the application ~wget~ to download the application code as a Zip file
+    and then unzip:
+    : wget https://s3-us-west-2.amazonaws.com/us-west-2-aws-training/awsu-spl/spl-220/scripts/todo.zip -O /tmp/todo.zip
+    : unzip /tmp/todo.zip
 
-4. This application uses a config file called ~config.php~ to configure how the
-   frontend talks to the database.  That file needs to live in the ~configs/~
-   directory.
-   : sudo mkdir /opt/bitnami/apache2/configs
-   Change the owner to =bitnami:bitnami=, which is the user and group that the
-   apache web server runs as, and it will then be able to read the configs
-   file:
-   : sudo chown bitnami:bitnami /opt/bitnami/apache2/configs
-   Copy the default ~config.php~ file into the ~configs/~ directory:
-   : sudo cp config.php ../configs
-   : ls ../configs
+42. This PHP application uses a config file called ~config.php~ to configure
+    how the frontend talks to the database (hostname, username, password).
+    That file needs to live in the ~configs/~ directory.  You need to create
+    this directory and set its owner to ~bitnami~, which is the user and group
+    that the Apache web server runs as, so that it will then be able to read
+    the ~configs/~ file:
+    : sudo mkdir /opt/bitnami/apache2/configs
+    : sudo chown bitnami:bitnami /opt/bitnami/apache2/configs
 
-5. Edit the file to connect to the database.
-   - Set some ENV variables to point to the user name, password and the host
-     for the database
-     : ENDPOINT=localhost && USERNAME=root && PASSWORD=$(cat /home/bitnami/bitname_application_password)
-     : echo "Endpoint = "$ENDPOINT && echo "Username = "$USERNAME && echo "Password = "$PASSWORD
-     The password comes from a given file ~/bitnami_application_password:
-     : cat ~/bitnami_application_password
-   - Make a backup of the ~config.php~ file
-     : cp /opt/bitnami/apache2/configs/config.php /opt/bitname/apache2/configs/config.php.bak
-   - The structure of the ~config.php~ has placeholders for the host, username,
-     and password.  Instead of editing the file directly, pipe it through a
-     ~sed~ command:
+    *As a best practice, never store sensitive information in the document root
+    of your web server. Ideally, in production, you would use a secrets
+    management solution, such as AWS Secrets Manager.*
+
+43. Copy the default ~config.php~ file into the ~configs/~ directory:
+    : sudo cp config.php ../configs
+    : ls ../configs
+
+44. Set environment variables to aid in editing the configuration file.  The
+    default password for the instance database is stored in a file in the
+    =home= directory (=/home/bitnami/bitnami_application_password=).
+      : ENDPOINT=localhost && \
+      : USERNAME=root && \
+      : PASSWORD=$(cat /home/bitnami/bitnami_application_password)
+
+45. Verify the environment variables:
+      : echo "Endpoint = "$ENDPOINT
+      : echo "Username = "$USERNAME
+      : echo "Password = "$PASSWORD
+
+46. Make a backup of the ~config.php~ file:
+      : cp /opt/bitnami/apache2/configs/config.php /opt/bitnami/apache2/configs/config.php.bak
+
+47. Create a new configuration file to work with the locally installed
+    database.  The command below uses {{{command(sed)}}} to go through the
+    configuration file and replace the placeholder values with the values of
+    the environment variables you set in the previous step. It writes these
+    values into a new file (~config.php.monolithic~).
 
 #+BEGIN_SRC sh
 cat /opt/bitnami/apache2/configs/config.php | \
-sed -i ".monolithic" "s/<endpoint>/$ENDPOINT/; \
-s/<username>/$USERNAME/;
-s/<password>/$PASSWORD/;" \
-
-ls /opt/bitnami/apache2/configs
-cat /opt/bitnami/apache2/configs/config.php
+sed -i ".monolithic" -e "s/<endpoint>/$ENDPOINT/; \
+s/<username>/$USERNAME/; \
+s/<password>/$PASSWORD/;"
 #+END_SRC
 
-6. [@6]Install the database using an ~install.php~ script
-   - Get the IP address of the Lightsail instance
-   - Navigate to that website in the browser
-     : <IP-address>/install.php
-   - The website will create a database
+48. [@48]Verify that the values are correct:
+    : cat /opt/bitnami/apache2/configs/config.php
 
-7. The database should be functional
+49. The ~config.php~ is now in production.
+
+50. After the configuration file is updated, the PHP application should connect
+    to the local database engine.
+
+51. Prepare the database by installing it using an ~install.php~ script.
+
+    In a real-world application, you would have defined processes on how to
+    prepare the database for production.  In the case of the demonstration
+    application, you need to run a PHP script.
+
+    - Get the IP address of the Lightsail instance
+    - Run the ~install.php~ script by navigating to that website in the browser
+      : http://<IP-address>/install.php
+    - The website will create a database
+
+52. Navigate to the running application:
+    : http://<IP-address>/
+
+53. Use the =Add Task= button to add a few tasks.
 
 ** Task 3---Connect to an Amazon Lightsail Database
 {{{heading(Lesson 7. What Are You Going to Do?)}}}
@@ -714,3 +743,4 @@ have a better understanding of Amazon Lightsail and how it could benefit you.
 #+macro: heading @@texinfo:@heading $1@@
 #+macro: subheading @@texinfo:@subheading $1@@
 #+macro: cite @@texinfo:@cite{$1}@@
+#+macro: command @@texinfo:@command{$1}@@
