@@ -1,6 +1,6 @@
 # -*- mode:org; fill-column:79; -*-
 #+title:Amazon Lightsail: Deploying and Scaling Your First Cloud Application
-#+date:<2019-04-24 Wed 16:24>
+#+date:<2019-04-24 Wed 16:48>
 #+author:AWS Training
 * About the Course
 Amazon Lightsail is a cloud platform that's cost-effective, fast, and reliable
@@ -1033,10 +1033,129 @@ This demonstration video will take you step by step through the lab process.
 [[file:./videos/task_6-upgrade_to_EC2.mp4]]
 
 *** Export the Lightsail Snapshot
+When you upgrade your Amazon Lightsail instance to an Amazon EC2 instance, the
+first step is to create a new snapshot and then export that snapshot to Amazon
+EC2.
+
+121. [@121]Return to the Lightsail console home page.
+
+122. Next to the ~php-fe-rds~ instance:
+     - Click the three dots;
+     - Click =Manage=
+
+123. From the horizontal menu, click =Snapshots=.
+
+124. Click the =Create snapshot=.
+
+125. Wait for the snapshot to finish being creating before moving on.
+
+126. To the right of the snapshot:
+     - Click the three dots;
+     - Click =Export to Amazon EC2=
+
+       #+CINDEX:Amazon Machine Image (AMI)
+       #+CINDEX:AMI
+       This will start an operation that will create a new Amazon machine image
+       (AMI) based on the Amazon Lightsail snapshot.  The new AMI will be
+       created in the same region as the existing Lightsail snapshot.
+
+127. At the first dialog, click =Yes, continue=.
+
+128. At the next dialog, click =Acknowledged=.
+
+129. At the top of the Amazon Lightsail homepage, a set of gears will start
+     spinning.  Click the gears to see the current status of the export
+     operation.
 
 *** Create an Amazon EC2 Instance
+When the gears stop spinning on the top of the Amazon Lightsail home page, you
+can continue to the final step of deploying the actual Amazon EC2 instance.
+
+130. [@130]Return to the Lightsail console home page.
+
+131. At the top of the page, click the gears and select =Open the Amazon EC2
+     console=.  This will launch the Amazon EC2 console to the AMI page, with
+     your newly created AMI selected.
+
+132. Click the =Launch= button.
+
+133. From the bottom of the next screen, click =Next: Configure Instance Details=
+
+134. Ensure the new instance is being created in the default VPC.
+
+135. Click =Next: Add Storage=
+
+136. Click =Next: Add Tags=
+
+137. The web front end needs to be accessible from the internet, so you need to
+     open incoming access for HTTP (port 80) in the security group.
+
+     Click =Next: Configure Security Group=
+
+138. Provide the values for the security group name and description.
+
+139. Click =Add Rule= then configure:
+     - =Type=: /HTTP/
+     - Click =Review and Launch=
+
+140. Click =Launch=
+
+141. On the key pair screen, you can either create a new key pair or use an
+     existing one.  You don't need to use SSH to access the instance for this
+     lab — so it doesn't matter which one you pick but - if you don't have an
+     existing key pair, you must create a new one.
+
+142. Select =I acknowledge that...=
+
+143. Click =Launch Instances=
+
+144. Click =View Instances=
+
+145. Copy the =IPv4 Public IP= address to your clipboard.
+
+146. Wait for the instances to display:
+     - =Instance Status:= /running/
+     - =Status Checks:= /2//2 checks passed/
 
 *** Update the Amazon RDS Security Group
+When you configure the new Amazon EC2 instance to access the Amazon RDS
+database, the final step is to add the instance security group to the Amazon
+RDS security group.  This process is very similar to what you did earlier when
+you added the Amazon Lightsail IP address range to the Amazon RDS security
+group.
+
+147. [@147]Go to the details page for the Amazon EC2 instance and ensure your
+     new instance is selected.
+
+148. Click the =Description= tab.
+
+149. Next to the =Security groups=, click your security group.
+
+150. Copy the =Group ID= to your clipboard.
+
+151. Navigate to the Amazon RDS databases page.
+
+152. From the list of databases, click the name of the Amazon RDS database you
+     created earlier to access the database details screen.
+
+153. Ensure the =Connectivity= tab is selected.
+
+154. In the =Connectivity= section, click the name of the security group for
+     your RDS database.
+
+155. Click the =Inbound= tab to access the rules that define which traffic is
+     allowed to reach the RDS database.
+
+156. Click =Edit=
+
+157. Click =Add Rule= then configure:
+     - =Type:= /MYSQL//Aurora/
+     - =CIDR, IP or Security Group:/ Paste in the value of the EC2 instance
+       security group you noted previously.
+     - Click =Save=
+
+158. Navigate to the IP address of your EC2 instance, and you should see the
+     todo application up and running.
 
 ** Task 7---Cleanup
 Although we clean up all resources when you use our lab platform, you would
