@@ -1,0 +1,716 @@
+# -*- mode:org; fill-column:79; -*-
+#+title:Amazon Lightsail: Deploying and Scaling Your First Cloud Application
+#+date:<2019-04-24 Wed 12:47>
+#+author:AWS Training
+* About the Course
+Amazon Lightsail is a cloud platform that's cost-effective, fast, and reliable
+with an easy-to-use interface.  It’s ideal for simpler workloads, quick
+deployments, and getting started on AWS.
+
+In this module, you will gain an understanding of
+
+- the benefits of Amazon Lightsail;
+
+- best practices for deploying your application onto Lightsail preconfigured
+  blueprints;
+
+- how to use snapshots and load balancers to scale applications; and
+
+- learn migration techniques when moving from Amazon Lightsail to other AWS
+  services.
+
+** Course Syllabus
+{{{heading(What is Amazon Lightsail)}}}
+- Amazon Lightsail
+- When to Choose Amazon Lightsail
+- Amazon Lightsail Console Overview
+
+
+{{{heading(Deploy And Scale A Lamp Application)}}}
+- Prerequisites and SSH
+- Task 1---Deploy the lab infrastructure
+- Task 2---Deploy a monolithic LAMP application
+- Task 3---Connect to an Amazon Lightsail database
+- Task 4---Scaling the PHP frontend
+- Task 5---Migrating to Amazon Relational Database Service
+- Task 6---Upgrading to Amazon Elastic Compute Cloud
+- Conclusion
+
+** Lab Overview
+#+CINDEX:scalable applications, deploy
+#+CINDEX:LAMP stack
+This lab demonstrates how to use Lightsail to easily deploy scalable
+applications in the cloud.  You will use the LAMP stack (Linux, Apache, MySql,
+PHP) as a demonstration, although Lightsail supports many other application
+stacks.
+
+This lab is intended to be used in conjunction with the [[https://www.aws.training/learningobject/wbc?id=30854][course]] {{{cite(Amazon
+Lightsail: Deploying and scaling your first cloud application)}}}.  For the
+best experience, at the end of each task, we recommend that you toggle between
+the lab and the course.
+
+** Topics Covered
+By the end of this lab, you will be able to:
+
+- Create the *infrastructure* you will use in the subsequent tasks
+
+- Deploy a *two-tier LAMP stack application* as a /monolith/ in a single
+  Lightsail instance
+
+- Re-architect the application by *separating the front end from the database*
+
+- *Scale and load balance* the web front end
+
+- Move your application to *other AWS services* by:
+  + Creating and using an *Amazon Relational Database Service (Amazon RDS)
+    database*
+  + Moving your front end to *Amazon Elastic Compute Cloud (Amazon EC2)*
+
+* What is Amazon Lightsail
+** Lesson 1---What is Amazon Lightsail
+{{{heading(Cloud Made Easy)}}}
+
+From hosting your website or web application to running software and
+development environments, Lightsail can do it all.
+
+{{{subheading(Scales to your Needs)}}}
+
+Amazon Lightsail is a great way to get started with AWS for developers, small
+businesses, students, and other users who need a cloud platform solution.
+
+{{{subheading(Cloud-based Services)}}}
+
+Developers can use the compute, storage, and networking features of Lightsail
+to deploy and manage websites or web applications in the cloud.
+
+{{{subheading(Everything you need)}}}
+
+Lightsail includes everything you need to launch your project quickly:
+- virtual machines,
+- solid state drive (SSD)-based storage,
+- load balancers, and
+- managed databases.
+
+
+{{{heading(What can I do with Lightsail?)}}}
+
+Common use cases for Lightsail include:
+- running websites,
+- web applications,
+- blogs,
+- e-commerce sites,
+- simple software,
+- and more.
+
+** Lesson 2---When to Choose Lightsail
+Amazon Lightsail is ideal for simpler workloads, quick deployments, and getting
+started on AWS.
+- Small-scale, multi-tier applications
+- Websites
+- Web applications
+- Testing environment
+- Line-of-business software
+
+
+{{{heading(Amazon Elastic Compute Cloud (Amazon EC2))}}}
+
+Amazon EC2 is designed for scalable deployments and optimizing your workloads.
+
+- Large, multi-tier applications (several dozens of instances)
+- Anything requiring instances that are workload-optimized, highly
+  configurable, or resource-intensive; e.g.
+  - big data analytics,
+  - high performance computing,
+  - scientific computing
+- Advanced networking
+
+** Lesson 3---Amazon Lightsail console overview
+Curious what Lightsail looks like on the inside?  In this video, Mike Coleman
+will demonstrate an overview of the Amazon Lightsail console.
+
+[[file:videos/lightsail_console.mp4]]
+
+* Deploy and Scale a Lamp Application
+** Prerequisites and SSH Instructions
+{{{heading(Lesson 4. What are we going to do?)}}}
+
+#+CINDEX:prerequisites
+To successfully complete this Amazon Lightsail lab, you should be familiar with
+basic navigation of the AWS Management Console and be comfortable editing
+scripts using a text editor.  You do not need a deep knowledge of PHP, SQL, or
+the LAMP stack, since we will provide you with the application code; but it is
+useful to have a general idea.
+
+{{{heading(Secure Shell (SSH))}}}
+
+#+CINDEX:Secure Shell (SSH)
+#+CINDEX:SSH
+SSH provides a secure channel over an unsecured network in a client–server
+architecture.  For users unfamiliar with SSH, the video below will walk you
+through the process of setting up SSH for your web application.
+
+This demonstration video will take you step by step through the prerequisites
+process for this lab.
+
+[[file:./videos/ssh_into_lightsail.mp4]]
+
+*** SSH Into a Lightsail Instance Using the Built-in Web-based Client
+#+CINDEX:web-based client
+#+CINDEX:client, web-based
+1. Open the web-based console: Click on the SSH icon on the instance icon
+
+2. Paste into console using the =Paste= icon and Right-click
+
+*** SSH Into a Lightsail Instance Using a Preferred Client
+1. Copy IP address from the instance icon
+
+2. Click on the instance name and scroll to =Connect using SSH=
+
+3. Instance name will be ``bitnami''
+
+4. Obtain the SSH key
+   - Account
+   - Account (under Account)
+   - SSH keys
+   - Download =Default key=
+   - Set permissions to =600=
+     : chmod 600 LightsailDefaultKey-us-west-2.pem
+
+5. SSH into the instance using the instance's IP address and the key
+     : ssh -i LightsailDefaultKey-us-west-2.pem bitnami@<IP-address>
+
+*** Take a Test Run
+This [[https://run.qwiklabs.com/catalog_lab/1602][link]] will take to you to a Lightsail environment where you can build the
+application yourself.  For the best experience, at the end of each task, we
+recommend that you toggle between the course and the lab.
+
+** Start the Lab
+SPL-220 Version 1.0.0
+
+1. At the top of your screen, launch your lab by clicking =Start Lab=.
+
+   If you are prompted for a token, use the one distributed to you (or credits
+   you have purchased).
+
+   A status bar shows the progress of the lab environment creation process. The
+   AWS Management Console is accessible during lab resource creation, but your
+   AWS resources may not be fully available until the process is complete.
+
+2. Open your lab by clicking =Open Console=.  This will automatically log you
+   into the AWS Management Console.  *Please do not change the Region unless
+   instructed*.
+
+
+{{{heading(Common login errors)}}}
+
+{{{subheading(Error : Federated login credentials)}}}
+
+If you see this message:
+- Close the browser tab to return to your initial lab window
+- Wait a few seconds
+- Click =Open Console= again
+- You should now be able to access the AWS Management Console.
+
+{{{subheading(Error: You must first log out)}}}
+
+If you see the message, *You must first log out before logging into a different
+AWS account:*
+- Click =Click here=
+- Close your browser tab to return to your initial Qwiklabs window
+- Click =Open console= again
+
+** Task 1---Deploy the Lab Infrastructure
+{{{heading(Lesson 5. What are You Going to Do?)}}}
+
+{{{subheading(Build and Deploy Infrastructure Components)}}}
+
+#+CINDEX:infrastructure components, deploy
+In this task, you'll deploy the infrastructure components that will be used in
+subsequent sections.
+
+1. Build the *LAMP instance*: A Lightsail instance based on the LAMP blueprint
+2. Deploy a *Amazon Lightsail database*
+3. Create a *Lightsail load balancer*
+4. Build an *Amazon Relational Database Service (Amazon RDS) instance*
+
+
+This demonstration video will take you step by step through the lab process.
+
+[[file:./videos/task_1-deploy_infrastructure.mp4]]
+
+*** Build the Lamp Instance
+#+CINDEX:LAMP stack instance, create
+The first step in deploying the sample application is creating a LAMP stack
+instance in Lightsail.
+
+3. [@3]In the *AWS Management Console*, on the =Services= menu, click
+   =Lightsail= to navigate to the Lightsail homepage.
+
+4. Choose =English= for language support.
+
+5. Click =Let's get started=
+
+6. Click =Create instance=
+
+7. Under =Instance Location=, make sure the region is the same as the region
+   that your lab was launched in.  Be sure to create all resources in the same
+   region.
+
+8. Under /Select a platform/, ensure *Linux / Unix* is selected.
+
+9. Scroll down to =Select a blueprint= and select the =LAMP (PHP 5)= blueprint
+
+10. Scroll to =Identify your instance=; then
+    - name your instance ~PHP-fe-1~
+    - Click =Create instance=
+
+11. Wait for the instance to show a state of /Running/.
+
+*** Connect to Your Lightsail Instance Using SSH
+
+#+CINDEX:SSH, connect to instance using
+There are two ways to access a Lightsail Linux instance:
+- use the browser-based SSH client;
+- use your own preferred SSH client
+
+
+12. [@12]Connect to your Lightsail instance using either method; if you use
+    your own preferred SSH client:
+    - you will need to download your SSH keys from Lightsail;
+    - you will need to know the user name and IP address for each instance;
+
+13. In the *AWS Management Console*, on the =Services= menu, click =Lightsail=
+
+**** Download Your SSH Key
+
+#+CINDEX:SSH key, download
+14. [@14]At the top right of the screen, click =Account=, then =Account= again.
+
+15. On the horizontal menu, select =SSH Keys=; there will be a list of
+    available keys.  Lightsail will create a default key for any Region in
+    which you have previously deployed an instance.
+
+16. Next to the Region your lab was launched in (``MyRegion''), click
+    =Download=.
+
+17. The key file will have the extension ~.pem~ and will be named
+    ~LightsailDefaultPrivateKey-Region.pem~ where Region is the Region from
+    which you downloaded the key.  Note that while default keys might share the
+    same name, they are unique for each Lightsail account.
+
+**** Obtain Your Instance IP Address
+
+#+CINDEX:IP address, instance
+18. [@18]At the top of the screen, click =Home=.  Your instance IP address is
+    located on your ~PHP-fe-1~ card.
+
+19. Copy the IP address and create an environment variable:
+    : IP=$(pbpaste)
+
+20. Change the key's file mode:
+    : chmod 600 ./ssh/LightsailDefaultPrivateKey-us-west-2.pem
+
+    Issue the SSH command to access the instance using the user name ~bitnami~
+    and the copied IP address:
+    : ssh -i ./ssh/LightsailDefaultPrivateKey-us-west-2.pem bitnami@$IP
+
+*** Deploy an Amazon Lightsail Database
+
+#+CINDEX:Lightsail database, deploy
+In this section, you will deploy a Lightsail database.  Lightsail databases are
+a managed database service that allow you to get away from the complexity of
+deploying and managing database software.  Lightsail manages the underlying
+infrastructure and database engine, and you only need to worry about creating
+and deploying the actual databases and tables that run inside the service.
+
+22. [@22]From the horizontal menu on the Lightsail console, click =Databases=.
+
+23. Click on =Create a database=.
+
+24. Leave the default value for the MySQL version.
+
+25. By default, Lightsail will create a strong password for you. However,
+    because this password can contain characters that make copying and pasting
+    difficult, you will specify a password for this lab.
+
+    Click =Specify login credentials=:
+    + Leave =User name= with its default;
+    + Deselect =Create strong password=; create a password of =taskstasks=.
+
+    #+CINDEX:high-availability
+26. One objective of this lab is to deploy a fault-tolerant and scalable
+    implementation of the web application, so we will use a high availability
+    database.  Select =High-availabilty= option.  Keep its default size.
+
+27. Scroll to the =Identify your database= section.
+
+28. Set =Identify your database= to =todo-db=.  Leave the master database name
+    with its default value.
+
+29. Click on =Create database=.
+
+*** Set up a Load Balancer
+#+CINDEX:load balancer, deploy
+#+CINDEX:HTTP HTTPS
+#+CINDEX:certificate, request free
+#+CINDEX:AWS Certificate Manage (ACM)
+In order to provide scalability and fault tolerance, you will deploy your web
+front end behind a Lightsail load balancer.  Lightsail load balancers handle
+both HTTP and HTTPS traffic on ports 80 and 443, respectively.  For HTTPS, you
+can request a free certificate from AWS Certificate Manager (ACM) --- however,
+configuring HTTPS connections is out of scope for this lab.
+
+30. [@30]From the horizontal menu, click on =Networking=.
+
+31. Click on =Create load balancer=; then configure:
+    - Set =Identify your load balancer= to =todo-lb=;
+    - Click on =Create load balancer=.
+
+
+Those are the Lightsail resources.  Later will migrate from the Lightsail
+database into an RDS database.
+
+*** Deploy an Amazon RDS Database
+#+CINDEX:Amazon Relational Database Service (RDS), deploy
+Finally, you will deploy an Amazon Relational Database Service (Amazon RDS)
+database.  Amazon RDS is a hosted database service that offers more advanced
+features than Lightsail databases (multiple database engines, more instances
+sizes, read replicas, etc).  As your application requirements change, you might
+find that you need to move from an Amazon Lightsail database to Amazon
+RDS.  Later in this lab, you will migrate your existing Amazon Lightsail
+database to an Amazon RDS database.
+
+32. [@32]Navigate to the [[https://console.aws.amazon.com/rds/home#GettingStarted:][Amazon RDS getting started page]].
+
+33. Click on =Create database=;
+    - Select the =MySQL= engine
+    - Check the Free Tier options checkbox at the bottom
+    - Click =Next=
+
+34. Select the same engine as for Lightsail, =5.7.23=
+
+35. Scroll to the bottom of the screen.
+
+36. Configure =Settings= (need to match those for the Lightsail database):
+    - =DB instance identifier=:  =todo-rds=
+    - =Master username=: =dbmasteruser=
+    - =Password=: =taskstasks= 
+
+37. Make sure the RDS database is running in the default VPC.  Turn off =Public
+    accessibility=.  Disable =Delete protection=.
+
+38. Click =Create database=.
+
+** Task 2---Deploy a Monolithic LAMP Application
+{{{heading(Lesson 6. What Are You Going To Do?)}}}
+
+#+CINDEX:LAMP stack application, deploy
+#+CINDEX:deploy LAMP stack
+#+CINDEX:PHP
+#+CINDEX:MySQL
+#+CINDEX:Apache server
+#+CINDEX:database, MySQL
+#+CINDEX:PHP front end, connect to MySQL database
+Now, you will deploy a LAMP stack application into your previously launched
+Amazon Lightsail instance by copying in the application code and supplying the
+parameters to connect the PHP front end and the local MySQL database.  When you
+are ﬁnished, both the Apache / PHP front end and the MySQL database will be
+running on the same host.
+
+#+attr_texinfo: :alt IMAGE: Monolithic Lightsail Application
+[[./img/mono-LAMP-app.png]]
+
+This demonstration video will take you step by step through the lab process.
+
+[[file:./videos/task_2-deploy_LAMP_app.mp4]]
+
+*** Deploy a LAMP Stack Application
+In this task, you will deploy the application code into your Lightsail
+instance, as well as configure the connection between the PHP application and
+the locally running MySQL database.
+
+#+begin_quote
+The following steps are performed from the LAMP instance command line by using
+either your own SSH client, or the web-based SSH access provided by Lightsail.
+#+end_quote
+
+1. Move into the Apache directory and remove the default web site installed by
+   Lightsail
+   : cd /opt/bitnami/apache2/htdocs
+   : rm -rf *
+   : ls
+
+2. Use the application ~wget~ to download the application code as a Zip file:
+   : wget https://s3-us-west-2.amazonaws.com/us-west-2-aws-training/awsu-spl/spl-220/scripts/todo.zip -O /tmp/todo.zip
+
+3. Unzip the file into the ~htdocs~ directory
+   : unzip /tmp/todo.zip
+   : ls
+
+4. This application uses a config file called ~config.php~ to configure how the
+   frontend talks to the database.  That file needs to live in the ~configs/~
+   directory.
+   : sudo mkdir /opt/bitnami/apache2/configs
+   Change the owner to =bitnami:bitnami=, which is the user and group that the
+   apache web server runs as, and it will then be able to read the configs
+   file:
+   : sudo chown bitnami:bitnami /opt/bitnami/apache2/configs
+   Copy the default ~config.php~ file into the ~configs/~ directory:
+   : sudo cp config.php ../configs
+   : ls ../configs
+
+5. Edit the file to connect to the database.
+   - Set some ENV variables to point to the user name, password and the host
+     for the database
+     : ENDPOINT=localhost && USERNAME=root && PASSWORD=$(cat /home/bitnami/bitname_application_password)
+     : echo "Endpoint = "$ENDPOINT && echo "Username = "$USERNAME && echo "Password = "$PASSWORD
+     The password comes from a given file ~/bitnami_application_password:
+     : cat ~/bitnami_application_password
+   - Make a backup of the ~config.php~ file
+     : cp /opt/bitnami/apache2/configs/config.php /opt/bitname/apache2/configs/config.php.bak
+   - The structure of the ~config.php~ has placeholders for the host, username,
+     and password.  Instead of editing the file directly, pipe it through a
+     ~sed~ command:
+
+#+BEGIN_SRC sh
+cat /opt/bitnami/apache2/configs/config.php | \
+sed -i ".monolithic" "s/<endpoint>/$ENDPOINT/; \
+s/<username>/$USERNAME/;
+s/<password>/$PASSWORD/;" \
+
+ls /opt/bitnami/apache2/configs
+cat /opt/bitnami/apache2/configs/config.php
+#+END_SRC
+
+6. [@6]Install the database using an ~install.php~ script
+   - Get the IP address of the Lightsail instance
+   - Navigate to that website in the browser
+     : <IP-address>/install.php
+   - The website will create a database
+
+7. The database should be functional
+
+** Task 3---Connect to an Amazon Lightsail Database
+{{{heading(Lesson 7. What Are You Going to Do?)}}}
+
+#+CINDEX:scalable, front end not
+The ﬁrst iteration of the application's web front end is not inherently
+scalable because the database and front end are located on the same machine.
+It would be problematic to add additional database instances whenever
+additional front-end capacity was needed.
+
+#+CINDEX:separate front end, database
+#+CINDEX:Lightsail database, point PHP front end to
+To ﬁx this issue, the front end and database need to be separated.  In this
+task, you will adjust the conﬁguration for the PHP front end to point to the
+previously deployed Lightsail database.
+
+{{{heading(Lightsail databases)}}}
+
+- MySQL databases that are easy to create and manage
+- Standard and high availability options
+- Four instances sizes to choose from
+- Public and private access
+- Automated backups
+- Fully managed solution--no need to manage or patch underlying system
+
+
+#+attr_texinfo: :alt IMAGE: LAMP Application with Lightsail DB
+[[./img/LAMP-lightsail-db.png]]
+
+This demonstration video will take you step by step through the lab process.
+
+[[file:./videos/task_3-connect_to_Lightsail_db.mp4]]
+
+*** Reconfigure the front end to point at the new Lightsail database
+
+** Task 4---Scaling the PHP Front End
+{{{heading(Lesson 8. What are You Going to Do?)}}}
+
+#+CINDEX:scalability, add
+#+CINDEX:fault tolerance, add
+#+CINDEX:instances, deploy additional
+Now that you have the front end and database separated, let's take a look at
+how we can add some scalability and fault tolerance to the web tier.  In this
+section, you will take a snapshot of the web front end, and deploy two
+additional web tier instances from that snapshot.
+
+#+CINDEX:load balancer, add
+#+CINDEX:web application, two-tier
+#+CINDEX:two-tier web application
+Finally, you will add a load balancer in front of the three web instances.
+When this task is complete, you will have a scaled-out and fault-tolerant
+version of a sample two-tier web application.
+
+After you complete this task, you will have a scaled-out and fault-tolerant
+version of a sample two-tier web application.
+
+{{{heading(Amazon Lightsail load balancers)}}}
+
+- Simple version of Amazon Elastic Load Balancer (ELB)
+- Can be set up in a few clicks
+- Have easy Secure Sockets Layer (SSL) certificates
+- Handle HTTP or HTTPS traffic
+- Balance traffic across ports 80 and 443
+
+
+{{{heading(Horizontal scaling with snapshots)}}}
+
+- Create a copy of Amazon Lightsail instance's system disk includes instance
+  configuration information (processing power, memory, data transfer, and disk
+  size)
+- Deploy a new identical instance or scale an instance to a larger size (cannot
+  scale down)
+- Allow for Lightsail instances to be exported to Amazon Elastic Compute Cloud
+  (Amazon EC2)
+
+
+#+attr_texinfo: :alt IMAGE: Scaled LAMP Application
+[[./img/scaled-LAMP.png]]
+
+This demonstration video will take you step by step through the lab process.
+
+[[file:./videos/task_4-scale_PHP_front_end.mp4]]
+
+*** Scale the Front End
+
+*** Load-balance the Front End
+
+** Task 5---Migrating to Amazon Relational Database Service
+{{{heading(Lesson 9. What are You Going to Do?)}}}
+
+#+CINDEX:AWS services, move or migrate into other
+#+CINDEX:migrate into other AWS services
+#+CINDEX:Amazon RDS database
+At some point, your application needs might require features not found in
+Amazon Lightsail.  Fortunately, it is straightforward to move one or all of the
+parts of your application into other AWS services.
+
+In this task, you will migrate the database component from Amazon Lightsail
+over to the Amazon Relational Database Service (Amazon RDS).
+
+To migrate the database, you will need to:
+- Add the IP address range (Classless Inter-Domain Routing, or CIDR, range) of
+  the Amazon Lightsail VPC to your Amazon RDS security group
+- Enable VPC peering in Amazon Lightsail
+- Migrate your data from your Amazon Lightsail database to your Amazon RDS
+  database
+
+
+This process will leave you with an architecture where the front end runs on an
+Amazon Lightsail instance, but the database is now managed by Amazon RDS.
+
+{{{heading(Amazon RDS)}}}
+
+- Relational database service in the cloud
+- Resizable capacity
+- Administrative tasks are automated
+- Fast performance
+- High availability
+
+
+#+attr_texinfo: :alt IMAGE: Scaled LAMP App with RDS DB
+[[./img/LAMP-RDS.png]]
+
+This demonstration video will take you step by step through the lab process.
+
+[[file:./videos/migrate.mp4]]
+
+*** Modify the RDS Security Group
+
+*** Enable Virtual Private Cloud (VPC) Peering
+
+*** Reconﬁgure the Database Connection
+
+** Task 6---Upgrading to Amazon Elastic Cmpute Cloud
+{{{heading(Lesson 10. What are You Going to Do?)}}}
+
+#+CINDEX:upgrade Lightsail instance to EC2 instance
+#+CINDEX:Elastic Compute Cloud EC2
+In the previous section, you worked through how to migrate an Amazon Lightsail
+database to Amazon Relational Database Service (Amazon RDS).  In this ﬁnal lab,
+you will upgrade your Amazon Lightsail instance to Amazon Elastic Compute Cloud
+(Amazon EC2).
+
+To perform this upgrade you will:
+- Create a snapshot of your web front-end instance that uses Amazon RDS
+- Export that snapshot to Amazon EC2
+- Create a new Amazon EC2 instance from the exported snapshot
+- Update the Amazon RDS security group to include the security group for your
+  Amazon EC2 instance
+
+
+After you complete this task, the application can take advantage of the full
+set of features that are offered by other AWS services, such as Amazon EC2 and
+Amazon RDS.
+
+{{{heading(Amazon EC2)}}}
+
+- Offers secure, resizable compute capacity in the cloud
+- Can quickly scale capacity
+- Reduces the time required to obtain and boot new server instances
+
+
+#+attr_texinfo: :alt IMAGE: LAMP Stack on EC2 with RDS DB
+[[./img/LAMP-EC2-RDS.png]]
+
+This demonstration video will take you step by step through the lab process.
+
+[[file:./videos/task_6-upgrade_to_EC2.mp4]]
+
+*** Export the Lightsail Snapshot
+
+*** Create an Amazon EC2 Instance
+
+*** Update the Amazon RDS Security Group
+
+** Task 7---Cleanup
+Although we clean up all resources when you use our lab platform, you would
+incur additional charges if you create these resources in your personal account
+and do not delete them. To clean up these resources, follow these steps.
+
+** Conclusion
+Congratulations! You now have successfully:
+
+- Created the infrastructure used in all the tasks
+
+- Deployed a two-tier LAMP stack application as a monolith in a single
+  Lightsail instance
+
+- Rearchitected the application by separating the front end from the database
+
+- Scaled and load-balanced the web front end
+
+- Moved your application to other AWS services by:
+
+  + Creating and using an Amazon RDS database
+
+  + Moving your front end to Amazon EC2
+
+
+Follow these steps to close the console, end your lab, and evaluate the
+experience.
+
+Thank you for participating in this Amazon Lightsail lab exercise.  We hope you
+have a better understanding of Amazon Lightsail and how it could benefit you.
+
+* Concept Index
+:PROPERTIES:
+:index:    cp
+:unnumbered: t
+:END:
+* Export Settings                                                  :noexport:
+#+TEXINFO_FILENAME:deploy_with_lightsail.info
+#+TEXINFO_CLASS: info
+#+TEXINFO_HEADER:
+#+TEXINFO_POST_HEADER:
+#+SUBTITLE:AWS Certification and Training
+#+SUBAUTHOR:
+#+TEXINFO_DIR_CATEGORY:WebDev
+#+TEXINFO_DIR_TITLE:Amazon Lightsail
+#+TEXINFO_DIR_DESC:Deploying a cloud application on Amazon using Lightsail
+#+TEXINFO_PRINTED_TITLE:Amazon Lightsail: Deploying and scaling your first cloud application
+* Macro Definitions                                                :noexport:
+#+macro: heading @@texinfo:@heading $1@@
+#+macro: subheading @@texinfo:@subheading $1@@
+#+macro: cite @@texinfo:@cite{$1}@@
