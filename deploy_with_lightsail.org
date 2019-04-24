@@ -1,6 +1,6 @@
 # -*- mode:org; fill-column:79; -*-
 #+title:Amazon Lightsail: Deploying and Scaling Your First Cloud Application
-#+date:<2019-04-24 Wed 13:45>
+#+date:<2019-04-24 Wed 15:15>
 #+author:AWS Training
 * About the Course
 Amazon Lightsail is a cloud platform that's cost-effective, fast, and reliable
@@ -553,6 +553,82 @@ This demonstration video will take you step by step through the lab process.
 
 *** Reconfigure the front end to point at the new Lightsail database
 
+54. [@54]From the horizontal menu in the Lightsail console home page, click
+    =Databases=.
+
+55. Click ~todo-db~.
+
+56. Under the =Connections details=, copy the =Endpoint=; it will look
+    something like:
+    : ls-966d5bf6be8ee5178432a633398bf4256bfcab69.cucxkvhp11zu.us-west-2.rds.amazonaws.com
+
+57. In the SSH-window, create an environment variable named
+    {{{env(LS_ENDPOINT)}}} to hold the value of the endpoint of your database:
+    : LS_ENDPOINT=$(pbpaste)
+
+58. Create an environment variable for the default user name (~dbmasteruser~)
+    and the password (~taskstasks~):
+    : LS_USERNAME=dbmasteruser
+    : LS_PASSWORD=taskstasks
+
+59. Verify the environment variables are set correctly:
+    : echo "Endpoint ="$LS_ENDPOINT
+    : echo "Username ="$LS_USERNAME
+    : echo "Password ="$LS_PASSWORD
+
+60. Create a new configuration file that points to the Lightsail database:
+
+    #+BEGIN_SRC sh
+    cat /opt/bitnami/apache2/configs/config.php.bak | \
+    sed "s/<endpoint>/$LS_ENDPOINT/; \
+    s/<username>/$LS_USERNAME/;
+    s/<password>/$LS_PASSWORD/;" \
+    >> /opt/bitnami/apache2/configs/config.php.lightsail_db
+    #+END_SRC
+
+61. Verify that the file was modified properly:
+    : cat /opt/bitnami/apache2/configs/config.php.lightsail_db
+
+62. Activate the new configuration
+    : cp /opt/bitnami/apache2/configs/config.php.lightsail_db /opt/bitnami/apache2/configs/config.php
+
+63. Verify:
+    : cat /opt/bitnami/apache2/configs/config.php
+
+64. In a new browser tab run the ~install.php~ script to configure the
+    database:
+    : http://<IP-address>/install.php
+
+65. Test the new database:
+    : http://<IP-address>
+    There should not be any tasks displayed.
+
+    Migrate the data out of your local MySQL database and into the Lightsail
+    database.  This is accomplished using two command line utilities:
+    ~mysqldump~ and ~mysql~.  ~mysqldump~ extracts the content from the local
+    database and pipes it into ~mysql~, which loads the input into the
+    Lightsail database.
+
+    #+BEGIN_SRC sh
+    mysqldump -u root \
+      --databases tasks \
+      --single-transaction \
+      --compress \
+      --order-by-primary  \
+      -p$(cat /home/bitnami/bitnami_application_password) \
+      | mysql -u $LS_USERNAME \
+      --port=3306 \
+      --host=$LS_ENDPOINT \
+      -p$LS_PASSWORD
+    #+END_SRC
+
+    You will see two warnings regarding supplying a password via the command
+    line. These warnings can safely be ignored, but note that, in production,
+    you shouldn't supply passwords via the command line, especially in scripts.
+
+66. Refresh the web page, and you should see that the tasks you originally
+    created are now present in the database that's managed by Lightsail.
+
 ** Task 4---Scaling the PHP Front End
 {{{heading(Lesson 8. What are You Going to Do?)}}}
 
@@ -744,3 +820,4 @@ have a better understanding of Amazon Lightsail and how it could benefit you.
 #+macro: subheading @@texinfo:@subheading $1@@
 #+macro: cite @@texinfo:@cite{$1}@@
 #+macro: command @@texinfo:@command{$1}@@
+#+macro: env @@texinfo:@env{$1}@@
