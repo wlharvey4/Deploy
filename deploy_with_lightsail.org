@@ -1,6 +1,6 @@
 # -*- mode:org; fill-column:79; -*-
 #+title:Amazon Lightsail: Deploying and Scaling Your First Cloud Application
-#+date:<2019-04-24 Wed 19:45>
+#+date:<2019-04-24 Wed 20:25>
 #+author:AWS Training
 * About the Course
 Amazon Lightsail is a cloud platform that's cost-effective, fast, and reliable
@@ -132,7 +132,7 @@ will demonstrate an overview of the Amazon Lightsail console.
 
 [[file:videos/lightsail_console.mp4]]
 
-* Deploy and Scale a Lamp Application
+* Deploy and Scale a LAMP Application
 ** Prerequisites and SSH Instructions
 {{{heading(Lesson 4. What are we going to do?)}}}
 
@@ -236,14 +236,18 @@ subsequent sections.
 4. Build an *Amazon Relational Database Service (Amazon RDS) instance*
 
 
-This demonstration video will take you step by step through the lab process.
+{{{subheading(Demonstration Video)}}}
 
+#+begin_cartouche
+The demonstration video 
 #+texinfo:@ifnothtml
 [[file:videos/task_1-deploy_infrastructure.mp4][Deploy Infrastructure]]
 #+texinfo:@end ifnothtml
 #+texinfo:@ifhtml
 [[https://content.aws.training/wbt/dydesl-1/en/m1/1.0.0/assets/TVUL_6CHVMwTpnji_transcoded-3hPzrTMrT9GaRJVw-lab-1-creating-infrastructure-v-3-np.mp4][Deploy Infrastructure]]
 #+texinfo:@end ifhtml
+will take you step by step through the lab process.
+#+End_cartouche
 
 *** Build the Lamp Instance
 #+CINDEX:LAMP stack instance, create
@@ -434,14 +438,18 @@ database will be running on the same host.
 [[../img/mono-LAMP-app-50.png]]
 #+texinfo:@end ifhtml
 
-This demonstration video will take you step by step through the lab process.
+{{{subheading(Demonstration Video)}}}
 
+#+begin_cartouche
+The demonstration video 
 #+texinfo:@ifnothtml
 [[file:videos/task_2-deploy_LAMP_app.mp4][Deploy a Monolithic LAMP App]]
 #+texinfo:@end ifnothtml
 #+texinfo:@ifhtml
 [[https://content.aws.training/wbt/dydesl-1/en/m1/1.0.0/assets/Gs3DclDRQoqTuCVs_transcoded-tFql-N5n17l90CqN-lab-2-deploy-monolithic-application-v-3.mp4][Deploy a Monolithic LAMP App]]
 #+texinfo:@end ifhtml
+will take you step by step through the lab process.
+#+end_cartouche
 
 *** Deploy a LAMP Stack Application
 #+CINDEX:deploy application code in Lightsail instance
@@ -572,14 +580,18 @@ previously deployed Lightsail database.
 [[../img/LAMP-lightsail-db-50.png]]
 #+texinfo:@end ifhtml
 
-This demonstration video will take you step by step through the lab process.
+{{{subheading(Demonstration Video)}}}
 
+#+begin_cartouche
+The demonstration video 
 #+texinfo:@ifnothtml
 [[file:videos/task_3-connect_to_Lightsail_db.mp4][Connect to a Lightsail DB]]
 #+texinfo:@end ifnothtml
 #+texinfo:@ifhtml
 [[https://content.aws.training/wbt/dydesl-1/en/m1/1.0.0/assets/VtutClkqwt6dYQv8_transcoded-tThAnzz93m6t1YLV-lab-3-configure-lightsail-database.mp4][Connect to a Lightsail DB]]
 #+texinfo:@end ifhtml
+will take you step by step through the lab process.
+#+end_cartouche
 
 *** Reconfigure the front end to point at the new Lightsail database
 
@@ -717,14 +729,18 @@ version of a sample two-tier web application.
 [[../img/scaled-LAMP-50.png]]
 #+texinfo:@end ifhtml
 
-This demonstration video will take you step by step through the lab process.
+{{{subheading(Demonstration Video)}}}
 
+#+begin_cartouche
+The demonstration video 
 #+texinfo:@ifnothtml
 [[file:videos/task_4-scale_PHP_front_end.mp4][Scaling the PHP Front End]]
 #+texinfo:@end ifnothtml
 #+texinfo:@ifhtml
 [[https://content.aws.training/wbt/dydesl-1/en/m1/1.0.0/assets/Vjuth8SgMnLbYZRP_transcoded-PLk0AhKBTaQVSmSZ-lab-4-scaling-the-front-end.mp4][Scaling the PHP Front End]]
 #+texinfo:@end ifhtml
+will take you step by step through the lab process.
+#+end_cartouche
 
 *** Scale the Front End
 #+CINDEX:snapshots, create
@@ -840,14 +856,18 @@ Amazon Lightsail instance, but the database is now managed by Amazon RDS.
 [[../img/LAMP-RDS-50.png]]
 #+texinfo:@end ifhtml
 
-This demonstration video will take you step by step through the lab process.
+{{{subheading(Demonstration Video)}}}
 
+#+begin_cartouche
+The demonstration video 
 #+texinfo:@ifnothtml
 [[file:videos/migrate.mp4][Migrate to a Relational DB]]
 #+texinfo:@end ifnothtml
 #+texinfo:@ifhtml
 [[https://content.aws.training/wbt/dydesl-1/en/m1/1.0.0/assets/O3hzXVCP6amUD7Ut_transcoded-ZFDO0aztC-Dim-gP-lab-5-migrate-to-rds-v-3-np.mp4][Migrate to a Relational DB]]
 #+texinfo:@end ifhtml
+will take you step by step through the lab process.
+#+end_cartouche
 
 *** Modify the RDS Security Group
 #+CINDEX:RDS Security Group, modify
@@ -1082,14 +1102,18 @@ Amazon RDS.
 [[../img/LAMP-EC2-RDS-50.png]]
 #+texinfo:@end ifhtml
 
-This demonstration video will take you step by step through the lab process.
+{{{subheading(Demonstration Video)}}}
 
+#+begin_cartouche
+The demonstration video 
 #+texinfo:@ifnothtml
 [[file:videos/task_6-upgrade_to_EC2.mp4][Upgrade to an EC2 Instance]]
 #+texinfo:@end ifnothtml
 #+texinfo:@ifhtml
 [[https://content.aws.training/wbt/dydesl-1/en/m1/1.0.0/assets/SoaHZeUzC-cfHmgg_transcoded-UJi2bwWFqF9GLOEF-lab-6-export-to-ec-2-v-2.mp4][Upgrade to an EC2 Instance]]
 #+texinfo:@end ifhtml
+will take you step by step through the lab process.
+#+end_cartouche
 
 *** Export the Lightsail Snapshot
 When you upgrade your Amazon Lightsail instance to an Amazon EC2 instance, the

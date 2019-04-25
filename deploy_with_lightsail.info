@@ -16,7 +16,7 @@ Amazon Lightsail: Deploying and Scaling Your First Cloud Application
 
 * About the Course::
 * What is Amazon Lightsail::
-* Deploy and Scale a Lamp Application::
+* Deploy and Scale a LAMP Application::
 * Concept Index::
 
 — The Detailed Node Listing —
@@ -33,7 +33,7 @@ What is Amazon Lightsail
 * Lesson 2---When to Choose Lightsail::
 * Lesson 3---Amazon Lightsail console overview::
 
-Deploy and Scale a Lamp Application
+Deploy and Scale a LAMP Application
 
 * Prerequisites and SSH Instructions::
 * Start the Lab::
@@ -187,7 +187,7 @@ By the end of this lab, you will be able to:
           EC2)*
 
 
-File: deploy_with_lightsail.info,  Node: What is Amazon Lightsail,  Next: Deploy and Scale a Lamp Application,  Prev: About the Course,  Up: Top
+File: deploy_with_lightsail.info,  Node: What is Amazon Lightsail,  Next: Deploy and Scale a LAMP Application,  Prev: About the Course,  Up: Top
 
 2 What is Amazon Lightsail
 **************************
@@ -284,9 +284,9 @@ Coleman will demonstrate an overview of the Amazon Lightsail console.
    <videos/lightsail_console.mp4>
 
 
-File: deploy_with_lightsail.info,  Node: Deploy and Scale a Lamp Application,  Next: Concept Index,  Prev: What is Amazon Lightsail,  Up: Top
+File: deploy_with_lightsail.info,  Node: Deploy and Scale a LAMP Application,  Next: Concept Index,  Prev: What is Amazon Lightsail,  Up: Top
 
-3 Deploy and Scale a Lamp Application
+3 Deploy and Scale a LAMP Application
 *************************************
 
 * Menu:
@@ -303,7 +303,7 @@ File: deploy_with_lightsail.info,  Node: Deploy and Scale a Lamp Application,  N
 * Conclusion::
 
 
-File: deploy_with_lightsail.info,  Node: Prerequisites and SSH Instructions,  Next: Start the Lab,  Up: Deploy and Scale a Lamp Application
+File: deploy_with_lightsail.info,  Node: Prerequisites and SSH Instructions,  Next: Start the Lab,  Up: Deploy and Scale a LAMP Application
 
 3.1 Prerequisites and SSH Instructions
 ======================================
@@ -382,7 +382,7 @@ For the best experience, at the end of each task, we recommend that you
 toggle between the course and the lab.
 
 
-File: deploy_with_lightsail.info,  Node: Start the Lab,  Next: Task 1---Deploy the Lab Infrastructure,  Prev: Prerequisites and SSH Instructions,  Up: Deploy and Scale a Lamp Application
+File: deploy_with_lightsail.info,  Node: Start the Lab,  Next: Task 1---Deploy the Lab Infrastructure,  Prev: Prerequisites and SSH Instructions,  Up: Deploy and Scale a LAMP Application
 
 3.2 Start the Lab
 =================
@@ -425,7 +425,7 @@ different AWS account:*
    • Click ‘Open console’ again
 
 
-File: deploy_with_lightsail.info,  Node: Task 1---Deploy the Lab Infrastructure,  Next: Task 2---Deploy a Monolithic LAMP Application,  Prev: Start the Lab,  Up: Deploy and Scale a Lamp Application
+File: deploy_with_lightsail.info,  Node: Task 1---Deploy the Lab Infrastructure,  Next: Task 2---Deploy a Monolithic LAMP Application,  Prev: Start the Lab,  Up: Deploy and Scale a LAMP Application
 
 3.3 Task 1—Deploy the Lab Infrastructure
 ========================================
@@ -445,10 +445,12 @@ used in subsequent sections.
   3. Create a *Lightsail load balancer*
   4. Build an *Amazon Relational Database Service (Amazon RDS) instance*
 
-   This demonstration video will take you step by step through the lab
-process.
+Demonstration Video
+-------------------
 
-   Deploy Infrastructure (videos/task_1-deploy_infrastructure.mp4)
+The demonstration video Deploy Infrastructure
+(videos/task_1-deploy_infrastructure.mp4) will take you step by step
+through the lab process.
 
 * Menu:
 
@@ -646,7 +648,7 @@ your existing Amazon Lightsail database to an Amazon RDS database.
   7. Click ‘Create database’.
 
 
-File: deploy_with_lightsail.info,  Node: Task 2---Deploy a Monolithic LAMP Application,  Next: Task 3---Connect to an Amazon Lightsail Database,  Prev: Task 1---Deploy the Lab Infrastructure,  Up: Deploy and Scale a Lamp Application
+File: deploy_with_lightsail.info,  Node: Task 2---Deploy a Monolithic LAMP Application,  Next: Task 3---Connect to an Amazon Lightsail Database,  Prev: Task 1---Deploy the Lab Infrastructure,  Up: Deploy and Scale a LAMP Application
 
 3.4 Task 2—Deploy a Monolithic LAMP Application
 ===============================================
@@ -663,10 +665,12 @@ host.
 
  [image src="img/mono-LAMP-app-50.png" ]
 
-   This demonstration video will take you step by step through the lab
-process.
+Demonstration Video
+-------------------
 
-   Deploy a Monolithic LAMP App (videos/task_2-deploy_LAMP_app.mp4)
+The demonstration video Deploy a Monolithic LAMP App
+(videos/task_2-deploy_LAMP_app.mp4) will take you step by step through
+the lab process.
 
 * Menu:
 
@@ -772,7 +776,7 @@ application and the locally running MySQL database.
   6. Use the ‘Add Task’ button to add a few tasks.
 
 
-File: deploy_with_lightsail.info,  Node: Task 3---Connect to an Amazon Lightsail Database,  Next: Task 4---Scaling the PHP Front End,  Prev: Task 2---Deploy a Monolithic LAMP Application,  Up: Deploy and Scale a Lamp Application
+File: deploy_with_lightsail.info,  Node: Task 3---Connect to an Amazon Lightsail Database,  Next: Task 4---Scaling the PHP Front End,  Prev: Task 2---Deploy a Monolithic LAMP Application,  Up: Deploy and Scale a LAMP Application
 
 3.5 Task 3—Connect to an Amazon Lightsail Database
 ==================================================
@@ -801,10 +805,12 @@ Lightsail databases
 
  [image src="img/LAMP-lightsail-db-50.png" ]
 
-   This demonstration video will take you step by step through the lab
-process.
+Demonstration Video
+-------------------
 
-   Connect to a Lightsail DB (videos/task_3-connect_to_Lightsail_db.mp4)
+The demonstration video Connect to a Lightsail DB
+(videos/task_3-connect_to_Lightsail_db.mp4) will take you step by step
+through the lab process.
 
 * Menu:
 
@@ -892,7 +898,7 @@ File: deploy_with_lightsail.info,  Node: Reconfigure the front end to point at t
      by Lightsail.
 
 
-File: deploy_with_lightsail.info,  Node: Task 4---Scaling the PHP Front End,  Next: Task 5---Migrating to Amazon Relational Database Service,  Prev: Task 3---Connect to an Amazon Lightsail Database,  Up: Deploy and Scale a Lamp Application
+File: deploy_with_lightsail.info,  Node: Task 4---Scaling the PHP Front End,  Next: Task 5---Migrating to Amazon Relational Database Service,  Prev: Task 3---Connect to an Amazon Lightsail Database,  Up: Deploy and Scale a LAMP Application
 
 3.6 Task 4—Scaling the PHP Front End
 ====================================
@@ -942,10 +948,12 @@ Horizontal Scaling with Snapshots
 
  [image src="img/scaled-LAMP-50.png" ]
 
-   This demonstration video will take you step by step through the lab
-process.
+Demonstration Video
+-------------------
 
-   Scaling the PHP Front End (videos/task_4-scale_PHP_front_end.mp4)
+The demonstration video Scaling the PHP Front End
+(videos/task_4-scale_PHP_front_end.mp4) will take you step by step
+through the lab process.
 
 * Menu:
 
@@ -1032,7 +1040,7 @@ File: deploy_with_lightsail.info,  Node: Load-balance the Front End,  Prev: Scal
      indicates that traffic is being routed appropriately.
 
 
-File: deploy_with_lightsail.info,  Node: Task 5---Migrating to Amazon Relational Database Service,  Next: Task 6---Upgrading to Amazon Elastic Cmpute Cloud,  Prev: Task 4---Scaling the PHP Front End,  Up: Deploy and Scale a Lamp Application
+File: deploy_with_lightsail.info,  Node: Task 5---Migrating to Amazon Relational Database Service,  Next: Task 6---Upgrading to Amazon Elastic Cmpute Cloud,  Prev: Task 4---Scaling the PHP Front End,  Up: Deploy and Scale a LAMP Application
 
 3.7 Task 5—Migrating to Amazon Relational Database Service
 ==========================================================
@@ -1070,10 +1078,11 @@ Amazon RDS
 
  [image src="img/LAMP-RDS-50.png" ]
 
-   This demonstration video will take you step by step through the lab
-process.
+Demonstration Video
+-------------------
 
-   Migrate to a Relational DB (videos/migrate.mp4)
+The demonstration video Migrate to a Relational DB (videos/migrate.mp4)
+will take you step by step through the lab process.
 
 * Menu:
 
@@ -1284,7 +1293,7 @@ based on your existing snapshot, and then modify that instance.
      for this lab you will not do that.
 
 
-File: deploy_with_lightsail.info,  Node: Task 6---Upgrading to Amazon Elastic Cmpute Cloud,  Next: Task 7---Cleanup,  Prev: Task 5---Migrating to Amazon Relational Database Service,  Up: Deploy and Scale a Lamp Application
+File: deploy_with_lightsail.info,  Node: Task 6---Upgrading to Amazon Elastic Cmpute Cloud,  Next: Task 7---Cleanup,  Prev: Task 5---Migrating to Amazon Relational Database Service,  Up: Deploy and Scale a LAMP Application
 
 3.8 Task 6—Upgrading to Amazon Elastic Cmpute Cloud
 ===================================================
@@ -1318,10 +1327,12 @@ Amazon EC2
 
  [image src="img/LAMP-EC2-RDS-50.png" ]
 
-   This demonstration video will take you step by step through the lab
-process.
+Demonstration Video
+-------------------
 
-   Upgrade to an EC2 Instance (videos/task_6-upgrade_to_EC2.mp4)
+The demonstration video Upgrade to an EC2 Instance
+(videos/task_6-upgrade_to_EC2.mp4) will take you step by step through
+the lab process.
 
 * Menu:
 
@@ -1473,7 +1484,7 @@ Amazon RDS security group.
      see the todo application up and running.
 
 
-File: deploy_with_lightsail.info,  Node: Task 7---Cleanup,  Next: Conclusion,  Prev: Task 6---Upgrading to Amazon Elastic Cmpute Cloud,  Up: Deploy and Scale a Lamp Application
+File: deploy_with_lightsail.info,  Node: Task 7---Cleanup,  Next: Conclusion,  Prev: Task 6---Upgrading to Amazon Elastic Cmpute Cloud,  Up: Deploy and Scale a LAMP Application
 
 3.9 Task 7—Cleanup
 ==================
@@ -1511,7 +1522,7 @@ follow these steps.
      security groups.
 
 
-File: deploy_with_lightsail.info,  Node: Conclusion,  Prev: Task 7---Cleanup,  Up: Deploy and Scale a Lamp Application
+File: deploy_with_lightsail.info,  Node: Conclusion,  Prev: Task 7---Cleanup,  Up: Deploy and Scale a LAMP Application
 
 3.10 Conclusion
 ===============
@@ -1561,7 +1572,7 @@ We hope you have a better understanding of Amazon Lightsail and how it
 could benefit you.
 
 
-File: deploy_with_lightsail.info,  Node: Concept Index,  Prev: Deploy and Scale a Lamp Application,  Up: Top
+File: deploy_with_lightsail.info,  Node: Concept Index,  Prev: Deploy and Scale a LAMP Application,  Up: Top
 
 Concept Index
 *************
@@ -1704,37 +1715,37 @@ Node: What is Amazon Lightsail5383
 Node: Lesson 1---What is Amazon Lightsail5725
 Node: Lesson 2---When to Choose Lightsail6964
 Node: Lesson 3---Amazon Lightsail console overview7977
-Node: Deploy and Scale a Lamp Application8414
+Node: Deploy and Scale a LAMP Application8414
 Node: Prerequisites and SSH Instructions9039
 Node: SSH Into a Lightsail Instance Using the Built-in Web-based Client10234
 Node: SSH Into a Lightsail Instance Using a Preferred Client10743
 Node: Take a Test Run11649
 Node: Start the Lab12114
 Node: Task 1---Deploy the Lab Infrastructure13613
-Node: Build the Lamp Instance14741
-Node: Connect to Your Lightsail Instance Using SSH15856
-Node: Deploy an Amazon Lightsail Database18046
-Node: Set up a Load Balancer19771
-Node: Deploy an Amazon RDS Database20742
-Node: Task 2---Deploy a Monolithic LAMP Application22264
-Node: Deploy a LAMP Stack Application23258
-Node: Task 3---Connect to an Amazon Lightsail Database27447
-Node: Reconfigure the front end to point at the new Lightsail database28930
-Node: Task 4---Scaling the PHP Front End32159
-Node: Scale the Front End34282
-Node: Load-balance the Front End35762
-Node: Task 5---Migrating to Amazon Relational Database Service36991
-Node: Modify the RDS Security Group38767
-Node: Enable Virtual Private Cloud (VPC) Peering40015
-Node: Reconﬁgure the Database Connection41129
-Node: Task 6---Upgrading to Amazon Elastic Cmpute Cloud46947
-Node: Export the Lightsail Snapshot48621
-Node: Create an Amazon EC2 Instance49979
-Node: Update the Amazon RDS Security Group51964
-Node: Task 7---Cleanup53650
-Node: Conclusion55014
-Node: End Lab55696
-Node: Concept Index56240
+Node: Build the Lamp Instance14774
+Node: Connect to Your Lightsail Instance Using SSH15889
+Node: Deploy an Amazon Lightsail Database18079
+Node: Set up a Load Balancer19804
+Node: Deploy an Amazon RDS Database20775
+Node: Task 2---Deploy a Monolithic LAMP Application22297
+Node: Deploy a LAMP Stack Application23324
+Node: Task 3---Connect to an Amazon Lightsail Database27513
+Node: Reconfigure the front end to point at the new Lightsail database29029
+Node: Task 4---Scaling the PHP Front End32258
+Node: Scale the Front End34414
+Node: Load-balance the Front End35894
+Node: Task 5---Migrating to Amazon Relational Database Service37123
+Node: Modify the RDS Security Group38932
+Node: Enable Virtual Private Cloud (VPC) Peering40180
+Node: Reconﬁgure the Database Connection41294
+Node: Task 6---Upgrading to Amazon Elastic Cmpute Cloud47112
+Node: Export the Lightsail Snapshot48819
+Node: Create an Amazon EC2 Instance50177
+Node: Update the Amazon RDS Security Group52162
+Node: Task 7---Cleanup53848
+Node: Conclusion55212
+Node: End Lab55894
+Node: Concept Index56438
 
 End Tag Table
 
