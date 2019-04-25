@@ -1,6 +1,6 @@
 # -*- mode:org; fill-column:79; -*-
 #+title:Amazon Lightsail: Deploying and Scaling Your First Cloud Application
-#+date:<2019-04-24 Wed 17:00>
+#+date:<2019-04-24 Wed 17:45>
 #+author:AWS Training
 * About the Course
 Amazon Lightsail is a cloud platform that's cost-effective, fast, and reliable
@@ -416,11 +416,18 @@ database to an Amazon RDS database.
 In this task you will deploy a LAMP stack application into your previously
 launched Amazon Lightsail instance by copying in the application code and
 supplying the parameters to connect the PHP front end and the local MySQL
-database.  When you are ﬁnished, both the Apache / PHP front end and the MySQL
+database.  When you are ﬁnished, both the Apache/PHP front end and the MySQL
 database will be running on the same host.
 
 #+attr_texinfo: :alt IMAGE: Monolithic Lightsail Application
-[[./img/mono-LAMP-app.png]]
+#+caption:Monolithic
+#+name:monolithic
+#+texinfo:@ifnothtml
+[[file:img/mono-LAMP-app.png]]
+#+texinfo:@end ifnothtml
+#+texinfo:@ifhtml
+[[../img/mono-LAMP-app.png]]
+#+texinfo:@end ifhtml
 
 This demonstration video will take you step by step through the lab process.
 
@@ -548,7 +555,12 @@ previously deployed Lightsail database.
 
 
 #+attr_texinfo: :alt IMAGE: LAMP Application with Lightsail DB
-[[./img/LAMP-lightsail-db.png]]
+#+texinfo:@ifnothtml
+[[file:img/LAMP-lightsail-db.png]]
+#+texinfo:@end ifnothtml
+#+texinfo:@ifhtml
+[[../img/LAMP-lightsail-db.png]]
+#+texinfo:@end ifhtml
 
 This demonstration video will take you step by step through the lab process.
 
@@ -683,7 +695,12 @@ version of a sample two-tier web application.
 
 
 #+attr_texinfo: :alt IMAGE: Scaled LAMP Application
-[[./img/scaled-LAMP.png]]
+#+texinfo:@ifnothtml
+[[file:img/scaled-LAMP.png]]
+#+texinfo:@end ifnothtml
+#+texinfo:@ifhtml
+[[../img/scaled-LAMP.png]]
+#+texinfo:@end ifhtml
 
 This demonstration video will take you step by step through the lab process.
 
@@ -796,7 +813,12 @@ Amazon Lightsail instance, but the database is now managed by Amazon RDS.
 
 
 #+attr_texinfo: :alt IMAGE: Scaled LAMP App with RDS DB
-[[./img/LAMP-RDS.png]]
+#+texinfo:@ifnothtml
+[[file:img/LAMP-RDS.png]]
+#+texinfo:@end ifnothtml
+#+texinfo:@ifhtml
+[[../img/LAMP-RDS.png]]
+#+texinfo:@end ifhtml
 
 This demonstration video will take you step by step through the lab process.
 
@@ -1028,7 +1050,12 @@ Amazon RDS.
 
 
 #+attr_texinfo: :alt IMAGE: LAMP Stack on EC2 with RDS DB
-[[./img/LAMP-EC2-RDS.png]]
+#+texinfo:@ifnothtml
+[[file:img/LAMP-EC2-RDS.png]]
+#+texinfo:@end ifnothtml
+#+texinfo:@ifhtml
+[[../img/LAMP-EC2-RDS.png]]
+#+texinfo:@end ifhtml
 
 This demonstration video will take you step by step through the lab process.
 
