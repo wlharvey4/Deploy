@@ -1,7 +1,7 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploy!
 #+AUTHOR:Pinecone062
-#+DATE:<2019-04-24 Wed 19:12>
+#+DATE:<2019-04-24 Wed 22:00>
 #+SUBTITLE:A Hands-On Guide to the How and Why of Deploying Websites Using a Variety of Services @@html:<br>@@
 #+SUBTITLE:By {{{author}}} @@html:<br>@@
 #+SUBTITLE:/Last Updated {{{date(%c)}}}/
@@ -10,10 +10,10 @@
 At its most fundamental, to deploy a web site on the Internet, one needs to
 meet four conditions:
 
-- a network (the "Internet")
-- source content comprised of HTML, CSS, and JavaScript (the "Web Site")
-- access to a server connected to the Internet via an IP Address
-- a way to place the web site content on the server
+- a "website" of HTML, CSS, and JavaScript;
+- the "Internet", i.e., a global network of interconnected devices;
+- a "node" on the "Internet", i.e., a server with an IP address;
+- a way to load the "website" onto the "node";
 
 
 Given those four conditions, other Internet users can access the content via a
@@ -24,7 +24,7 @@ displays the content according to the instructions given by the HTML, CSS, and
 JavaScript.
 
 The first condition is all about web development, a huge topic all to itself.
-The second condition is about networking, also a hugh topic unto itself.  This
+The second condition is about networking, also a huge topic unto itself.  This
 guide is devoted to exploring the third and fourth conditions---getting content
 on a server connected to the Internet so others can access it.
 
@@ -120,9 +120,9 @@ generated domain name if you wish.  If you do not, then your content will be
 accessible via the generated name only.  While this might be fine in some
 cases, the generated name is for all intends and purposes random and without
 meaning, and therefore not memorable or even easily usable, by general browsers
-of the Internet.  For example, here is the generated domain name for this web
-site hosted by AWS:
-: https://s3-us-west-2.amazonaws.com/pine-central.com/deploy.html
+of the Internet.  For example, here is the generated domain name for a
+hypothetical web site hosted by AWS with a basic bucket named "examplebucket":
+: http://examplebucket.s3-website-us-west-2.amazonaws.com/
 
 ** The Doman Name System
 DNS, or the Domain Name System, is a system that translates human readable
