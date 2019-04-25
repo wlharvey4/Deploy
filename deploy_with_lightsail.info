@@ -448,7 +448,7 @@ used in subsequent sections.
    This demonstration video will take you step by step through the lab
 process.
 
-   <./videos/task_1-deploy_infrastructure.mp4>
+   Deploy Infrastructure (videos/task_1-deploy_infrastructure.mp4)
 
 * Menu:
 
@@ -666,7 +666,7 @@ host.
    This demonstration video will take you step by step through the lab
 process.
 
-   <./videos/task_2-deploy_LAMP_app.mp4>
+   Deploy a Monolithic LAMP App (videos/task_2-deploy_LAMP_app.mp4)
 
 * Menu:
 
@@ -804,7 +804,7 @@ Lightsail databases
    This demonstration video will take you step by step through the lab
 process.
 
-   <./videos/task_3-connect_to_Lightsail_db.mp4>
+   Connect to a Lightsail DB (videos/task_3-connect_to_Lightsail_db.mp4)
 
 * Menu:
 
@@ -945,7 +945,7 @@ Horizontal Scaling with Snapshots
    This demonstration video will take you step by step through the lab
 process.
 
-   <./videos/task_4-scale_PHP_front_end.mp4>
+   Scaling the PHP Front End (videos/task_4-scale_PHP_front_end.mp4)
 
 * Menu:
 
@@ -1073,7 +1073,7 @@ Amazon RDS
    This demonstration video will take you step by step through the lab
 process.
 
-   <./videos/migrate.mp4>
+   Migrate to a Relational DB (videos/migrate.mp4)
 
 * Menu:
 
@@ -1321,7 +1321,7 @@ Amazon EC2
    This demonstration video will take you step by step through the lab
 process.
 
-   <./videos/task_6-upgrade_to_EC2.mp4>
+   Upgrade to an EC2 Instance (videos/task_6-upgrade_to_EC2.mp4)
 
 * Menu:
 
@@ -1711,30 +1711,30 @@ Node: SSH Into a Lightsail Instance Using a Preferred Client10743
 Node: Take a Test Run11649
 Node: Start the Lab12114
 Node: Task 1---Deploy the Lab Infrastructure13613
-Node: Build the Lamp Instance14721
-Node: Connect to Your Lightsail Instance Using SSH15836
-Node: Deploy an Amazon Lightsail Database18026
-Node: Set up a Load Balancer19751
-Node: Deploy an Amazon RDS Database20722
-Node: Task 2---Deploy a Monolithic LAMP Application22244
-Node: Deploy a LAMP Stack Application23211
-Node: Task 3---Connect to an Amazon Lightsail Database27400
-Node: Reconfigure the front end to point at the new Lightsail database28859
-Node: Task 4---Scaling the PHP Front End32088
-Node: Scale the Front End34187
-Node: Load-balance the Front End35667
-Node: Task 5---Migrating to Amazon Relational Database Service36896
-Node: Modify the RDS Security Group38647
-Node: Enable Virtual Private Cloud (VPC) Peering39895
-Node: Reconﬁgure the Database Connection41009
-Node: Task 6---Upgrading to Amazon Elastic Cmpute Cloud46827
-Node: Export the Lightsail Snapshot48476
-Node: Create an Amazon EC2 Instance49834
-Node: Update the Amazon RDS Security Group51819
-Node: Task 7---Cleanup53505
-Node: Conclusion54869
-Node: End Lab55551
-Node: Concept Index56095
+Node: Build the Lamp Instance14741
+Node: Connect to Your Lightsail Instance Using SSH15856
+Node: Deploy an Amazon Lightsail Database18046
+Node: Set up a Load Balancer19771
+Node: Deploy an Amazon RDS Database20742
+Node: Task 2---Deploy a Monolithic LAMP Application22264
+Node: Deploy a LAMP Stack Application23258
+Node: Task 3---Connect to an Amazon Lightsail Database27447
+Node: Reconfigure the front end to point at the new Lightsail database28930
+Node: Task 4---Scaling the PHP Front End32159
+Node: Scale the Front End34282
+Node: Load-balance the Front End35762
+Node: Task 5---Migrating to Amazon Relational Database Service36991
+Node: Modify the RDS Security Group38767
+Node: Enable Virtual Private Cloud (VPC) Peering40015
+Node: Reconﬁgure the Database Connection41129
+Node: Task 6---Upgrading to Amazon Elastic Cmpute Cloud46947
+Node: Export the Lightsail Snapshot48621
+Node: Create an Amazon EC2 Instance49979
+Node: Update the Amazon RDS Security Group51964
+Node: Task 7---Cleanup53650
+Node: Conclusion55014
+Node: End Lab55696
+Node: Concept Index56240
 
 End Tag Table
 
