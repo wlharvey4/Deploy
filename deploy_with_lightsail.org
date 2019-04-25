@@ -1,6 +1,6 @@
 # -*- mode:org; fill-column:79; -*-
 #+title:Amazon Lightsail: Deploying and Scaling Your First Cloud Application
-#+date:<2019-04-24 Wed 17:45>
+#+date:<2019-04-24 Wed 18:00>
 #+author:AWS Training
 * About the Course
 Amazon Lightsail is a cloud platform that's cost-effective, fast, and reliable
@@ -423,10 +423,10 @@ database will be running on the same host.
 #+caption:Monolithic
 #+name:monolithic
 #+texinfo:@ifnothtml
-[[file:img/mono-LAMP-app.png]]
+[[file:img/mono-LAMP-app-50.png]]
 #+texinfo:@end ifnothtml
 #+texinfo:@ifhtml
-[[../img/mono-LAMP-app.png]]
+[[../img/mono-LAMP-app-50.png]]
 #+texinfo:@end ifhtml
 
 This demonstration video will take you step by step through the lab process.
@@ -556,10 +556,10 @@ previously deployed Lightsail database.
 
 #+attr_texinfo: :alt IMAGE: LAMP Application with Lightsail DB
 #+texinfo:@ifnothtml
-[[file:img/LAMP-lightsail-db.png]]
+[[file:img/LAMP-lightsail-db-50.png]]
 #+texinfo:@end ifnothtml
 #+texinfo:@ifhtml
-[[../img/LAMP-lightsail-db.png]]
+[[../img/LAMP-lightsail-db-50.png]]
 #+texinfo:@end ifhtml
 
 This demonstration video will take you step by step through the lab process.
@@ -696,10 +696,10 @@ version of a sample two-tier web application.
 
 #+attr_texinfo: :alt IMAGE: Scaled LAMP Application
 #+texinfo:@ifnothtml
-[[file:img/scaled-LAMP.png]]
+[[file:img/scaled-LAMP-50.png]]
 #+texinfo:@end ifnothtml
 #+texinfo:@ifhtml
-[[../img/scaled-LAMP.png]]
+[[../img/scaled-LAMP-50.png]]
 #+texinfo:@end ifhtml
 
 This demonstration video will take you step by step through the lab process.
@@ -814,10 +814,10 @@ Amazon Lightsail instance, but the database is now managed by Amazon RDS.
 
 #+attr_texinfo: :alt IMAGE: Scaled LAMP App with RDS DB
 #+texinfo:@ifnothtml
-[[file:img/LAMP-RDS.png]]
+[[file:img/LAMP-RDS-50.png]]
 #+texinfo:@end ifnothtml
 #+texinfo:@ifhtml
-[[../img/LAMP-RDS.png]]
+[[../img/LAMP-RDS-50.png]]
 #+texinfo:@end ifhtml
 
 This demonstration video will take you step by step through the lab process.
@@ -1051,10 +1051,10 @@ Amazon RDS.
 
 #+attr_texinfo: :alt IMAGE: LAMP Stack on EC2 with RDS DB
 #+texinfo:@ifnothtml
-[[file:img/LAMP-EC2-RDS.png]]
+[[file:img/LAMP-EC2-RDS-50.png]]
 #+texinfo:@end ifnothtml
 #+texinfo:@ifhtml
-[[../img/LAMP-EC2-RDS.png]]
+[[../img/LAMP-EC2-RDS-50.png]]
 #+texinfo:@end ifhtml
 
 This demonstration video will take you step by step through the lab process.
