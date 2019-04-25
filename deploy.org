@@ -1,7 +1,7 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploy!
 #+AUTHOR:Pinecone062
-#+DATE:<2019-04-24 Wed 22:48>
+#+DATE:<2019-04-25 Thu 14:52>
 #+SUBTITLE:A Hands-On Guide to the How and Why of Deploying Websites Using a Variety of Services @@html:<br>@@
 #+SUBTITLE:By {{{author}}} @@html:<br>@@
 #+SUBTITLE:/Last Updated {{{date(%c)}}}/
@@ -375,11 +375,13 @@ that universe, in particular to those areas touching upon:
 
 The basic services involved will be:
 
-- Account Management
+  - [[https://aws.amazon.com/iam/][Identity and Account Management]] (IAM)
 - [[https://aws.amazon.com/route53/][Route 53]] (for domain name registration and domain name services)
 - [[https://aws.amazon.com/s3/][Simple Storage Service (S3)]] (for hosting static content and single page apps)
 - [[https://aws.amazon.com/ec2/][Elastic Cloud Compute (EC2)]] (for hosting dynamic content and databases)
-- [[https://aws.amazon.com/lightsail/][Amazon Lightsail]] (for hosting dynamic content efficiently and cheaply)
+  - [[https://aws.amazon.com/lightsail/][Amazon Lightsail]] (for hosting dynamic content efficiently and cheaply)
+  - [[https://aws.amazon.com/cloudfront/][CloudFront]] (for https domain name functionality)
+  - [[https://aws.amazon.com/certificate-manager/][Certificate Manager]] (for https certificates)
 
 ** AWS Accounts
 You sign up for accss to Amazon Web Services to obtain a *root account* and
@@ -2811,6 +2813,289 @@ To delete a bucket:
 2. In the =Delete bucket= dialog box, type the name of the bucket for delete
    confirmation and then choose =Confirm=.
 
+** CloudFront
+"Amazon CloudFront speeds up distribution of your static and dynamic web
+content, such as .html, .css, .php, image, and media files. When users request
+your content, CloudFront delivers it through a worldwide network of edge
+locations that provide low latency and high performance."
+
+Amazon CloudFront is a fast content delivery network (CDN) service that
+securely delivers data, videos, applications, and APIs to customers globally
+with low latency, high transfer speeds, all within a developer-friendly
+environment.
+
+When a user requests content that you're serving with CloudFront, the user is
+routed to the edge location that provides the lowest latency (time delay), so
+that content is delivered with the best possible performance.
+
+- If the content is already in the edge location with the lowest latency,
+  CloudFront delivers it immediately.
+
+- If the content is not in that edge location, CloudFront retrieves it from an
+  origin that you've defined—such as an Amazon S3 bucket, a MediaPackage
+  channel, or an HTTP server (for example, a web server) that you have
+  identified as the source for the definitive version of your content.
+
+*** Accelerate Static Website Content Delivery
+CloudFront can speed up the delivery of your static content (for example,
+images, style sheets, JavaScript, and so on) to viewers across the globe. By
+using CloudFront, you can take advantage of the AWS backbone network and
+CloudFront edge servers to give your viewers a fast, safe, and reliable
+experience when they visit your website.
+
+A simple approach for storing and delivering static content is to use an Amazon
+S3 bucket. Using S3 together with CloudFront has a number of advantages,
+including the option to use Origin Access Identity (OAI) to easily restrict
+access to your S3 content.
+
+*** Encrypt Specific Fields Throughout System Processing
+When you configure HTTPS with CloudFront, you already have secure end-to-end
+connections to origin servers. When you add field-level encryption, you can
+protect specific data throughout system processing in addition to HTTPS
+security, so that only certain applications at your origin can see the data.
+
+To set up field-level encryption, you add a public key to CloudFront, and then
+specify the set of fields that you want to be encrypted with the key.
+
+*** CloudFront Pricing
+Amazon CloudFront is designed so you don't have to pay any up-front fees or
+commit to how much content you'll have. As with the other AWS services, you pay
+as you go and pay only for what you use.
+
+AWS Free Tier includes 50GB data transfer out, 2,000,000 HTTP and HTTPS
+Requests with Amazon CloudFront.
+
+AWS provides two usage reports for CloudFront: a billing report and a report
+that summarizes usage activity.
+
+1. Charge for storage in an Amazon S3 bucket. You pay normal Amazon S3 storage
+   charges to store objects in your bucket. The charges appear in the Amazon S3
+   portion of your AWS statement.
+
+2. Charge for serving objects from edge locations. You incur CloudFront charges
+   when CloudFront responds to requests for your objects. The charges include
+   data transfer for WebSocket data from server to client. The CloudFront
+   charges appear in the CloudFront portion of your AWS statement as region
+   -DataTransfer-Out-Bytes.
+
+3. Charge for submitting data to your origin. You incur CloudFront charges when
+   users transfer data to your origin, which includes DELETE, OPTIONS, PATCH,
+   POST, and PUT requests. The charges include data transfer for WebSocket data
+   from client to server. The CloudFront charges appear in the CloudFront
+   portion of your AWS statement as region -DataTransfer-Out-OBytes.
+
+4. You also incur a surcharge for HTTPS requests, and an additional surcharge
+   for requests that also have field-level encryption enabled.
+
+
+{{{subheading(Price Classes)}}}
+
+CloudFront has edge locations all over the world. Our cost for each edge
+location varies and, as a result, the price that we charge you varies depending
+on the edge location from which CloudFront serves your requests.
+
+CloudFront edge locations are grouped into geographic regions, and we've
+grouped regions into price classes. The default price class includes all
+regions. Another price class includes most regions (the United States; Canada;
+Europe; Hong Kong, Philippines, South Korea, Taiwan, and Singapore; Japan;
+India; South Africa; and Middle East regions) but excludes the most expensive
+regions. A third price class includes only the least expensive regions (the
+United States, Canada, and Europe regions).
+
+If you're willing to accept higher latency for your viewers in some geographic
+regions in return for lower cost, you can choose a price class that doesn't
+include all CloudFront regions. Although CloudFront will serve your objects
+only from the edge locations in that price class, it still serves content from
+the edge location that has the lowest latency among the edge locations in your
+selected price class.
+
+You can choose a price class when you create or update a CloudFront
+distribution.
+
+*** Getting Started with CloudFront
+https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/GettingStarted.html
+
+The example in this topic gives you a quick overview of how to use CloudFront
+to set up a basic configuration that:
+
+- Stores the original versions of your objects in one Amazon Simple Storage
+  Service (Amazon S3) bucket
+
+- Distributes content such as text or graphics
+
+- Makes your objects accessible to everyone
+
+- Uses the CloudFront domain name in URLs for your objects (for example,
+  =http://d111111abcdef8.cloudfront.net/image.jpg=)
+
+- Keeps your objects in CloudFront edge locations for the default duration of
+  24 hours (the minimum duration is 0 seconds)
+
+
+Most of these options are customizable.  For information about how to customize
+your CloudFront distribution options, see:
+- [[https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-creating.html][Steps for Creating a Distribution (Overview)]]
+
+
+You only have to complete a few basic steps to start delivering your content by
+using CloudFront. The first step is signing up. After that, you create a
+CloudFront distribution, and then use the CloudFront domain name in URLs in
+your web pages or applications to reference the content.
+
+1. Upload your content to Amazon S3 and grant object permissions
+
+   By default, your Amazon S3 bucket and all of the files in it are
+   private—only the AWS account that created the bucket has permission to read
+   or write the files in it. If you want to allow anyone to access the files in
+   your Amazon S3 bucket using CloudFront URLs, you must grant public read
+   permissions to the objects. (This is one of the most common mistakes when
+   working with CloudFront and Amazon S3. You must explicitly grant privileges
+   to each object in an Amazon S3 bucket.)
+
+   On the =Set permissions= page, clear the following two checkboxes:
+   - Block new public ACLs and uploading public objects
+   - Remove public access granted through public ACLs
+
+   You must allow public read access to the bucket and files so that CloudFront
+   URLs can serve content from the bucket.
+
+   Upload files to the bucket.  During the upload process:
+
+   On the =Set permissions= page, grant public read privileges for each file
+   that you upload to your Amazon S3 bucket.
+   - In the =Manage public permissions= drop-down list, choose =Grant public
+     read access to this object(s)=.
+
+   After the upload completes, you can navigate to the item by using its
+   URL.  In the case of the previous example, the URL would be:
+   : http://s3-myregion.amazonaws.com/example-myawsbucket/filename
+
+   Use your Amazon S3 URL to verify that your content is publicly accessible,
+   but remember that this is not the URL you'll use when you're ready to
+   distribute your content with CloudFront.
+
+2. Create a CloudFront distribution
+
+   - Choose =Create Distribution=.
+
+   - In the Web section, choose =Get Started=.
+
+   - On the Create Distribution page, under Origin Settings, choose the Amazon
+     S3 bucket that you created earlier. Accept the default values for
+     - Origin ID,
+     - Origin Path,
+     - Restrict Bucket Access, and
+     - Origin Custom Headers.
+
+   - Under Default Cache Behavior Settings, accept the default values, and
+     CloudFront will:
+
+     - Forward all requests that use the CloudFront URL for your distribution
+       (for example, http://d111111abcdef8.cloudfront.net/image.jpg) to the
+       Amazon S3 bucket that you specified in Step 4.
+
+     - Allow end users to use either HTTP or HTTPS to access your objects.
+
+     - Respond to requests for your objects.
+
+     - Cache your objects at CloudFront edge locations for 24 hours.
+
+     - Forward only the default request headers to your origin and not cache
+       your objects based on the values in the headers.
+
+     - Exclude cookies and query string parameters, if any, when forwarding
+       requests for objects to your origin. (Amazon S3 doesn't process cookies
+       and processes only a limited set of query string parameters.)
+
+     - Not be configured to distribute media files in the Microsoft Smooth
+       Streaming format.
+
+     - Allow everyone to view your content.
+
+     - Not automatically compress your content.
+
+   - Under Distribution Settings, choose the values for your distribution:
+
+     - Price Class
+     - AWS WAF Web ACL
+     - Alternate Domain Names (CNAMEs)
+     - SSL Certificate
+     - Default Root Object
+     - Logging
+     - Cookie Logging
+     - Comment
+     - Distribution State
+
+   - Choose =Create Distribution=.
+
+   - After CloudFront has created your distribution, the value of the =Status=
+     column for your distribution will change from =InProgress= to =Deployed=.
+     If you chose to enable the distribution, it will then be ready to process
+     requests.  This typically takes between 20 and 40 minutes.
+
+3. Test your links
+
+   After you've created your distribution, CloudFront knows where your Amazon
+   S3 origin server is, and you know the domain name associated with the
+   distribution. You can create a link to your Amazon S3 bucket content with
+   that domain name, and have CloudFront serve it.
+
+   - Copy the following HTML into a new file:
+
+     - Replace <domain name> with the domain name that CloudFront assigned to
+       your distribution.
+     - Replace <object name> with the name of a file in your Amazon S3 bucket.
+
+     #+BEGIN_SRC html
+     <html>
+       <head>My CloudFront Test</head>
+       <body>
+         <p>My text content goes here.</p>
+         <p><img src="http://domain name/object name" alt="my test image"/>
+       </body>
+     </html>
+     #+END_SRC
+
+     For example, if your domain name was =d111111abcdef8.cloudfront.net= and
+     your object was ~image.jpg~, the URL for the link would be:
+     : http://d111111abcdef8.cloudfront.net/image.jpg
+
+     If your object is in a folder within your bucket, include the folder in
+     the URL. For example, if image.jpg is located in an images folder, then
+     the URL would be:
+     : http://d111111abcdef8.cloudfront.net/images/image.jpg
+
+   - Save the text in a file that has a =.html= filename extension.
+
+   - Open your web page in a browser to ensure that you can see your
+     content. If you cannot see the content, confirm that you have performed
+     all of the steps correctly. You can also see the tips in [[https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Troubleshooting.html][Troubleshooting]].
+
+     The browser returns your page with the embedded image file, served from
+     the edge location that CloudFront determined was appropriate to serve the
+     object.
+
+*** Set up a CloudFront Distribution for Amazon S3
+https://aws.amazon.com/cloudfront/getting-started/S3/
+
+[[https://www.youtube.com/watch?v=KIltfPRpTi4][Video]]
+
+Amazon CloudFront works seamlessly with Amazon Simple Storage Service (S3) to
+accelerate the delivery of your web content and reduce the load on your origin
+servers.  Learn how to set up a CloudFront distribution with your Amazon S3
+origin.
+
+1. Go to the AWS Console
+2. Create an Amazon S3 bucket
+3. Create an Amazon CloudFront distribution
+4. Specify your distribution settings
+5. Configure your origin
+6. Configure Origin Access Identity
+7. Configure default cache behavior
+8. Configure your TTLs
+9. Configure additional features
+10. Test your CloudFront distribution
+
 ** Static Web Sites on AWS using S3
 *** Creating a Static Website Using an Amazon S3 Bucket
 This Getting Started tutorial shows you how to perform the following tasks:
@@ -3851,6 +4136,171 @@ Amazon S3 provides the SSL/TLS certificate, so you don't have to.
      evaluate them in.  For more information, see [[https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesPathPattern][Path Pattern]].
 
    - The cache behaviors are routing requests to the correct origins.
+
+*** Using Alternate Domain Names and HTTPS
+
+If you want to use your own domain name in the URLs for your files (for
+example, =https://www.example.com/image.jpg=) and you want your viewers to use
+HTTPS, you must complete the additional steps that are described in this topic.
+
+*Important*: When you add a certificate to your distribution, CloudFront
+immediately propagates the certificate to all of its edge locations. As new
+edge locations become available, CloudFront will propagate the certificate to
+those locations, too. You can't restrict the edge locations that CloudFront
+propagates the certificates to.
+
+**** Using SNI to Serve HTTPS Requests (Works for Most Clients)
+If you configure CloudFront to serve HTTPS requests using SNI, CloudFront
+associates your alternate domain name with an IP address for each edge
+location. When a viewer submits an HTTPS request for your content, DNS routes
+the request to the IP address for the correct edge location. The IP address to
+your domain name is determined during the SSL/TLS handshake negotiation; the IP
+address isn't dedicated to your distribution.
+
+The SSL/TLS negotiation occurs very early in the process of establishing an
+HTTPS connection. If CloudFront can't immediately determine which domain the
+request is for, it drops the connection. When a viewer that supports SNI
+submits an HTTPS request for your content, here's what happens:
+
+1. The viewer automatically gets the domain name from the request URL and adds
+   it to a field in the request header.
+
+2. When CloudFront receives the request, it finds the domain name in the
+   request header and responds to the request with the applicable SSL/TLS
+   certificate.
+
+3. The viewer and CloudFront perform SSL/TLS negotiation.
+
+4. CloudFront returns the requested content to the viewer.
+
+**** Configuring Alternate Domain Names and HTTPS
+To use alternate domain names in the URLs for your files and to use HTTPS
+between viewers and CloudFront, perform the applicable procedures.
+
+***** Getting an SSL/TLS Certificate
+Get an SSL/TLS certificate if you don't already have one. For more information,
+see the applicable documentation:
+
+- To use a certificate provided by AWS Certificate Manager (ACM), see the
+  - [[https://docs.aws.amazon.com/acm/latest/userguide/][AWS Certificate Manager User Guide]]
+  - Then skip to [[Updating Your CloudFront Distribution][Updating Your CloudFront Distribution]].
+  - AWS recommends that you use ACM to provision, manage, and deploy SSL/TLS
+    certificates on AWS managed resources.
+
+***** Updating Your CloudFront Distribution
+To update settings for your distribution, perform the following procedure:
+
+To configure your CloudFront distribution for alternate domain names:
+1. Sign in to the AWS Management Console and open the CloudFront console
+2. Choose the ID for the distribution that you want to update.
+3. On the General tab, choose Edit.
+4. Update the following values:
+   - Alternate Domain Names (CNAMEs) ::
+        Add the applicable alternate domain names. Separate domain names with
+        commas, or type each domain name on a new line.
+   - SSL Certificate (Web Distributions Only) ::
+        Choose Custom SSL Certificate, and choose a certificate from the list.
+   - Clients Supported (Web Distributions Only) ::
+        Choose the applicable option:
+     - All Clients - CloudFront serves your HTTPS content using dedicated IP
+       addresses. If you select this option, you incur additional charges when
+       you associate your SSL/TLS certificate with a distribution that is
+       enabled.
+     - Only Clients that Support Server Name Indication (SNI) - Older browsers
+       or other clients that don't support SNI must use another method to
+       access your content.
+5. Choose Yes, Edit.
+6. Configure CloudFront to require HTTPS between viewers and CloudFront:
+   - On the Behaviors tab, choose the cache behavior that you want to update,
+     and choose Edit.
+   - Specify one of the following values for Viewer Protocol Policy:
+     - Redirect HTTP to HTTPS ::
+          Viewers can use both protocols, but HTTP requests are automatically
+          redirected to HTTPS requests. CloudFront returns HTTP status code 301
+          (Moved Permanently) along with the new HTTPS URL. The viewer then
+          resubmits the request to CloudFront using the HTTPS URL.
+     - HTTPS Only ::
+                     Viewers can access your content only if they're using
+                     HTTPS. If a viewer sends an HTTP request instead of an
+                     HTTPS request, CloudFront returns HTTP status code 403
+                     (Forbidden) and does not return the file.
+   - Choose Yes, Edit.
+   - Repeat steps a through c for each additional cache behavior that you want
+     to require HTTPS for between viewers and CloudFront.
+7. Confirm the following before you use the updated configuration in a
+   production environment:
+   - The path pattern in each cache behavior applies only to the requests that
+     you want viewers to use HTTPS for.
+   - The cache behaviors are listed in the order that you want CloudFront to
+     evaluate them in. For more information, see Path Pattern.
+   - The cache behaviors are routing requests to the correct origins.
+
+
+
+**** AWS Certificate Manager User Guide
+Welcome to the AWS Certificate Manager (ACM) service. ACM handles the
+complexity of creating and managing public SSL/TLS certificates for your AWS
+based websites and applications. You can use public certificates provided by
+ACM (ACM certificates) or certificates that you import into ACM. ACM
+certificates can secure multiple domain names and multiple names within a
+domain. You can also use ACM to create wildcard SSL certificates that can
+protect an unlimited number of subdomains.
+
+ACM is tightly linked with AWS Certificate Manager Private Certificate
+Authority. You can use ACM PCA to create a private certificate authority (CA)
+and then use ACM to issue private certificates. These are SSL/TLS X.509
+certificates that identify users, computers, applications, services, servers,
+and other devices internally. Private certificates cannot be publicly trusted.
+
+***** Request a Public Certificate
+The following sections discuss how to use the ACM console or AWS CLI to request
+a public ACM certificate.
+
+{{{heading(Requesting a public certificate using the console)}}}
+
+1. Sign into the AWS Management Console and open the ACM console
+
+2. On the Request a certificate page, type your domain name. You can use a
+   fully qualified domain name (FQDN) such as www.example.com or a bare or apex
+   domain name such as example.com. You can also use an asterisk (*) as a
+   wildcard in the leftmost position to protect several site names in the same
+   domain. For example, *.example.com protects corp.example.com, and
+   images.example.com. The wildcard name will appear in the Subject field and
+   the Subject Alternative Name extension of the ACM certificate.
+
+   When you request a wildcard certificate, the asterisk (*) must be in the
+   leftmost position of the domain name and can protect only one subdomain
+   level. For example, *.example.com can protect login.example.com, and
+   test.example.com, but it cannot protect test.login.example.com. Also note
+   that *.example.com protects only the subdomains of example.com, it does not
+   protect the bare or apex domain (example.com). To protect both, see the next
+   step.
+
+3. To add more domain names to the ACM certificate, choose Add more names and
+   type another domain name in the text box that opens. This is useful for
+   protecting both a bare or apex domain (like example.com) and its subdomains
+   (*.example.com).
+
+4. After you have typed valid domain names, choose Review and Request or choose
+   Cancel to quit.
+
+5. If the review page correctly contains the information that you provided for
+   your request, choose Confirm and request. The following page shows that your
+   request status is pending validation.
+
+   Before ACM issues a certificate, it validates that you own or control the
+   domain names in your certificate request. You can use either email
+   validation or DNS validation. If you choose email validation, ACM sends
+   validation email to three contact addresses registered in the WHOIS database
+   and to five common system administration addresses for each domain name. You
+   or an authorized representative must reply to one of these email messages.
+   - [[https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-validate-email.html][Use Email to Validate Domain]]
+
+   If you use DNS validation, you simply write a CNAME record provided by ACM
+   to your DNS configuration.  If you are able to edit your DNS configuration,
+   we recommend that you use DNS domain validation rather than email
+   validation. DNS validation has multiple benefits over email validation.
+   - [[https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-validate-dns.html][Use DNS to Validate Domain Ownership.]]
 
 ** Dynamic Web Sites on AWS using EC2
 *** Amazon Elastic Compute Cloud---EC2
