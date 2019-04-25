@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Build the Lamp Instance (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)</title>
+
+<meta name="description" content="Build the Lamp Instance (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="keywords" content="Build the Lamp Instance (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Task-1_002d_002d_002dDeploy-the-Lab-Infrastructure.html#Task-1_002d_002d_002dDeploy-the-Lab-Infrastructure" rel="up" title="Task 1---Deploy the Lab Infrastructure">
+<link href="Connect-to-Your-Lightsail-Instance-Using-SSH.html#Connect-to-Your-Lightsail-Instance-Using-SSH" rel="next" title="Connect to Your Lightsail Instance Using SSH">
+<link href="Task-1_002d_002d_002dDeploy-the-Lab-Infrastructure.html#Task-1_002d_002d_002dDeploy-the-Lab-Infrastructure" rel="prev" title="Task 1---Deploy the Lab Infrastructure">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Build-the-Lamp-Instance"></a>
+<div class="header">
+<p>
+Next: <a href="Connect-to-Your-Lightsail-Instance-Using-SSH.html#Connect-to-Your-Lightsail-Instance-Using-SSH" accesskey="n" rel="next">Connect to Your Lightsail Instance Using SSH</a>, Up: <a href="Task-1_002d_002d_002dDeploy-the-Lab-Infrastructure.html#Task-1_002d_002d_002dDeploy-the-Lab-Infrastructure" accesskey="u" rel="up">Task 1---Deploy the Lab Infrastructure</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Build-the-Lamp-Instance-1"></a>
+<h4 class="subsection">3.3.1 Build the Lamp Instance</h4>
+
+<a name="index-LAMP-stack-instance_002c-create"></a>
+<p>The first step in deploying the sample application is creating a LAMP stack
+instance in Lightsail.
+</p>
+<ol>
+<li> In the <strong>AWS Management Console</strong>, on the &lsquo;<samp>Services</samp>&rsquo; menu, click
+&lsquo;<samp>Lightsail</samp>&rsquo; to navigate to the Lightsail homepage.
+
+</li><li> Choose &lsquo;<samp>English</samp>&rsquo; for language support.
+
+</li><li> Click &lsquo;<samp>Let's get started</samp>&rsquo;
+
+</li><li> Click &lsquo;<samp>Create instance</samp>&rsquo;
+
+</li><li> Under &lsquo;<samp>Instance Location</samp>&rsquo;, make sure the region is the same as the region
+that your lab was launched in.  Be sure to create all resources in the same
+region.
+
+</li><li> Under <em>Select a platform</em>, ensure <strong>Linux / Unix</strong> is selected.
+
+</li><li> Scroll down to &lsquo;<samp>Select a blueprint</samp>&rsquo; and select the &lsquo;<samp>LAMP (PHP 5)</samp>&rsquo; blueprint
+
+</li><li> Scroll to &lsquo;<samp>Identify your instance</samp>&rsquo;; then
+<ul>
+<li> name your instance <code>PHP-fe-1</code>
+</li><li> Click &lsquo;<samp>Create instance</samp>&rsquo;
+</li></ul>
+
+</li><li> Wait for the instance to show a state of <em>Running</em>.
+</li></ol>
+
+
+
+
+</body>
+</html>

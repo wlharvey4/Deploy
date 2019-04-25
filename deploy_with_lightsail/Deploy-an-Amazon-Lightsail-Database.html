@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Deploy an Amazon Lightsail Database (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)</title>
+
+<meta name="description" content="Deploy an Amazon Lightsail Database (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="keywords" content="Deploy an Amazon Lightsail Database (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Task-1_002d_002d_002dDeploy-the-Lab-Infrastructure.html#Task-1_002d_002d_002dDeploy-the-Lab-Infrastructure" rel="up" title="Task 1---Deploy the Lab Infrastructure">
+<link href="Set-up-a-Load-Balancer.html#Set-up-a-Load-Balancer" rel="next" title="Set up a Load Balancer">
+<link href="Connect-to-Your-Lightsail-Instance-Using-SSH.html#Connect-to-Your-Lightsail-Instance-Using-SSH" rel="prev" title="Connect to Your Lightsail Instance Using SSH">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Deploy-an-Amazon-Lightsail-Database"></a>
+<div class="header">
+<p>
+Next: <a href="Set-up-a-Load-Balancer.html#Set-up-a-Load-Balancer" accesskey="n" rel="next">Set up a Load Balancer</a>, Previous: <a href="Connect-to-Your-Lightsail-Instance-Using-SSH.html#Connect-to-Your-Lightsail-Instance-Using-SSH" accesskey="p" rel="prev">Connect to Your Lightsail Instance Using SSH</a>, Up: <a href="Task-1_002d_002d_002dDeploy-the-Lab-Infrastructure.html#Task-1_002d_002d_002dDeploy-the-Lab-Infrastructure" accesskey="u" rel="up">Task 1---Deploy the Lab Infrastructure</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Deploy-an-Amazon-Lightsail-Database-1"></a>
+<h4 class="subsection">3.3.3 Deploy an Amazon Lightsail Database</h4>
+
+<a name="index-Lightsail-database_002c-deploy"></a>
+<p>In this section, you will deploy a Lightsail database.  Lightsail databases are
+a managed database service that allow you to get away from the complexity of
+deploying and managing database software.  Lightsail manages the underlying
+infrastructure and database engine, and you only need to worry about creating
+and deploying the actual databases and tables that run inside the service.
+</p>
+<ol>
+<li> From the horizontal menu on the Lightsail console, click &lsquo;<samp>Databases</samp>&rsquo;.
+
+</li><li> Click on &lsquo;<samp>Create a database</samp>&rsquo;.
+
+</li><li> Leave the default value for the MySQL version.
+
+</li><li> By default, Lightsail will create a strong password for you. However,
+because this password can contain characters that make copying and pasting
+difficult, you will specify a password for this lab.
+
+<p>Click &lsquo;<samp>Specify login credentials</samp>&rsquo;:
+</p><ul>
+<li> Leave &lsquo;<samp>User name</samp>&rsquo; with its default;
+</li><li> Deselect &lsquo;<samp>Create strong password</samp>&rsquo;; create a password of &lsquo;<samp>taskstasks</samp>&rsquo;.
+</li></ul>
+
+</li><li> <a name="index-high_002davailability"></a>
+One objective of this lab is to deploy a fault-tolerant and scalable
+implementation of the web application, so we will use a high availability
+database.  Select &lsquo;<samp>High-availabilty</samp>&rsquo; option.  Keep its default size.
+
+</li><li> Scroll to the &lsquo;<samp>Identify your database</samp>&rsquo; section.
+
+</li><li> Set &lsquo;<samp>Identify your database</samp>&rsquo; to &lsquo;<samp>todo-db</samp>&rsquo;.  Leave the master database name
+with its default value.
+
+</li><li> Click on &lsquo;<samp>Create database</samp>&rsquo;.
+</li></ol>
+
+
+
+
+</body>
+</html>

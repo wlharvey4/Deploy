@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Scale the Front End (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)</title>
+
+<meta name="description" content="Scale the Front End (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="keywords" content="Scale the Front End (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Task-4_002d_002d_002dScaling-the-PHP-Front-End.html#Task-4_002d_002d_002dScaling-the-PHP-Front-End" rel="up" title="Task 4---Scaling the PHP Front End">
+<link href="Load_002dbalance-the-Front-End.html#Load_002dbalance-the-Front-End" rel="next" title="Load-balance the Front End">
+<link href="Task-4_002d_002d_002dScaling-the-PHP-Front-End.html#Task-4_002d_002d_002dScaling-the-PHP-Front-End" rel="prev" title="Task 4---Scaling the PHP Front End">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Scale-the-Front-End"></a>
+<div class="header">
+<p>
+Next: <a href="Load_002dbalance-the-Front-End.html#Load_002dbalance-the-Front-End" accesskey="n" rel="next">Load-balance the Front End</a>, Up: <a href="Task-4_002d_002d_002dScaling-the-PHP-Front-End.html#Task-4_002d_002d_002dScaling-the-PHP-Front-End" accesskey="u" rel="up">Task 4---Scaling the PHP Front End</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Scale-the-Front-End-1"></a>
+<h4 class="subsection">3.6.1 Scale the Front End</h4>
+
+<a name="index-snapshots_002c-create"></a>
+<p>Lightsail makes it straightforward to create snapshots of your instances with a
+single click.  These snapshots can be used to back up and restore instances,
+scale up instance sizes, and/or to deploy a new instance.
+</p>
+<ol>
+<li> Return to the Lightsail console home page.
+
+</li><li> Next to <code>PHP-fe-1</code>:
+<ul>
+<li> Click the three dots;
+</li><li> Click &lsquo;<samp>Manage</samp>&rsquo;
+</li></ul>
+
+</li><li> From the horizontal menu, click &lsquo;<samp>Snapshots</samp>&rsquo;.
+
+</li><li> Click &lsquo;<samp>Create snapshot</samp>&rsquo;.
+
+</li><li> Wait for the process to complete before moving forward.  This can take up
+to 5 minutes.
+
+</li><li> <a name="index-create-new-instances"></a>
+<a name="index-new-instances_002c-create"></a>
+<a name="index-instances_002c-create-new"></a>
+To the right of your snapshot:
+<ul>
+<li> Click the three dots;
+</li><li> Click &lsquo;<samp>Create new instance</samp>&rsquo;
+</li></ul>
+
+</li><li> Scroll down to the &lsquo;<samp>Identify your instance</samp>&rsquo; section.
+
+</li><li> Below &lsquo;<samp>Identify your instance</samp>&rsquo;:
+<ul>
+<li> Enter <code>PHP-fe-2</code>
+</li><li> Click &lsquo;<samp>Create instance</samp>&rsquo;
+</li></ul>
+
+</li><li> Repeat the previous three steps to create a third front-end instance using
+your snapshot.  Name this new instance <code>PHP-fe-3</code>.
+
+</li><li> Test the public IP address of each of the two newly created front-end
+instances in your web browser.  Notice that the hostname for that
+particular web front-end instance is listed under your task list, and that
+it changes based on which instance you visit in your web browser.
+</li></ol>
+
+
+
+
+</body>
+</html>

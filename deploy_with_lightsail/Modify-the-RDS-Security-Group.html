@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Modify the RDS Security Group (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)</title>
+
+<meta name="description" content="Modify the RDS Security Group (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="keywords" content="Modify the RDS Security Group (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service.html#Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service" rel="up" title="Task 5---Migrating to Amazon Relational Database Service">
+<link href="Enable-Virtual-Private-Cloud-_0028VPC_0029-Peering.html#Enable-Virtual-Private-Cloud-_0028VPC_0029-Peering" rel="next" title="Enable Virtual Private Cloud (VPC) Peering">
+<link href="Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service.html#Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service" rel="prev" title="Task 5---Migrating to Amazon Relational Database Service">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Modify-the-RDS-Security-Group"></a>
+<div class="header">
+<p>
+Next: <a href="Enable-Virtual-Private-Cloud-_0028VPC_0029-Peering.html#Enable-Virtual-Private-Cloud-_0028VPC_0029-Peering" accesskey="n" rel="next">Enable Virtual Private Cloud (VPC) Peering</a>, Up: <a href="Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service.html#Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service" accesskey="u" rel="up">Task 5---Migrating to Amazon Relational Database Service</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Modify-the-RDS-Security-Group-1"></a>
+<h4 class="subsection">3.7.1 Modify the RDS Security Group</h4>
+
+<a name="index-RDS-Security-Group_002c-modify"></a>
+<a name="index-Lightsail-VPC-address-range"></a>
+<a name="index-VPC_002c-Lightsail-address-range"></a>
+<a name="index-address-range-for-Lightsail-VPC"></a>
+<p>The first step in migrating the database component to Amazon RDS is to ensure
+that traffic coming from the Amazon Lightsail VPC is allowed to reach Amazon
+RDS. This step is done by adding the IP address range (&lsquo;<samp>172.26.0.0/16</samp>&rsquo;) of the
+Amazon Lightsail VPC to the existing Amazon RDS security group.
+</p>
+<a name="index-RDS-databases-page"></a>
+<ol>
+<li> Navigate to the <a href="https://console.aws.amazon.com/rds/home#databases:">Amazon RDS databases page</a>.
+
+</li><li> From the list of databases, click <code>task-db</code>.
+
+</li><li> <a name="index-VPC-security-group"></a>
+Under the &lsquo;<samp>Connectivity</samp>&rsquo; section, click your &lsquo;<samp>VPC security group</samp>&rsquo;.
+
+<p>Your VPC security group will look similar to <em>rds-launch-wizard
+(sg-05fde746966bcff7d)</em>.
+</p>
+</li><li> Click the &lsquo;<samp>Inbound</samp>&rsquo; tab.
+
+<a name="index-rules-defining-inbound-traffic"></a>
+<p>This will allow you to access the rules that define what traffic is allowed
+to reach the Amazon RDS database.
+</p>
+</li><li> Click &lsquo;<samp>Edit</samp>&rsquo;
+
+</li><li> Click &lsquo;<samp>Add rule</samp>&rsquo; then configure:
+<ul>
+<li> &lsquo;<samp>Type:</samp>&rsquo; <em>MYSQL/Aurora</em>
+</li><li> &lsquo;<samp>Source:</samp>&rsquo; /Custom / &lsquo;<samp>172.26.0.0/16</samp>&rsquo;
+</li></ul>
+
+</li><li> Click &lsquo;<samp>Save</samp>&rsquo;.
+</li></ol>
+
+
+
+
+</body>
+</html>

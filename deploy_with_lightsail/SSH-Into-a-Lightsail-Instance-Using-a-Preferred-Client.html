@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>SSH Into a Lightsail Instance Using a Preferred Client (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)</title>
+
+<meta name="description" content="SSH Into a Lightsail Instance Using a Preferred Client (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="keywords" content="SSH Into a Lightsail Instance Using a Preferred Client (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Prerequisites-and-SSH-Instructions.html#Prerequisites-and-SSH-Instructions" rel="up" title="Prerequisites and SSH Instructions">
+<link href="Take-a-Test-Run.html#Take-a-Test-Run" rel="next" title="Take a Test Run">
+<link href="SSH-Into-a-Lightsail-Instance-Using-the-Built_002din-Web_002dbased-Client.html#SSH-Into-a-Lightsail-Instance-Using-the-Built_002din-Web_002dbased-Client" rel="prev" title="SSH Into a Lightsail Instance Using the Built-in Web-based Client">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="SSH-Into-a-Lightsail-Instance-Using-a-Preferred-Client"></a>
+<div class="header">
+<p>
+Next: <a href="Take-a-Test-Run.html#Take-a-Test-Run" accesskey="n" rel="next">Take a Test Run</a>, Previous: <a href="SSH-Into-a-Lightsail-Instance-Using-the-Built_002din-Web_002dbased-Client.html#SSH-Into-a-Lightsail-Instance-Using-the-Built_002din-Web_002dbased-Client" accesskey="p" rel="prev">SSH Into a Lightsail Instance Using the Built-in Web-based Client</a>, Up: <a href="Prerequisites-and-SSH-Instructions.html#Prerequisites-and-SSH-Instructions" accesskey="u" rel="up">Prerequisites and SSH Instructions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="SSH-Into-a-Lightsail-Instance-Using-a-Preferred-Client-1"></a>
+<h4 class="subsection">3.1.2 SSH Into a Lightsail Instance Using a Preferred Client</h4>
+
+<ol>
+<li> Copy IP address from the instance icon
+
+</li><li> Click on the instance name and scroll to &lsquo;<samp>Connect using SSH</samp>&rsquo;
+
+</li><li> Instance name will be &ldquo;bitnami&rdquo;
+
+</li><li> Obtain the SSH key
+<ul>
+<li> Account
+</li><li> Account (under Account)
+</li><li> SSH keys
+</li><li> Download &lsquo;<samp>Default key</samp>&rsquo;
+</li><li> Set permissions to &lsquo;<samp>600</samp>&rsquo;
+<div class="example">
+<pre class="example">chmod 600 LightsailDefaultKey-us-west-2.pem
+</pre></div>
+</li></ul>
+
+</li><li> SSH into the instance using the instance&rsquo;s IP address and the key
+<div class="example">
+<pre class="example">ssh -i LightsailDefaultKey-us-west-2.pem bitnami@&lt;IP-address&gt;
+</pre></div>
+</li></ol>
+
+
+
+
+</body>
+</html>

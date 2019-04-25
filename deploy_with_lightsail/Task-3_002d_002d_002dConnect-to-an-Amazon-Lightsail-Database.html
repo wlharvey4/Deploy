@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Task 3---Connect to an Amazon Lightsail Database (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)</title>
+
+<meta name="description" content="Task 3---Connect to an Amazon Lightsail Database (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="keywords" content="Task 3---Connect to an Amazon Lightsail Database (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Deploy-and-Scale-a-Lamp-Application.html#Deploy-and-Scale-a-Lamp-Application" rel="up" title="Deploy and Scale a Lamp Application">
+<link href="Reconfigure-the-front-end-to-point-at-the-new-Lightsail-database.html#Reconfigure-the-front-end-to-point-at-the-new-Lightsail-database" rel="next" title="Reconfigure the front end to point at the new Lightsail database">
+<link href="Deploy-a-LAMP-Stack-Application.html#Deploy-a-LAMP-Stack-Application" rel="prev" title="Deploy a LAMP Stack Application">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Task-3_002d_002d_002dConnect-to-an-Amazon-Lightsail-Database"></a>
+<div class="header">
+<p>
+Next: <a href="Task-4_002d_002d_002dScaling-the-PHP-Front-End.html#Task-4_002d_002d_002dScaling-the-PHP-Front-End" accesskey="n" rel="next">Task 4---Scaling the PHP Front End</a>, Previous: <a href="Task-2_002d_002d_002dDeploy-a-Monolithic-LAMP-Application.html#Task-2_002d_002d_002dDeploy-a-Monolithic-LAMP-Application" accesskey="p" rel="prev">Task 2---Deploy a Monolithic LAMP Application</a>, Up: <a href="Deploy-and-Scale-a-Lamp-Application.html#Deploy-and-Scale-a-Lamp-Application" accesskey="u" rel="up">Deploy and Scale a Lamp Application</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Task-3_002d_002d_002dConnect-to-an-Amazon-Lightsail-Database-1"></a>
+<h3 class="section">3.5 Task 3&mdash;Connect to an Amazon Lightsail Database</h3>
+
+<a name="Lesson-7_002e-What-Are-You-Going-to-Do_003f"></a>
+<h3 class="heading">Lesson 7. What Are You Going to Do?</h3>
+
+<a name="index-scalable_002c-front-end-not"></a>
+<p>The ﬁrst iteration of the application&rsquo;s web front end is not inherently
+scalable because the database and front end are located on the same machine.
+It would be problematic to add additional database instances whenever
+additional front-end capacity was needed.
+</p>
+<a name="index-separate-front-end_002c-database"></a>
+<a name="index-Lightsail-database_002c-point-PHP-front-end-to"></a>
+<a name="index-MySQL-database"></a>
+<p>To ﬁx this issue, the front end and database need to be separated.  In this
+task, you will adjust the conﬁguration for the PHP front end to point to the
+previously deployed Lightsail database.
+</p>
+<a name="Lightsail-databases"></a>
+<h3 class="heading">Lightsail databases</h3>
+
+<ul>
+<li> MySQL databases that are easy to create and manage
+</li><li> Standard and high availability options
+</li><li> Four instances sizes to choose from
+</li><li> Public and private access
+</li><li> Automated backups
+</li><li> Fully managed solution&ndash;no need to manage or patch underlying system
+</li></ul>
+
+
+<img src="../img/LAMP-lightsail-db-50.png" alt="../img/LAMP-lightsail-db-50">
+
+<p>This demonstration video will take you step by step through the lab process.
+</p>
+<p><a href="./videos/task_3-connect_to_Lightsail_db.mp4">./videos/task_3-connect_to_Lightsail_db.mp4</a>
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="Reconfigure-the-front-end-to-point-at-the-new-Lightsail-database.html#Reconfigure-the-front-end-to-point-at-the-new-Lightsail-database" accesskey="1">Reconfigure the front end to point at the new Lightsail database</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+
+
+
+</body>
+</html>

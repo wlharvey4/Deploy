@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Reconfigure the front end to point at the new Lightsail database (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)</title>
+
+<meta name="description" content="Reconfigure the front end to point at the new Lightsail database (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="keywords" content="Reconfigure the front end to point at the new Lightsail database (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Task-3_002d_002d_002dConnect-to-an-Amazon-Lightsail-Database.html#Task-3_002d_002d_002dConnect-to-an-Amazon-Lightsail-Database" rel="up" title="Task 3---Connect to an Amazon Lightsail Database">
+<link href="Task-4_002d_002d_002dScaling-the-PHP-Front-End.html#Task-4_002d_002d_002dScaling-the-PHP-Front-End" rel="next" title="Task 4---Scaling the PHP Front End">
+<link href="Task-3_002d_002d_002dConnect-to-an-Amazon-Lightsail-Database.html#Task-3_002d_002d_002dConnect-to-an-Amazon-Lightsail-Database" rel="prev" title="Task 3---Connect to an Amazon Lightsail Database">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Reconfigure-the-front-end-to-point-at-the-new-Lightsail-database"></a>
+<div class="header">
+<p>
+Up: <a href="Task-3_002d_002d_002dConnect-to-an-Amazon-Lightsail-Database.html#Task-3_002d_002d_002dConnect-to-an-Amazon-Lightsail-Database" accesskey="u" rel="up">Task 3---Connect to an Amazon Lightsail Database</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Reconfigure-the-front-end-to-point-at-the-new-Lightsail-database-1"></a>
+<h4 class="subsection">3.5.1 Reconfigure the front end to point at the new Lightsail database</h4>
+
+<ol>
+<li> From the horizontal menu in the Lightsail console home page, click
+&lsquo;<samp>Databases</samp>&rsquo;.
+
+</li><li> Click <code>todo-db</code>.
+
+</li><li> Under the &lsquo;<samp>Connections details</samp>&rsquo;, copy the &lsquo;<samp>Endpoint</samp>&rsquo;; it will look
+something like:
+<div class="example">
+<pre class="example">ls-966d5bf6be8ee5178432a633398bf4256bfcab69.cucxkvhp11zu.us-west-2.rds.amazonaws.com
+</pre></div>
+
+</li><li> In the SSH-window, create an environment variable named
+<code>LS_ENDPOINT</code> to hold the value of the endpoint of your database:
+<div class="example">
+<pre class="example">LS_ENDPOINT=$(pbpaste)
+</pre></div>
+
+</li><li> <a name="index-environment-variables_002c-Lightsail-database"></a>
+Create an environment variable for the default user name (<code>dbmasteruser</code>)
+and the password (<code>taskstasks</code>):
+<div class="example">
+<pre class="example">LS_USERNAME=dbmasteruser
+LS_PASSWORD=taskstasks
+</pre></div>
+
+</li><li> Verify the environment variables are set correctly:
+<div class="example">
+<pre class="example">echo &quot;Endpoint =&quot;$LS_ENDPOINT
+echo &quot;Username =&quot;$LS_USERNAME
+echo &quot;Password =&quot;$LS_PASSWORD
+</pre></div>
+
+</li><li> <a name="index-configuration-file_002c-Lightsail-database"></a>
+Create a new configuration file that points to the Lightsail database:
+
+<div class="example">
+<pre class="example">    cat /opt/bitnami/apache2/configs/config.php.bak | \
+    sed &quot;s/&lt;endpoint&gt;/$LS_ENDPOINT/; \
+    s/&lt;username&gt;/$LS_USERNAME/;
+    s/&lt;password&gt;/$LS_PASSWORD/;&quot; \
+    &gt;&gt; /opt/bitnami/apache2/configs/config.php.lightsail_db
+</pre></div>
+
+</li><li> Verify that the file was modified properly:
+<div class="example">
+<pre class="example">cat /opt/bitnami/apache2/configs/config.php.lightsail_db
+</pre></div>
+
+</li><li> Activate the new configuration
+<div class="example">
+<pre class="example">cp /opt/bitnami/apache2/configs/config.php.lightsail_db /opt/bitnami/apache2/configs/config.php
+</pre></div>
+
+</li><li> Verify:
+<div class="example">
+<pre class="example">cat /opt/bitnami/apache2/configs/config.php
+</pre></div>
+
+</li><li> <a name="index-install-Lightsail-database"></a>
+In a new browser tab run the <code>install.php</code> script to configure the
+database:
+<div class="example">
+<pre class="example">http://&lt;IP-address&gt;/install.php
+</pre></div>
+
+</li><li> Test the new database:
+<div class="example">
+<pre class="example">http://&lt;IP-address&gt;
+</pre></div>
+<p>There should not be any tasks displayed.
+</p>
+<a name="index-migrate-data-to-Lightsail-database"></a>
+<p>Migrate the data out of your local MySQL database and into the Lightsail
+database.  This is accomplished using two command line utilities:
+<code>mysqldump</code> and <code>mysql</code>.  <code>mysqldump</code> extracts the content from the local
+database and pipes it into <code>mysql</code>, which loads the input into the
+Lightsail database.
+</p>
+<div class="example">
+<pre class="example">    mysqldump -u root \
+      --databases tasks \
+      --single-transaction \
+      --compress \
+      --order-by-primary  \
+      -p$(cat /home/bitnami/bitnami_application_password) \
+      | mysql -u $LS_USERNAME \
+      --port=3306 \
+      --host=$LS_ENDPOINT \
+      -p$LS_PASSWORD
+</pre></div>
+
+<p>You will see two warnings regarding supplying a password via the command
+line. These warnings can safely be ignored, but note that, in production,
+you shouldn&rsquo;t supply passwords via the command line, especially in scripts.
+</p>
+</li><li> Refresh the web page, and you should see that the tasks you originally
+created are now present in the database that&rsquo;s managed by Lightsail.
+</li></ol>
+
+<hr>
+<div class="header">
+<p>
+Up: <a href="Task-3_002d_002d_002dConnect-to-an-Amazon-Lightsail-Database.html#Task-3_002d_002d_002dConnect-to-an-Amazon-Lightsail-Database" accesskey="u" rel="up">Task 3---Connect to an Amazon Lightsail Database</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

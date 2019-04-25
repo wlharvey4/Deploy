@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Export the Lightsail Snapshot (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)</title>
+
+<meta name="description" content="Export the Lightsail Snapshot (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="keywords" content="Export the Lightsail Snapshot (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Task-6_002d_002d_002dUpgrading-to-Amazon-Elastic-Cmpute-Cloud.html#Task-6_002d_002d_002dUpgrading-to-Amazon-Elastic-Cmpute-Cloud" rel="up" title="Task 6---Upgrading to Amazon Elastic Cmpute Cloud">
+<link href="Create-an-Amazon-EC2-Instance.html#Create-an-Amazon-EC2-Instance" rel="next" title="Create an Amazon EC2 Instance">
+<link href="Task-6_002d_002d_002dUpgrading-to-Amazon-Elastic-Cmpute-Cloud.html#Task-6_002d_002d_002dUpgrading-to-Amazon-Elastic-Cmpute-Cloud" rel="prev" title="Task 6---Upgrading to Amazon Elastic Cmpute Cloud">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Export-the-Lightsail-Snapshot"></a>
+<div class="header">
+<p>
+Next: <a href="Create-an-Amazon-EC2-Instance.html#Create-an-Amazon-EC2-Instance" accesskey="n" rel="next">Create an Amazon EC2 Instance</a>, Up: <a href="Task-6_002d_002d_002dUpgrading-to-Amazon-Elastic-Cmpute-Cloud.html#Task-6_002d_002d_002dUpgrading-to-Amazon-Elastic-Cmpute-Cloud" accesskey="u" rel="up">Task 6---Upgrading to Amazon Elastic Cmpute Cloud</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Export-the-Lightsail-Snapshot-1"></a>
+<h4 class="subsection">3.8.1 Export the Lightsail Snapshot</h4>
+
+<p>When you upgrade your Amazon Lightsail instance to an Amazon EC2 instance, the
+first step is to create a new snapshot and then export that snapshot to Amazon
+EC2.
+</p>
+<ol>
+<li> Return to the Lightsail console home page.
+
+</li><li> Next to the <code>php-fe-rds</code> instance:
+<ul>
+<li> Click the three dots;
+</li><li> Click &lsquo;<samp>Manage</samp>&rsquo;
+</li></ul>
+
+</li><li> From the horizontal menu, click &lsquo;<samp>Snapshots</samp>&rsquo;.
+
+</li><li> Click the &lsquo;<samp>Create snapshot</samp>&rsquo;.
+
+</li><li> Wait for the snapshot to finish being creating before moving on.
+
+</li><li> To the right of the snapshot:
+<ul>
+<li> Click the three dots;
+</li><li> Click &lsquo;<samp>Export to Amazon EC2</samp>&rsquo;
+
+<a name="index-Amazon-Machine-Image-_0028AMI_0029"></a>
+<a name="index-AMI"></a>
+<p>This will start an operation that will create a new Amazon machine image
+(AMI) based on the Amazon Lightsail snapshot.  The new AMI will be
+created in the same region as the existing Lightsail snapshot.
+</p></li></ul>
+
+</li><li> At the first dialog, click &lsquo;<samp>Yes, continue</samp>&rsquo;.
+
+</li><li> At the next dialog, click &lsquo;<samp>Acknowledged</samp>&rsquo;.
+
+</li><li> At the top of the Amazon Lightsail homepage, a set of gears will start
+spinning.  Click the gears to see the current status of the export
+operation.
+</li></ol>
+
+
+
+
+</body>
+</html>

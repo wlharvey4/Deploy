@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Deploy and Scale a Lamp Application (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)</title>
+
+<meta name="description" content="Deploy and Scale a Lamp Application (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="keywords" content="Deploy and Scale a Lamp Application (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="Prerequisites-and-SSH-Instructions.html#Prerequisites-and-SSH-Instructions" rel="next" title="Prerequisites and SSH Instructions">
+<link href="Lesson-3_002d_002d_002dAmazon-Lightsail-console-overview.html#Lesson-3_002d_002d_002dAmazon-Lightsail-console-overview" rel="prev" title="Lesson 3---Amazon Lightsail console overview">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Deploy-and-Scale-a-Lamp-Application"></a>
+<div class="header">
+<p>
+Next: <a href="Concept-Index.html#Concept-Index" accesskey="n" rel="next">Concept Index</a>, Previous: <a href="What-is-Amazon-Lightsail.html#What-is-Amazon-Lightsail" accesskey="p" rel="prev">What is Amazon Lightsail</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Deploy-and-Scale-a-Lamp-Application-1"></a>
+<h2 class="chapter">3 Deploy and Scale a Lamp Application</h2>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="Prerequisites-and-SSH-Instructions.html#Prerequisites-and-SSH-Instructions" accesskey="1">Prerequisites and SSH Instructions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Start-the-Lab.html#Start-the-Lab" accesskey="2">Start the Lab</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Task-1_002d_002d_002dDeploy-the-Lab-Infrastructure.html#Task-1_002d_002d_002dDeploy-the-Lab-Infrastructure" accesskey="3">Task 1---Deploy the Lab Infrastructure</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Task-2_002d_002d_002dDeploy-a-Monolithic-LAMP-Application.html#Task-2_002d_002d_002dDeploy-a-Monolithic-LAMP-Application" accesskey="4">Task 2---Deploy a Monolithic LAMP Application</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Task-3_002d_002d_002dConnect-to-an-Amazon-Lightsail-Database.html#Task-3_002d_002d_002dConnect-to-an-Amazon-Lightsail-Database" accesskey="5">Task 3---Connect to an Amazon Lightsail Database</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Task-4_002d_002d_002dScaling-the-PHP-Front-End.html#Task-4_002d_002d_002dScaling-the-PHP-Front-End" accesskey="6">Task 4---Scaling the PHP Front End</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service.html#Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service" accesskey="7">Task 5---Migrating to Amazon Relational Database Service</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Task-6_002d_002d_002dUpgrading-to-Amazon-Elastic-Cmpute-Cloud.html#Task-6_002d_002d_002dUpgrading-to-Amazon-Elastic-Cmpute-Cloud" accesskey="8">Task 6---Upgrading to Amazon Elastic Cmpute Cloud</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Task-7_002d_002d_002dCleanup.html#Task-7_002d_002d_002dCleanup" accesskey="9">Task 7---Cleanup</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Conclusion.html#Conclusion">Conclusion</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+
+
+
+</body>
+</html>

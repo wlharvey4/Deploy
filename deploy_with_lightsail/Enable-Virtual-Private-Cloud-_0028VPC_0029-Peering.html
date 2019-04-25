@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Enable Virtual Private Cloud (VPC) Peering (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)</title>
+
+<meta name="description" content="Enable Virtual Private Cloud (VPC) Peering (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="keywords" content="Enable Virtual Private Cloud (VPC) Peering (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service.html#Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service" rel="up" title="Task 5---Migrating to Amazon Relational Database Service">
+<link href="Reconfigure-the-Database-Connection.html#Recon_fb01gure-the-Database-Connection" rel="next" title="Reconﬁgure the Database Connection">
+<link href="Modify-the-RDS-Security-Group.html#Modify-the-RDS-Security-Group" rel="prev" title="Modify the RDS Security Group">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Enable-Virtual-Private-Cloud-_0028VPC_0029-Peering"></a>
+<div class="header">
+<p>
+Next: <a href="Reconfigure-the-Database-Connection.html#Recon_fb01gure-the-Database-Connection" accesskey="n" rel="next">Reconﬁgure the Database Connection</a>, Previous: <a href="Modify-the-RDS-Security-Group.html#Modify-the-RDS-Security-Group" accesskey="p" rel="prev">Modify the RDS Security Group</a>, Up: <a href="Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service.html#Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service" accesskey="u" rel="up">Task 5---Migrating to Amazon Relational Database Service</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Enable-Virtual-Private-Cloud-_0028VPC_0029-Peering-1"></a>
+<h4 class="subsection">3.7.2 Enable Virtual Private Cloud (VPC) Peering</h4>
+
+<a name="index-peering_002c-VPC"></a>
+<a name="index-VPC-peering"></a>
+<p>The next step is to ensure that the Lightsail VPC can communicate with your
+default AWS VPC.  By default, services in AWS cannot access services that run
+in Amazon Lightsail (and vice versa).  However, this situation can be addressed
+by using a feature called VPC peering.  <em>VPC</em> peering makes it
+possible for certain AWS services to communicate with Amazon Lightsail
+resources (in this case, the Amazon RDS database will communicate with the web
+front end, which runs on an Amazon Lightsail instance).
+</p>
+<ol>
+<li> Navigate to the Amazon Lightsail account settings page.
+
+</li><li> From the horizontal menu, click &lsquo;<samp>Advanced</samp>&rsquo;.
+
+</li><li> Scroll down to the &lsquo;<samp>VPC peering</samp>&rsquo; section.
+
+</li><li> Next to the region that you deployed your Lightsail resources, select
+&lsquo;<samp>Enable VPC peering</samp>&rsquo;.
+</li></ol>
+
+
+
+
+</body>
+</html>

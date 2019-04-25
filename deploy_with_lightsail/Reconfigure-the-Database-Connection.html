@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Reconﬁgure the Database Connection (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)</title>
+
+<meta name="description" content="Reconﬁgure the Database Connection (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="keywords" content="Reconﬁgure the Database Connection (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service.html#Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service" rel="up" title="Task 5---Migrating to Amazon Relational Database Service">
+<link href="Task-6_002d_002d_002dUpgrading-to-Amazon-Elastic-Cmpute-Cloud.html#Task-6_002d_002d_002dUpgrading-to-Amazon-Elastic-Cmpute-Cloud" rel="next" title="Task 6---Upgrading to Amazon Elastic Cmpute Cloud">
+<link href="Enable-Virtual-Private-Cloud-_0028VPC_0029-Peering.html#Enable-Virtual-Private-Cloud-_0028VPC_0029-Peering" rel="prev" title="Enable Virtual Private Cloud (VPC) Peering">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Recon_fb01gure-the-Database-Connection"></a>
+<div class="header">
+<p>
+Previous: <a href="Enable-Virtual-Private-Cloud-_0028VPC_0029-Peering.html#Enable-Virtual-Private-Cloud-_0028VPC_0029-Peering" accesskey="p" rel="prev">Enable Virtual Private Cloud (VPC) Peering</a>, Up: <a href="Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service.html#Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service" accesskey="u" rel="up">Task 5---Migrating to Amazon Relational Database Service</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Reconfigure-the-Database-Connection"></a>
+<h4 class="subsection">3.7.3 Reconﬁgure the Database Connection</h4>
+
+<p>In this task, you will again update your application configuration file
+(<code>config.php</code>) to point to the Amazon RDS database.
+</p>
+<p>Because your current Lightsail instances all run under a load balancer, it
+would be unwise to reconfigure only some of them to point to the Amazon RDS
+database.  Doing so could result in a situation where the load balancer would
+present some front ends that connect to the Lightsail database, and other front
+ends that connect to the Amazon RDS database.
+</p>
+<p>To avoid this situation, you will deploy a new PHP front end instance based on
+your existing snapshot, and then modify that instance.
+</p>
+<ol>
+<li> Navigate to the Lightsail snapshots page.
+
+</li><li> Next to <code>PHP-fe-1</code>:
+<ul>
+<li> Expand &lsquo;<samp>&gt; Instance snapshot</samp>&rsquo;
+</li><li> Click the three dots
+</li><li> Click &lsquo;<samp>Create new instance</samp>&rsquo;
+</li></ul>
+
+</li><li> Name the instance <code>php-fe-rds</code>.
+
+</li><li> Scroll to the bottom of the screen and click &lsquo;<samp>Create instance</samp>&rsquo;.
+
+<p>Now that you have a new instance to work from, you can reconfigure the
+configuration file to point to the Amazon RDS database.
+</p>
+</li><li> Connect to the <code>php-fe-rds</code> instance through SSH.
+
+</li><li> Navigate to the Amazon RDS databases page.
+
+</li><li> From the list of databases, click the name of the Amazon RDS database you
+created earlier (the suggested name for this database was <code>tasks-db</code> to
+access the database details screen.
+
+</li><li> In the &lsquo;<samp>Connectivity</samp>&rsquo; section, copy your <em>Endpoint</em>.
+
+<ul>
+<li> Your <em>Endpoint</em> should look similar to
+<em>tasks-db.cdih0wyzznav.us-west-2.rds.amazonaws.com</em>
+</li></ul>
+
+</li><li> Return to the SSH session for the <code>php-fe-rds</code> instance.
+
+</li><li> Create an environment variable (<code>RDS_ENDPOINT</code>) to hold the value
+of your RDS database endpoint by:
+<div class="example">
+<pre class="example">RDS_ENDPOINT=&lt;rds-endpoint&gt;
+</pre></div>
+
+</li><li> Set environment variables for the default user name (<code>dbmasteruser</code>) and
+the password (<code>taskstasks</code>):
+<div class="example">
+<pre class="example">RDS_USERNAME=dbmasteruser
+RDS_PASSWORD=taskstasks
+</pre></div>
+
+</li><li> Verify the environment variables are set correctly:
+<div class="example">
+<pre class="example">echo &quot;Endpoint = &quot;$RDS_ENDPOINT
+echo &quot;Username = &quot;$RDS_USERNAME
+echo &quot;Password = &quot;$RDS_PASSWORD
+</pre></div>
+
+</li><li> Create a new configuration file that points to the Amazon RDS database:
+<div class="example">
+<pre class="example">     cat /opt/bitnami/apache2/configs/config.php.bak | \
+         sed &quot;s/&lt;endpoint&gt;/$RDS_ENDPOINT/; \
+         s/&lt;username&gt;/$RDS_USERNAME/; \
+         s/&lt;password&gt;/$RDS_PASSWORD/;&quot; \
+         &gt; /opt/bitnami/apache2/configs/config.php.rds_db
+</pre></div>
+
+</li><li> Activate the new configuration by replacing the existing <code>config.php</code> with
+the new version:
+<div class="example">
+<pre class="example">cp /opt/bitnami/apache2/configs/config.php.rds_db /opt/bitnami/apache2/configs/config.php
+</pre></div>
+
+</li><li> Verify the values of the new <code>config.php</code> file:
+<div class="example">
+<pre class="example">cat /opt/bitnami/apache2/configs/config.php
+</pre></div>
+
+</li><li> In a browser tap install the new database:
+<div class="example">
+<pre class="example">http://PHP-FE-RDS/install.php
+</pre></div>
+
+<p>You should get the following error:
+</p><div class="example">
+<pre class="example">SQLSTATE[HY000] [1049] Unknown database 'tasks'
+</pre></div>
+<p>This is because while you can reach the Amazon RDS server, the &rsquo;tasks&rsquo;
+database has not yet been created.
+</p>
+</li><li> In the final step, you will migrate the data from your Amazon Lightsail
+database into your Amazon RDS database.
+
+<p>In the SSH window create an environment variable name
+<code>LS_ENDPOINT</code> to hold the value of the endpoint of your database.
+</p><div class="example">
+<pre class="example">LS_ENDPOINT=&lt;IP-address&gt;
+</pre></div>
+
+<p>Your variable should look similar to:
+</p><div class="example">
+<pre class="example">LS_ENDPOINT='ls-966d5bf6be8ee5178432a633398bf4256bfcab69.cucxkvhp11zu.us-west-2.rds.amazonaws.com'
+</pre></div>
+
+</li><li> Set environment variables for the default user name (<code>dbmasteruser</code>) and
+the password (<code>taskstasks</code>):
+<div class="example">
+<pre class="example">LS_USERNAME=dbmasteruser
+LS_PASSWORD=taskstasks
+</pre></div>
+
+</li><li> Check to make sure the environment variables are set correctly (the output
+from the command below should match the values you just set for the LS
+endpoint, the user name, and the password):
+<div class="example">
+<pre class="example">echo &quot;Endpoint = &quot;$LS_ENDPOINT
+echo &quot;username = &quot;$LS_USERNAME
+echo &quot;Password = &quot;$RDS_PASSWORD
+</pre></div>
+
+</li><li> Issue the following command to export the database file into a file
+<code>tasks.sql</code>:
+<div class="example">
+<pre class="example">     mysqldump -u $LS_USERNAME \
+        --host $LS_ENDPOINT \
+        --databases tasks \
+        --single-transaction \
+        --compress \
+        --order-by-primary  \
+        --set-gtid-purged=OFF \
+        -p$LS_PASSWORD  &gt; tasks.sql
+</pre></div>
+
+</li><li> Access your RDS instance via the <code>mysql</code> command line tool:
+<div class="example">
+<pre class="example">     mysql -u $RDS_username \
+       --port=3306 \
+       --host=$RDS_ENDPOINT \
+       -p$RDS_PASSWORD
+</pre></div>
+
+</li><li> Import the previously created database dump file into MySQL:
+<div class="example">
+<pre class="example">source tasks.sql
+</pre></div>
+
+</li><li> In a browser tab:
+<div class="example">
+<pre class="example">http://&lt;IP-address&gt;
+</pre></div>
+
+<p>You should see that the tasks you created originally are now present in
+the database that is managed by Amazon RDS.
+</p>
+<p>From this point, you could repeat the steps from Task 4 and create a new
+snapshot from your <code>php-fe-rds</code> instance, deploy two new instances from
+that new snapshot, and replace the existing instances in your load
+balancer with your three new instances that use Amazon RDS.
+</p>
+<p>This process would give you a redundant web front end that runs in Amazon
+Lightsail, with the database running in Amazon RDS.  However, for this lab
+you will not do that.
+</p></li></ol>
+
+<hr>
+<div class="header">
+<p>
+Previous: <a href="Enable-Virtual-Private-Cloud-_0028VPC_0029-Peering.html#Enable-Virtual-Private-Cloud-_0028VPC_0029-Peering" accesskey="p" rel="prev">Enable Virtual Private Cloud (VPC) Peering</a>, Up: <a href="Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service.html#Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service" accesskey="u" rel="up">Task 5---Migrating to Amazon Relational Database Service</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Load-balance the Front End (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)</title>
+
+<meta name="description" content="Load-balance the Front End (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="keywords" content="Load-balance the Front End (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Task-4_002d_002d_002dScaling-the-PHP-Front-End.html#Task-4_002d_002d_002dScaling-the-PHP-Front-End" rel="up" title="Task 4---Scaling the PHP Front End">
+<link href="Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service.html#Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service" rel="next" title="Task 5---Migrating to Amazon Relational Database Service">
+<link href="Scale-the-Front-End.html#Scale-the-Front-End" rel="prev" title="Scale the Front End">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Load_002dbalance-the-Front-End"></a>
+<div class="header">
+<p>
+Previous: <a href="Scale-the-Front-End.html#Scale-the-Front-End" accesskey="p" rel="prev">Scale the Front End</a>, Up: <a href="Task-4_002d_002d_002dScaling-the-PHP-Front-End.html#Task-4_002d_002d_002dScaling-the-PHP-Front-End" accesskey="u" rel="up">Task 4---Scaling the PHP Front End</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Load_002dbalance-the-Front-End-1"></a>
+<h4 class="subsection">3.6.2 Load-balance the Front End</h4>
+
+<ol>
+<li> Return to the Lightsail console home page.
+
+</li><li> From the horizontal menu click &lsquo;<samp>Networking</samp>&rsquo;, then click the three dots,
+then select &lsquo;<samp>Manage</samp>&rsquo;.
+
+</li><li> Under the &lsquo;<samp>Target instances</samp>&rsquo;
+<ul>
+<li> Select <code>PHP-fe-1</code>
+</li><li> Click &lsquo;<samp>Attach</samp>&rsquo;
+</li></ul>
+
+</li><li> Click &lsquo;<samp>Attach another</samp>&rsquo;
+
+</li><li> Repeat these steps for <code>PHP-fe-2</code> and <code>PHP-fe-3</code>.  Wait for them all to
+pass their health checks before moving on.
+
+</li><li> Scroll up to the top of the screen.
+
+</li><li> <a name="index-DNS-name"></a>
+Copy your &lsquo;<samp>DNS name</samp>&rsquo;.
+
+<p>Your &lsquo;<samp>DNS name</samp>&rsquo; should look similar to
+&lsquo;<samp>82f80d8b8bf5f434083381be722632d2-1378146635.us-west-2.elb.amazonaws.com</samp>&rsquo;.
+This is the URL for your Lightsail load balancer.  Any requests to this URL
+will be routed to one of your three front-end instances.
+</p>
+</li><li> Paste the string into the web browser, and the application should load.
+
+</li><li> Reload the page.
+
+</li><li> Notice how the hostname at the bottom of the screen changes.  This
+indicates that traffic is being routed appropriately.
+</li></ol>
+
+
+
+
+</body>
+</html>

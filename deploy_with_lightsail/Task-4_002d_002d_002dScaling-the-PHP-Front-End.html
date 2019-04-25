@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Task 4---Scaling the PHP Front End (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)</title>
+
+<meta name="description" content="Task 4---Scaling the PHP Front End (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="keywords" content="Task 4---Scaling the PHP Front End (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Deploy-and-Scale-a-Lamp-Application.html#Deploy-and-Scale-a-Lamp-Application" rel="up" title="Deploy and Scale a Lamp Application">
+<link href="Scale-the-Front-End.html#Scale-the-Front-End" rel="next" title="Scale the Front End">
+<link href="Reconfigure-the-front-end-to-point-at-the-new-Lightsail-database.html#Reconfigure-the-front-end-to-point-at-the-new-Lightsail-database" rel="prev" title="Reconfigure the front end to point at the new Lightsail database">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Task-4_002d_002d_002dScaling-the-PHP-Front-End"></a>
+<div class="header">
+<p>
+Next: <a href="Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service.html#Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service" accesskey="n" rel="next">Task 5---Migrating to Amazon Relational Database Service</a>, Previous: <a href="Task-3_002d_002d_002dConnect-to-an-Amazon-Lightsail-Database.html#Task-3_002d_002d_002dConnect-to-an-Amazon-Lightsail-Database" accesskey="p" rel="prev">Task 3---Connect to an Amazon Lightsail Database</a>, Up: <a href="Deploy-and-Scale-a-Lamp-Application.html#Deploy-and-Scale-a-Lamp-Application" accesskey="u" rel="up">Deploy and Scale a Lamp Application</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Task-4_002d_002d_002dScaling-the-PHP-Front-End-1"></a>
+<h3 class="section">3.6 Task 4&mdash;Scaling the PHP Front End</h3>
+
+<a name="Lesson-8_002e-What-are-You-Going-to-Do_003f"></a>
+<h3 class="heading">Lesson 8. What are You Going to Do?</h3>
+
+<a name="index-scalability_002c-add"></a>
+<a name="index-fault-tolerance_002c-add"></a>
+<p>Now that you have the front end and database separated, let&rsquo;s take a look at
+how we can add some scalability and fault tolerance to the web tier.
+</p>
+<a name="Deploy-Additional-Web-Tier-Instances"></a>
+<h4 class="subheading">Deploy Additional Web Tier Instances</h4>
+
+<a name="index-instances_002c-deploy-additional"></a>
+<p>In this section, you will take a snapshot of the web front end, and deploy two
+additional web tier instances from that snapshot.
+</p>
+<a name="Add-a-Load-Balancer"></a>
+<h4 class="subheading">Add a Load Balancer</h4>
+
+<a name="index-load-balancer_002c-add"></a>
+<a name="index-web-application_002c-two_002dtier"></a>
+<a name="index-two_002dtier-web-application"></a>
+<p>Finally, you will add a load balancer in front of the three web instances.
+When this task is complete, you will have a scaled-out and fault-tolerant
+version of a sample two-tier web application.
+</p>
+<p>After you complete this task, you will have a scaled-out and fault-tolerant
+version of a sample two-tier web application.
+</p>
+<a name="Amazon-Lightsail-Load-Balancers"></a>
+<h3 class="heading">Amazon Lightsail Load Balancers</h3>
+
+<ul>
+<li> Simple version of Amazon Elastic Load Balancer (ELB)
+</li><li> Can be set up in a few clicks
+</li><li> Have easy Secure Sockets Layer (SSL) certificates
+</li><li> Handle HTTP or HTTPS traffic
+</li><li> Balance traffic across ports 80 and 443
+</li></ul>
+
+
+<a name="Horizontal-Scaling-with-Snapshots"></a>
+<h3 class="heading">Horizontal Scaling with Snapshots</h3>
+
+<ul>
+<li> Create a copy of Amazon Lightsail instance&rsquo;s system disk includes instance
+configuration information (processing power, memory, data transfer, and disk
+size)
+</li><li> Deploy a new identical instance or scale an instance to a larger size (cannot
+scale down)
+</li><li> Allow for Lightsail instances to be exported to Amazon Elastic Compute Cloud
+(Amazon EC2)
+</li></ul>
+
+
+<img src="../img/scaled-LAMP-50.png" alt="../img/scaled-LAMP-50">
+
+<p>This demonstration video will take you step by step through the lab process.
+</p>
+<p><a href="./videos/task_4-scale_PHP_front_end.mp4">./videos/task_4-scale_PHP_front_end.mp4</a>
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="Scale-the-Front-End.html#Scale-the-Front-End" accesskey="1">Scale the Front End</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Load_002dbalance-the-Front-End.html#Load_002dbalance-the-Front-End" accesskey="2">Load-balance the Front End</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service.html#Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service" accesskey="n" rel="next">Task 5---Migrating to Amazon Relational Database Service</a>, Previous: <a href="Task-3_002d_002d_002dConnect-to-an-Amazon-Lightsail-Database.html#Task-3_002d_002d_002dConnect-to-an-Amazon-Lightsail-Database" accesskey="p" rel="prev">Task 3---Connect to an Amazon Lightsail Database</a>, Up: <a href="Deploy-and-Scale-a-Lamp-Application.html#Deploy-and-Scale-a-Lamp-Application" accesskey="u" rel="up">Deploy and Scale a Lamp Application</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

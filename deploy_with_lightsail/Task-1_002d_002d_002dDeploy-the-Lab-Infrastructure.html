@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Task 1---Deploy the Lab Infrastructure (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)</title>
+
+<meta name="description" content="Task 1---Deploy the Lab Infrastructure (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="keywords" content="Task 1---Deploy the Lab Infrastructure (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Deploy-and-Scale-a-Lamp-Application.html#Deploy-and-Scale-a-Lamp-Application" rel="up" title="Deploy and Scale a Lamp Application">
+<link href="Build-the-Lamp-Instance.html#Build-the-Lamp-Instance" rel="next" title="Build the Lamp Instance">
+<link href="Start-the-Lab.html#Start-the-Lab" rel="prev" title="Start the Lab">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Task-1_002d_002d_002dDeploy-the-Lab-Infrastructure"></a>
+<div class="header">
+<p>
+Next: <a href="Task-2_002d_002d_002dDeploy-a-Monolithic-LAMP-Application.html#Task-2_002d_002d_002dDeploy-a-Monolithic-LAMP-Application" accesskey="n" rel="next">Task 2---Deploy a Monolithic LAMP Application</a>, Previous: <a href="Start-the-Lab.html#Start-the-Lab" accesskey="p" rel="prev">Start the Lab</a>, Up: <a href="Deploy-and-Scale-a-Lamp-Application.html#Deploy-and-Scale-a-Lamp-Application" accesskey="u" rel="up">Deploy and Scale a Lamp Application</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Task-1_002d_002d_002dDeploy-the-Lab-Infrastructure-1"></a>
+<h3 class="section">3.3 Task 1&mdash;Deploy the Lab Infrastructure</h3>
+
+<a name="Lesson-5_002e-What-are-You-Going-to-Do_003f"></a>
+<h3 class="heading">Lesson 5. What are You Going to Do?</h3>
+
+<a name="Build-and-Deploy-Infrastructure-Components"></a>
+<h4 class="subheading">Build and Deploy Infrastructure Components</h4>
+
+<a name="index-infrastructure-components_002c-deploy"></a>
+<p>In this task, you&rsquo;ll deploy the infrastructure components that will be used in
+subsequent sections.
+</p>
+<ol>
+<li> Build the <strong>LAMP instance</strong>: A Lightsail instance based on the LAMP blueprint
+</li><li> Deploy a <strong>Amazon Lightsail database</strong>
+</li><li> Create a <strong>Lightsail load balancer</strong>
+</li><li> Build an <strong>Amazon Relational Database Service (Amazon RDS) instance</strong>
+</li></ol>
+
+
+<p>This demonstration video will take you step by step through the lab process.
+</p>
+<p><a href="./videos/task_1-deploy_infrastructure.mp4">./videos/task_1-deploy_infrastructure.mp4</a>
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="Build-the-Lamp-Instance.html#Build-the-Lamp-Instance" accesskey="1">Build the Lamp Instance</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Connect-to-Your-Lightsail-Instance-Using-SSH.html#Connect-to-Your-Lightsail-Instance-Using-SSH" accesskey="2">Connect to Your Lightsail Instance Using SSH</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Deploy-an-Amazon-Lightsail-Database.html#Deploy-an-Amazon-Lightsail-Database" accesskey="3">Deploy an Amazon Lightsail Database</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Set-up-a-Load-Balancer.html#Set-up-a-Load-Balancer" accesskey="4">Set up a Load Balancer</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Deploy-an-Amazon-RDS-Database.html#Deploy-an-Amazon-RDS-Database" accesskey="5">Deploy an Amazon RDS Database</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+
+
+
+</body>
+</html>

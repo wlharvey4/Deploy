@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Task 6---Upgrading to Amazon Elastic Cmpute Cloud (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)</title>
+
+<meta name="description" content="Task 6---Upgrading to Amazon Elastic Cmpute Cloud (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="keywords" content="Task 6---Upgrading to Amazon Elastic Cmpute Cloud (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Deploy-and-Scale-a-Lamp-Application.html#Deploy-and-Scale-a-Lamp-Application" rel="up" title="Deploy and Scale a Lamp Application">
+<link href="Export-the-Lightsail-Snapshot.html#Export-the-Lightsail-Snapshot" rel="next" title="Export the Lightsail Snapshot">
+<link href="Reconfigure-the-Database-Connection.html#Recon_fb01gure-the-Database-Connection" rel="prev" title="Reconﬁgure the Database Connection">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Task-6_002d_002d_002dUpgrading-to-Amazon-Elastic-Cmpute-Cloud"></a>
+<div class="header">
+<p>
+Next: <a href="Task-7_002d_002d_002dCleanup.html#Task-7_002d_002d_002dCleanup" accesskey="n" rel="next">Task 7---Cleanup</a>, Previous: <a href="Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service.html#Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service" accesskey="p" rel="prev">Task 5---Migrating to Amazon Relational Database Service</a>, Up: <a href="Deploy-and-Scale-a-Lamp-Application.html#Deploy-and-Scale-a-Lamp-Application" accesskey="u" rel="up">Deploy and Scale a Lamp Application</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Task-6_002d_002d_002dUpgrading-to-Amazon-Elastic-Cmpute-Cloud-1"></a>
+<h3 class="section">3.8 Task 6&mdash;Upgrading to Amazon Elastic Cmpute Cloud</h3>
+
+<a name="Lesson-10_002e-What-are-You-Going-to-Do_003f"></a>
+<h3 class="heading">Lesson 10. What are You Going to Do?</h3>
+
+<a name="index-upgrade-Lightsail-instance-to-EC2-instance"></a>
+<a name="index-Elastic-Compute-Cloud-EC2"></a>
+<p>In the previous section, you worked through how to migrate an Amazon Lightsail
+database to Amazon Relational Database Service (Amazon RDS).  In this ﬁnal lab,
+you will upgrade your Amazon Lightsail instance to Amazon Elastic Compute Cloud
+(Amazon EC2).
+</p>
+<p>To perform this upgrade you will:
+</p><ul>
+<li> Create a snapshot of your web front-end instance that uses Amazon RDS
+</li><li> Export that snapshot to Amazon EC2
+</li><li> Create a new Amazon EC2 instance from the exported snapshot
+</li><li> Update the Amazon RDS security group to include the security group for your
+Amazon EC2 instance
+</li></ul>
+
+
+<p>After you complete this task, the application can take advantage of the full
+set of features that are offered by other AWS services, such as Amazon EC2 and
+Amazon RDS.
+</p>
+<a name="Amazon-EC2"></a>
+<h3 class="heading">Amazon EC2</h3>
+
+<ul>
+<li> Offers secure, resizable compute capacity in the cloud
+</li><li> Can quickly scale capacity
+</li><li> Reduces the time required to obtain and boot new server instances
+</li></ul>
+
+
+<img src="../img/LAMP-EC2-RDS-50.png" alt="../img/LAMP-EC2-RDS-50">
+
+<p>This demonstration video will take you step by step through the lab process.
+</p>
+<p><a href="./videos/task_6-upgrade_to_EC2.mp4">./videos/task_6-upgrade_to_EC2.mp4</a>
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="Export-the-Lightsail-Snapshot.html#Export-the-Lightsail-Snapshot" accesskey="1">Export the Lightsail Snapshot</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Create-an-Amazon-EC2-Instance.html#Create-an-Amazon-EC2-Instance" accesskey="2">Create an Amazon EC2 Instance</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Update-the-Amazon-RDS-Security-Group.html#Update-the-Amazon-RDS-Security-Group" accesskey="3">Update the Amazon RDS Security Group</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+
+
+
+</body>
+</html>

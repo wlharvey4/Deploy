@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Top (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)</title>
+
+<meta name="description" content="Top (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="keywords" content="Top (Amazon Lightsail: Deploying and Scaling Your First Cloud Application)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="#Top" rel="start" title="Top">
+<link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
+<link href="#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="../dir/index.html" rel="up" title="(dir)">
+<link href="About-the-Course.html#About-the-Course" rel="next" title="About the Course">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<h1 class="settitle" align="center">Amazon Lightsail: Deploying and Scaling Your First Cloud Application</h1>
+
+
+
+<a name="SEC_Contents"></a>
+<h2 class="contents-heading">Table of Contents</h2>
+
+<div class="contents">
+
+<ul class="no-bullet">
+  <li><a name="toc-About-the-Course-1" href="About-the-Course.html#About-the-Course">1 About the Course</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Course-Syllabus-1" href="Course-Syllabus.html#Course-Syllabus">1.1 Course Syllabus</a></li>
+    <li><a name="toc-Lab-Overview-1" href="Lab-Overview.html#Lab-Overview">1.2 Lab Overview</a></li>
+    <li><a name="toc-Topics-Covered-1" href="Topics-Covered.html#Topics-Covered">1.3 Topics Covered</a></li>
+  </ul></li>
+  <li><a name="toc-What-is-Amazon-Lightsail-1" href="What-is-Amazon-Lightsail.html#What-is-Amazon-Lightsail">2 What is Amazon Lightsail</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Lesson-1_002d_002d_002dWhat-is-Amazon-Lightsail-1" href="Lesson-1_002d_002d_002dWhat-is-Amazon-Lightsail.html#Lesson-1_002d_002d_002dWhat-is-Amazon-Lightsail">2.1 Lesson 1&mdash;What is Amazon Lightsail</a></li>
+    <li><a name="toc-Lesson-2_002d_002d_002dWhen-to-Choose-Lightsail-1" href="Lesson-2_002d_002d_002dWhen-to-Choose-Lightsail.html#Lesson-2_002d_002d_002dWhen-to-Choose-Lightsail">2.2 Lesson 2&mdash;When to Choose Lightsail</a></li>
+    <li><a name="toc-Lesson-3_002d_002d_002dAmazon-Lightsail-console-overview-1" href="Lesson-3_002d_002d_002dAmazon-Lightsail-console-overview.html#Lesson-3_002d_002d_002dAmazon-Lightsail-console-overview">2.3 Lesson 3&mdash;Amazon Lightsail console overview</a></li>
+  </ul></li>
+  <li><a name="toc-Deploy-and-Scale-a-Lamp-Application-1" href="Deploy-and-Scale-a-Lamp-Application.html#Deploy-and-Scale-a-Lamp-Application">3 Deploy and Scale a Lamp Application</a>
+  <ul class="no-bullet">
+    <li><a name="toc-Prerequisites-and-SSH-Instructions-1" href="Prerequisites-and-SSH-Instructions.html#Prerequisites-and-SSH-Instructions">3.1 Prerequisites and SSH Instructions</a>
+    <ul class="no-bullet">
+      <li><a name="toc-SSH-Into-a-Lightsail-Instance-Using-the-Built_002din-Web_002dbased-Client-1" href="SSH-Into-a-Lightsail-Instance-Using-the-Built_002din-Web_002dbased-Client.html#SSH-Into-a-Lightsail-Instance-Using-the-Built_002din-Web_002dbased-Client">3.1.1 SSH Into a Lightsail Instance Using the Built-in Web-based Client</a></li>
+      <li><a name="toc-SSH-Into-a-Lightsail-Instance-Using-a-Preferred-Client-1" href="SSH-Into-a-Lightsail-Instance-Using-a-Preferred-Client.html#SSH-Into-a-Lightsail-Instance-Using-a-Preferred-Client">3.1.2 SSH Into a Lightsail Instance Using a Preferred Client</a></li>
+      <li><a name="toc-Take-a-Test-Run-1" href="Take-a-Test-Run.html#Take-a-Test-Run">3.1.3 Take a Test Run</a></li>
+    </ul></li>
+    <li><a name="toc-Start-the-Lab-1" href="Start-the-Lab.html#Start-the-Lab">3.2 Start the Lab</a></li>
+    <li><a name="toc-Task-1_002d_002d_002dDeploy-the-Lab-Infrastructure-1" href="Task-1_002d_002d_002dDeploy-the-Lab-Infrastructure.html#Task-1_002d_002d_002dDeploy-the-Lab-Infrastructure">3.3 Task 1&mdash;Deploy the Lab Infrastructure</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Build-the-Lamp-Instance-1" href="Build-the-Lamp-Instance.html#Build-the-Lamp-Instance">3.3.1 Build the Lamp Instance</a></li>
+      <li><a name="toc-Connect-to-Your-Lightsail-Instance-Using-SSH-1" href="Connect-to-Your-Lightsail-Instance-Using-SSH.html#Connect-to-Your-Lightsail-Instance-Using-SSH">3.3.2 Connect to Your Lightsail Instance Using SSH</a></li>
+      <li><a name="toc-Deploy-an-Amazon-Lightsail-Database-1" href="Deploy-an-Amazon-Lightsail-Database.html#Deploy-an-Amazon-Lightsail-Database">3.3.3 Deploy an Amazon Lightsail Database</a></li>
+      <li><a name="toc-Set-up-a-Load-Balancer-1" href="Set-up-a-Load-Balancer.html#Set-up-a-Load-Balancer">3.3.4 Set up a Load Balancer</a></li>
+      <li><a name="toc-Deploy-an-Amazon-RDS-Database-1" href="Deploy-an-Amazon-RDS-Database.html#Deploy-an-Amazon-RDS-Database">3.3.5 Deploy an Amazon RDS Database</a></li>
+    </ul></li>
+    <li><a name="toc-Task-2_002d_002d_002dDeploy-a-Monolithic-LAMP-Application-1" href="Task-2_002d_002d_002dDeploy-a-Monolithic-LAMP-Application.html#Task-2_002d_002d_002dDeploy-a-Monolithic-LAMP-Application">3.4 Task 2&mdash;Deploy a Monolithic LAMP Application</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Deploy-a-LAMP-Stack-Application-1" href="Deploy-a-LAMP-Stack-Application.html#Deploy-a-LAMP-Stack-Application">3.4.1 Deploy a LAMP Stack Application</a></li>
+    </ul></li>
+    <li><a name="toc-Task-3_002d_002d_002dConnect-to-an-Amazon-Lightsail-Database-1" href="Task-3_002d_002d_002dConnect-to-an-Amazon-Lightsail-Database.html#Task-3_002d_002d_002dConnect-to-an-Amazon-Lightsail-Database">3.5 Task 3&mdash;Connect to an Amazon Lightsail Database</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Reconfigure-the-front-end-to-point-at-the-new-Lightsail-database-1" href="Reconfigure-the-front-end-to-point-at-the-new-Lightsail-database.html#Reconfigure-the-front-end-to-point-at-the-new-Lightsail-database">3.5.1 Reconfigure the front end to point at the new Lightsail database</a></li>
+    </ul></li>
+    <li><a name="toc-Task-4_002d_002d_002dScaling-the-PHP-Front-End-1" href="Task-4_002d_002d_002dScaling-the-PHP-Front-End.html#Task-4_002d_002d_002dScaling-the-PHP-Front-End">3.6 Task 4&mdash;Scaling the PHP Front End</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Scale-the-Front-End-1" href="Scale-the-Front-End.html#Scale-the-Front-End">3.6.1 Scale the Front End</a></li>
+      <li><a name="toc-Load_002dbalance-the-Front-End-1" href="Load_002dbalance-the-Front-End.html#Load_002dbalance-the-Front-End">3.6.2 Load-balance the Front End</a></li>
+    </ul></li>
+    <li><a name="toc-Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service-1" href="Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service.html#Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service">3.7 Task 5&mdash;Migrating to Amazon Relational Database Service</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Modify-the-RDS-Security-Group-1" href="Modify-the-RDS-Security-Group.html#Modify-the-RDS-Security-Group">3.7.1 Modify the RDS Security Group</a></li>
+      <li><a name="toc-Enable-Virtual-Private-Cloud-_0028VPC_0029-Peering-1" href="Enable-Virtual-Private-Cloud-_0028VPC_0029-Peering.html#Enable-Virtual-Private-Cloud-_0028VPC_0029-Peering">3.7.2 Enable Virtual Private Cloud (VPC) Peering</a></li>
+      <li><a name="toc-Reconfigure-the-Database-Connection" href="Reconfigure-the-Database-Connection.html#Recon_fb01gure-the-Database-Connection">3.7.3 Reconﬁgure the Database Connection</a></li>
+    </ul></li>
+    <li><a name="toc-Task-6_002d_002d_002dUpgrading-to-Amazon-Elastic-Cmpute-Cloud-1" href="Task-6_002d_002d_002dUpgrading-to-Amazon-Elastic-Cmpute-Cloud.html#Task-6_002d_002d_002dUpgrading-to-Amazon-Elastic-Cmpute-Cloud">3.8 Task 6&mdash;Upgrading to Amazon Elastic Cmpute Cloud</a>
+    <ul class="no-bullet">
+      <li><a name="toc-Export-the-Lightsail-Snapshot-1" href="Export-the-Lightsail-Snapshot.html#Export-the-Lightsail-Snapshot">3.8.1 Export the Lightsail Snapshot</a></li>
+      <li><a name="toc-Create-an-Amazon-EC2-Instance-1" href="Create-an-Amazon-EC2-Instance.html#Create-an-Amazon-EC2-Instance">3.8.2 Create an Amazon EC2 Instance</a></li>
+      <li><a name="toc-Update-the-Amazon-RDS-Security-Group-1" href="Update-the-Amazon-RDS-Security-Group.html#Update-the-Amazon-RDS-Security-Group">3.8.3 Update the Amazon RDS Security Group</a></li>
+    </ul></li>
+    <li><a name="toc-Task-7_002d_002d_002dCleanup-1" href="Task-7_002d_002d_002dCleanup.html#Task-7_002d_002d_002dCleanup">3.9 Task 7&mdash;Cleanup</a></li>
+    <li><a name="toc-Conclusion-1" href="Conclusion.html#Conclusion">3.10 Conclusion</a>
+    <ul class="no-bullet">
+      <li><a name="toc-End-Lab-1" href="End-Lab.html#End-Lab">3.10.1 End Lab</a></li>
+    </ul></li>
+  </ul></li>
+  <li><a name="toc-Concept-Index-1" href="Concept-Index.html#Concept-Index">Concept Index</a></li>
+</ul>
+</div>
+
+
+<a name="Top"></a>
+<div class="header">
+<p>
+Next: <a href="About-the-Course.html#About-the-Course" accesskey="n" rel="next">About the Course</a>, Up: <a href="../dir/index.html" accesskey="u" rel="up">(dir)</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Amazon-Lightsail_003a-Deploying-and-Scaling-Your-First-Cloud-Application"></a>
+<h1 class="top">Amazon Lightsail: Deploying and Scaling Your First Cloud Application</h1>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="About-the-Course.html#About-the-Course" accesskey="1">About the Course</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="What-is-Amazon-Lightsail.html#What-is-Amazon-Lightsail" accesskey="2">What is Amazon Lightsail</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Deploy-and-Scale-a-Lamp-Application.html#Deploy-and-Scale-a-Lamp-Application" accesskey="3">Deploy and Scale a Lamp Application</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Concept-Index.html#Concept-Index" accesskey="4">Concept Index</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+</pre></th></tr><tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">&mdash; The Detailed Node Listing &mdash;
+
+About the Course
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Course-Syllabus.html#Course-Syllabus" accesskey="5">Course Syllabus</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Lab-Overview.html#Lab-Overview" accesskey="6">Lab Overview</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Topics-Covered.html#Topics-Covered" accesskey="7">Topics Covered</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+What is Amazon Lightsail
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Lesson-1_002d_002d_002dWhat-is-Amazon-Lightsail.html#Lesson-1_002d_002d_002dWhat-is-Amazon-Lightsail" accesskey="8">Lesson 1---What is Amazon Lightsail</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Lesson-2_002d_002d_002dWhen-to-Choose-Lightsail.html#Lesson-2_002d_002d_002dWhen-to-Choose-Lightsail" accesskey="9">Lesson 2---When to Choose Lightsail</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Lesson-3_002d_002d_002dAmazon-Lightsail-console-overview.html#Lesson-3_002d_002d_002dAmazon-Lightsail-console-overview">Lesson 3---Amazon Lightsail console overview</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Deploy and Scale a Lamp Application
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Prerequisites-and-SSH-Instructions.html#Prerequisites-and-SSH-Instructions">Prerequisites and SSH Instructions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Start-the-Lab.html#Start-the-Lab">Start the Lab</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Task-1_002d_002d_002dDeploy-the-Lab-Infrastructure.html#Task-1_002d_002d_002dDeploy-the-Lab-Infrastructure">Task 1---Deploy the Lab Infrastructure</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Task-2_002d_002d_002dDeploy-a-Monolithic-LAMP-Application.html#Task-2_002d_002d_002dDeploy-a-Monolithic-LAMP-Application">Task 2---Deploy a Monolithic LAMP Application</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Task-3_002d_002d_002dConnect-to-an-Amazon-Lightsail-Database.html#Task-3_002d_002d_002dConnect-to-an-Amazon-Lightsail-Database">Task 3---Connect to an Amazon Lightsail Database</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Task-4_002d_002d_002dScaling-the-PHP-Front-End.html#Task-4_002d_002d_002dScaling-the-PHP-Front-End">Task 4---Scaling the PHP Front End</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service.html#Task-5_002d_002d_002dMigrating-to-Amazon-Relational-Database-Service">Task 5---Migrating to Amazon Relational Database Service</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Task-6_002d_002d_002dUpgrading-to-Amazon-Elastic-Cmpute-Cloud.html#Task-6_002d_002d_002dUpgrading-to-Amazon-Elastic-Cmpute-Cloud">Task 6---Upgrading to Amazon Elastic Cmpute Cloud</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Task-7_002d_002d_002dCleanup.html#Task-7_002d_002d_002dCleanup">Task 7---Cleanup</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Conclusion.html#Conclusion">Conclusion</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Prerequisites and SSH Instructions
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="SSH-Into-a-Lightsail-Instance-Using-the-Built_002din-Web_002dbased-Client.html#SSH-Into-a-Lightsail-Instance-Using-the-Built_002din-Web_002dbased-Client">SSH Into a Lightsail Instance Using the Built-in Web-based Client</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="SSH-Into-a-Lightsail-Instance-Using-a-Preferred-Client.html#SSH-Into-a-Lightsail-Instance-Using-a-Preferred-Client">SSH Into a Lightsail Instance Using a Preferred Client</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Take-a-Test-Run.html#Take-a-Test-Run">Take a Test Run</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Task 1&mdash;Deploy the Lab Infrastructure
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Build-the-Lamp-Instance.html#Build-the-Lamp-Instance">Build the Lamp Instance</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Connect-to-Your-Lightsail-Instance-Using-SSH.html#Connect-to-Your-Lightsail-Instance-Using-SSH">Connect to Your Lightsail Instance Using SSH</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Deploy-an-Amazon-Lightsail-Database.html#Deploy-an-Amazon-Lightsail-Database">Deploy an Amazon Lightsail Database</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Set-up-a-Load-Balancer.html#Set-up-a-Load-Balancer">Set up a Load Balancer</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Deploy-an-Amazon-RDS-Database.html#Deploy-an-Amazon-RDS-Database">Deploy an Amazon RDS Database</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Task 2&mdash;Deploy a Monolithic LAMP Application
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Deploy-a-LAMP-Stack-Application.html#Deploy-a-LAMP-Stack-Application">Deploy a LAMP Stack Application</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Task 3&mdash;Connect to an Amazon Lightsail Database
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Reconfigure-the-front-end-to-point-at-the-new-Lightsail-database.html#Reconfigure-the-front-end-to-point-at-the-new-Lightsail-database">Reconfigure the front end to point at the new Lightsail database</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Task 4&mdash;Scaling the PHP Front End
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Scale-the-Front-End.html#Scale-the-Front-End">Scale the Front End</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Load_002dbalance-the-Front-End.html#Load_002dbalance-the-Front-End">Load-balance the Front End</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Task 5&mdash;Migrating to Amazon Relational Database Service
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Modify-the-RDS-Security-Group.html#Modify-the-RDS-Security-Group">Modify the RDS Security Group</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Enable-Virtual-Private-Cloud-_0028VPC_0029-Peering.html#Enable-Virtual-Private-Cloud-_0028VPC_0029-Peering">Enable Virtual Private Cloud (VPC) Peering</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Reconfigure-the-Database-Connection.html#Recon_fb01gure-the-Database-Connection">Reconﬁgure the Database Connection</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Task 6&mdash;Upgrading to Amazon Elastic Cmpute Cloud
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="Export-the-Lightsail-Snapshot.html#Export-the-Lightsail-Snapshot">Export the Lightsail Snapshot</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Create-an-Amazon-EC2-Instance.html#Create-an-Amazon-EC2-Instance">Create an Amazon EC2 Instance</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Update-the-Amazon-RDS-Security-Group.html#Update-the-Amazon-RDS-Security-Group">Update the Amazon RDS Security Group</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+Conclusion
+
+</pre></th></tr><tr><td align="left" valign="top">&bull; <a href="End-Lab.html#End-Lab">End Lab</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+<tr><th colspan="3" align="left" valign="top"><pre class="menu-comment">
+
+</pre></th></tr></table>
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="About-the-Course.html#About-the-Course" accesskey="n" rel="next">About the Course</a>, Up: <a href="../dir/index.html" accesskey="u" rel="up">(dir)</a> &nbsp; [<a href="#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>
