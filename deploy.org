@@ -1,7 +1,7 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploy!
 #+AUTHOR:Pinecone062
-#+DATE:<2019-04-24 Wed 18:54>
+#+DATE:<2019-04-24 Wed 19:12>
 #+SUBTITLE:A Hands-On Guide to the How and Why of Deploying Websites Using a Variety of Services @@html:<br>@@
 #+SUBTITLE:By {{{author}}} @@html:<br>@@
 #+SUBTITLE:/Last Updated {{{date(%c)}}}/
@@ -3819,12 +3819,10 @@ the requirements of your target workload.
      logically isolated from the rest of the AWS cloud, and that you can
      optionally connect to your own network
 
-
 ** Dynamic Web Sites on AWS using Lightsail
-
 *** Tutorial on Deploying a LAMP Stack using Lightsail
 
-[[./deploy_with_lightsail/index.html][Lightsail LAMP Tutorial]]
+[[./deploy_with_lightsail/index.html][Amazon Lightsail: Deploying and Scaling Your First Cloud Application]]
 
 ** Single Page React Apps on AWS
 
@@ -3844,6 +3842,7 @@ the requirements of your target workload.
 #+CREATOR: <a href="https://www.gnu.org/software/emacs/">Emacs</a> 26.1 (<a href="https://orgmode.org">Org</a> mode 9.1.14)
 #+LATEX_HEADER:
 
+* Macro Definitions                                                :noexport:
 #+MACRO: heading @@html:<h2>$1</h2>@@
 
 * Footnotes
