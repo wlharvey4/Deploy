@@ -1,11 +1,13 @@
 # -*- mode:org; fill-column:79; -*-
 #+title:Amazon Lightsail: Deploying and Scaling Your First Cloud Application
-#+date:<2019-04-24 Wed 16:48>
+#+date:<2019-04-24 Wed 17:00>
 #+author:AWS Training
 * About the Course
 Amazon Lightsail is a cloud platform that's cost-effective, fast, and reliable
 with an easy-to-use interface.  It’s ideal for simpler workloads, quick
 deployments, and getting started on AWS.
+
+http://aws.amazon.com/training/
 
 In this module, you will gain an understanding of
 
@@ -1162,6 +1164,32 @@ Although we clean up all resources when you use our lab platform, you would
 incur additional charges if you create these resources in your personal account
 and do not delete them. To clean up these resources, follow these steps.
 
+159. [@159]Return to the Lightsail console home.
+
+160. Delete the four Lightsail instances you created by clicking the three dots
+     for each instance and choosing =Delete=.  Confirm each delete =Yes,
+     Delete=.
+
+161. From the horizontal menu, click =Networking=.
+
+162. On the ~todo-lb~ load balancer, click the three dots and choose =Delete=.
+     Confirm.
+
+163. Click =Home=, then from the horizontal menu, select =Snapshots=.
+
+164. Click the three dots for each snapshot you created and choose =Delete
+     snapshot= for each one.  Confirm.
+
+165. Click =Home= and then, from the horizontal menu, select =Databases=.
+
+166. Click the three dots on the database you created and choose =Delete=.
+     Conform.
+
+167. Go to the RDS console and delete the RDS database.
+
+168. Go to the EC2 console and delete the EC2 instance and its related security
+     groups.
+
 ** Conclusion
 Congratulations! You now have successfully:
 
@@ -1181,8 +1209,18 @@ Congratulations! You now have successfully:
   + Moving your front end to Amazon EC2
 
 
+*** End Lab
 Follow these steps to close the console, end your lab, and evaluate the
 experience.
+
+169. [@169]Return to the AWS Management Console.
+
+170. On the navigation bar, click *<yourusername>@<AccountNumber>*, and then
+     click =Sign Out=.
+
+171. Click =End Lab=.
+
+172. Click =OK=.
 
 Thank you for participating in this Amazon Lightsail lab exercise.  We hope you
 have a better understanding of Amazon Lightsail and how it could benefit you.
