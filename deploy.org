@@ -1,7 +1,7 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploy!
 #+AUTHOR:Pinecone062
-#+DATE:<2019-04-25 Thu 14:52>
+#+DATE:<2019-04-25 Thu 23:00>
 #+SUBTITLE:A Hands-On Guide to the How and Why of Deploying Websites Using a Variety of Services @@html:<br>@@
 #+SUBTITLE:By {{{author}}} @@html:<br>@@
 #+SUBTITLE:/Last Updated {{{date(%c)}}}/
@@ -380,7 +380,7 @@ The basic services involved will be:
 - [[https://aws.amazon.com/s3/][Simple Storage Service (S3)]] (for hosting static content and single page apps)
 - [[https://aws.amazon.com/ec2/][Elastic Cloud Compute (EC2)]] (for hosting dynamic content and databases)
   - [[https://aws.amazon.com/lightsail/][Amazon Lightsail]] (for hosting dynamic content efficiently and cheaply)
-  - [[https://aws.amazon.com/cloudfront/][CloudFront]] (for https domain name functionality)
+  - [[https://aws.amazon.com/cloudfront/][CloudFront]] (for https domain name functionality on static sites)
   - [[https://aws.amazon.com/certificate-manager/][Certificate Manager]] (for https certificates)
 
 ** AWS Accounts
@@ -1581,8 +1581,8 @@ be developing an application for the domain registrant.
      with another domain registrar, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.htmlhttps://docs.aws.amazon.com/Route53/latest/DeveloperGuide/MigratingDNS.html][Making Amazon Route 53 the DNS Service
      for an Existing Domain]].
 
-   - If the domain is registered with Route 53, see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-name-servers-glue-records.html][Adding or Changing Name
-     Servers and Glue Records for a Domain]].
+   - If the domain is registered with Route 53,
+     see [[https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-name-servers-glue-records.html][Adding or Changing Name Servers and Glue Records for a Domain]].
 
 ******* Getting the Name Servers for a Public Hosted Zone
 If you're currently using another DNS service and you want to migrate to Amazon
@@ -1955,10 +1955,12 @@ Amazon Route 53 responds to queries:
      proportions that you specify.
 
 ****** Choosing Between Alias and Non-Alias Records
-Amazon Route 53 alias records provide a Route 53–specific extension to DNS
-functionality.  *Alias records* let you route traffic to selected AWS
-resources, such as CloudFront distributions and Amazon S3 buckets.  They also
-let you route traffic from one record in a hosted zone to another record.
+Amazon Route 53 alias records provide a *Route 53–specific extension to DNS
+functionality*.
+
+*Alias records* let you route traffic to selected AWS resources, such as
+CloudFront distributions and Amazon S3 buckets.  They also let you route
+traffic from one record in a hosted zone to another record.
 
 Unlike a =CNAME= record, you can create an alias record at the top node of a
 DNS namespace, also known as the /zone apex/.  For example, if you register the
@@ -1983,9 +1985,9 @@ Alias records are similar to CNAME records, but there are some important
 differences:
 
 - A CNAME record can redirect DNS queries to any DNS record. For example, you
-  can create a CNAME record that redirects queries from acme.example.com to
-  zenith.example.com or to acme.example.org. You don't need to use Route 53 as
-  the DNS service for the domain that you're redirecting queries to.
+  can create a CNAME record that redirects queries from =acme.example.com= to
+  =zenith.example.com= or to =acme.example.org=.  You don't need to use Route
+  53 as the DNS service for the domain that you're redirecting queries to.
 
 - An alias record can only redirect queries to selected AWS resources, such as
   the following:
@@ -2033,7 +2035,6 @@ differences:
   created the record, such as =A= or =AAAA=.  The =alias= property is visible
   only in the Route 53 console or in the response to a programmatic request,
   such as an AWS CLI ~list-resource-record-sets~ command.
-
 ****** Supported DNS Record Types
 Amazon Route 53 supports the DNS record types that are listed in this
 section. Each record type also includes an example of how to format the Value
@@ -2815,9 +2816,9 @@ To delete a bucket:
 
 ** CloudFront
 "Amazon CloudFront speeds up distribution of your static and dynamic web
-content, such as .html, .css, .php, image, and media files. When users request
-your content, CloudFront delivers it through a worldwide network of edge
-locations that provide low latency and high performance."
+content, such as =.html=, =.css=, =.php=, image, and media files.  When users
+request your content, CloudFront delivers it through a worldwide network of
+edge locations that provide low latency and high performance."
 
 Amazon CloudFront is a fast content delivery network (CDN) service that
 securely delivers data, videos, applications, and APIs to customers globally
@@ -2832,25 +2833,25 @@ that content is delivered with the best possible performance.
   CloudFront delivers it immediately.
 
 - If the content is not in that edge location, CloudFront retrieves it from an
-  origin that you've defined—such as an Amazon S3 bucket, a MediaPackage
+  origin that you've defined---such as an Amazon S3 bucket, a MediaPackage
   channel, or an HTTP server (for example, a web server) that you have
   identified as the source for the definitive version of your content.
 
 *** Accelerate Static Website Content Delivery
 CloudFront can speed up the delivery of your static content (for example,
-images, style sheets, JavaScript, and so on) to viewers across the globe. By
+images, style sheets, JavaScript, and so on) to viewers across the globe.  By
 using CloudFront, you can take advantage of the AWS backbone network and
 CloudFront edge servers to give your viewers a fast, safe, and reliable
 experience when they visit your website.
 
 A simple approach for storing and delivering static content is to use an Amazon
-S3 bucket. Using S3 together with CloudFront has a number of advantages,
+S3 bucket.  Using S3 together with CloudFront has a number of advantages,
 including the option to use Origin Access Identity (OAI) to easily restrict
 access to your S3 content.
 
 *** Encrypt Specific Fields Throughout System Processing
 When you configure HTTPS with CloudFront, you already have secure end-to-end
-connections to origin servers. When you add field-level encryption, you can
+connections to origin servers.  When you add field-level encryption, you can
 protect specific data throughout system processing in addition to HTTPS
 security, so that only certain applications at your origin can see the data.
 
@@ -3095,6 +3096,23 @@ origin.
 8. Configure your TTLs
 9. Configure additional features
 10. Test your CloudFront distribution
+
+*** CloudFront and Security
+- Why Security Matters
+  - Trust
+  - Compliance
+  - Privacy
+- Key Aspects of Security
+  - Infrastructure :: How Amazon secures the facilities and servers
+  - Services :: The security options and features available to the customer
+    - Enforce AWS IAM policies
+    - Use MFA
+    - Amazon VPC
+    - Leverage S3 bucket policies
+    - EC2 security
+  - Application :: Things the developer does in the application
+- How CloudFront can Help
+- Best Practices for Secured Delivery on Amazon CloudFront
 
 ** Static Web Sites on AWS using S3
 *** Creating a Static Website Using an Amazon S3 Bucket
