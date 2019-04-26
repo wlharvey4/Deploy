@@ -1,7 +1,7 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploy!
 #+AUTHOR:Pinecone062
-#+DATE:<2019-04-25 Thu 23:00>
+#+DATE:<2019-04-26 Fri 10:54>
 #+SUBTITLE:A Hands-On Guide to the How and Why of Deploying Websites Using a Variety of Services @@html:<br>@@
 #+SUBTITLE:By {{{author}}} @@html:<br>@@
 #+SUBTITLE:/Last Updated {{{date(%c)}}}/
@@ -3149,9 +3149,11 @@ domain, and view your website.
 **** Step 2---Create an S3 Bucket and Configure It to Host a Website
 <<step-2>>You can use S3 to host a static website in a bucket.
 
-1. Open the Amazon S3 console at https://console.aws.amazon.com/s3/.
+1. Open the [[https://console.aws.amazon.com/s3/][Amazon S3 console]]
 
-2. Choose =Create bucket=.
+2. Choose [[file:./img/create-bucket-button-50.png]]
+
+[[file:img/create-bucket-screen-25.png]]
 
 3. For =Bucket Name=, enter the name of your domain, such as =example.com=.
 
