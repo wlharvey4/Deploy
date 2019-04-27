@@ -1,7 +1,7 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploy!
 #+AUTHOR:Pinecone062
-#+DATE:<2019-04-26 Fri 10:54>
+#+DATE:<2019-04-27 Sat 08:48>
 #+SUBTITLE:A Hands-On Guide to the How and Why of Deploying Websites Using a Variety of Services @@html:<br>@@
 #+SUBTITLE:By {{{author}}} @@html:<br>@@
 #+SUBTITLE:/Last Updated {{{date(%c)}}}/
@@ -3159,11 +3159,13 @@ domain, and view your website.
 
 4. For =Region=, choose the region closest to most of your users.
 
-5. Choose =Create=.
+5. Choose =Create= [[file:./img/create-button-50.png]].
 
 6. In the right pane, expand =Permissions=.
 
-7. Choose =Add bucket policy=.
+[[file:./img/expand-permissions-50.png]]
+
+7. Choose =Bucket Policy= button [[file:./img/bucket-policy-50.png]].
 
 8. Copy the following bucket policy and paste it into a text editor.
 
@@ -3182,7 +3184,7 @@ domain, and view your website.
            "s3:GetObject"
         ],
         "Resource":[
-           "arn:aws:s3:::your-domain-name/*"
+           "arn:aws:s3:::your-domain-name/*" (ref:update-domain-name)
         ]
       }]
    }
@@ -3192,6 +3194,8 @@ domain, and view your website.
    your domain, such as =example.com=.
 
 10. Choose =Save=.
+
+[[file:./img/save-bucket-policy-25.png]]
 
 11. In the right pane, expand =Static website hosting=.
 
