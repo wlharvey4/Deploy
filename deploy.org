@@ -1,10 +1,11 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploy!
 #+AUTHOR:Pinecone062
-#+DATE:<2019-05-03 Fri 16:00>
+#+DATE:2019-6-11 19:51
+#+MACRO:version Version 0.1.0
 #+SUBTITLE:A Hands-On Guide to the How and Why of Deploying Websites Using a Variety of Services @@html:<br>@@
 #+SUBTITLE:By {{{author}}} @@html:<br>@@
-#+SUBTITLE:/Last Updated {{{date(%c)}}}/
+#+SUBTITLE:/{{{version}}} Last Updated {{{date(%c)}}}/
 
 * Introduction
 At its most fundamental, to deploy a web site on the Internet, one needs to
@@ -503,6 +504,320 @@ lots of options for everything you might want to run. I try to simplify what I
 need to manage by choosing the right tool for the application I am going to
 run. From basic static sites to the latest SPA applications with planetary
 scale backends, there is an option for each and every application you run.
+** Article---Interact with AWS using Perl
+:PROPERTIES:
+:url:      https://blog.kharec.info/posts/interact-with-aws-using-perl/
+:date:     2019-05-30
+:author:   Sandro Cazzaniga
+:END:
+AWS is mostly about APIs (and a little bit of cloud).  In fact, WS is… Yeah,
+you got it.  Most of popular programming languages support these API.  You can
+find on the web SDKs for Go, NodeJS, Python, C++…
+
+*** What’s Paws
+Python has [[https://boto3.amazonaws.com/v1/documentation/api/latest/index.html][boto]], C++ has [[https://github.com/aws/aws-sdk-cpp][aws-sdk-cpp]], NodeJS has [[https://www.npmjs.com/package/aws-sdk][aws-sdk]], the list goes on.
+But there’s no official SDK built for perl to interact with AWS services.
+
+So, a well-known Perl developer ([[https://metacpan.org/author/JLMARTIN][Jose Luis Martinez Torres]], for the record) has
+started few years ago a project : [[https://metacpan.org/pod/Paws][Paws]].
+
+Basically, Paws is an attempt to develop an always up-to-date SDK that covers
+all possible AWS services. It’s based on [[https://github.com/boto/botocore][botocore]], which is low-level, core
+functionality of boto3.
+
+The logic behind the code is actually pretty smart.  Using a builtin builder,
+it converts every piece of botocore code into perl code : modules, methods,
+array, hashes, etc.  The project is actually generating all of it’s classes
+from botocore.  It’s called data driven development.
+
+So, in fine, Paws aims to provide a full featured SDK to let Perl and AWS love
+each over !
+
+*** Installation
+The easiest way to install Paws is with [[https://metacpan.org/pod/distribution/App-cpanminus/bin/cpanm][cpanm]].  You can use [[https://perlbrew.pl/][perlbrew]] if you
+want to.
+
+#+begin_src sh
+$ cpanm Paws
+--> Working on Paws
+Fetching http://www.cpan.org/authors/id/J/JL/JLMARTIN/Paws-0.40.tar.gz ... OK
+Configuring Paws-0.40 ... OK
+Building and testing Paws-0.40 ... OK
+Successfully installed Paws-0.40
+1 distribution installed
+$
+#+end_src
+
+Good to go.
+
+*** First Things First
+Primo, we need to tell to Paws what’s our AWS credentials to use. To do so, you
+have to edit =~/.aws/credentials=.
+
+It must looks like this:
+
+#+begin_src sh
+$ cat ~/.aws/credentials
+[the_profile]
+aws_access_key_id=XXXXXXX3X022X0X
+aws_secret_access_key=XxXxx+XxxxXXXxXx5435xXXx+Xxx32
+#+end_src
+
+The profile is a couple of =access_key/secret_access_key= that you got when you
+created the IAM user on AWS.  This user must have the necessary rights for the
+APIs that you will use.  You can refer to IAM documentation to create the right
+user to use CLI/API.
+
+Now, Paws can join your AWS account, and you can use the services via it.
+
+*** Two Ways
+You have to know that Paws provides, on top of all its classes/methods/objects,
+a perl script that uses all of it.  A little bit like [[https://aws.amazon.com/fr/cli/][awscli]].
+
+Now, the purpose of this article is to learn how to use perl code to interact
+with AWS and not to use an umpteenth tool, so I’ll just comment it a bit and
+show some examples before we tackle the bulk of the job.
+
+*** Paws CLI Tool
+The cli tool coming with Paws is… ~paws~.  Its syntax usually is:
+: $ paws <service> --region <region> <action>
+
+Let’s give it a try:
+
+#+begin_src sh
+$ paws EC2 --region=eu-west-1 DescribeRegions 
+
+Regions.0.Endpoint:    ec2.eu-north-1.amazonaws.com
+Regions.0.RegionName:  eu-north-1
+Regions.1.Endpoint:    ec2.ap-south-1.amazonaws.com
+Regions.1.RegionName:  ap-south-1
+Regions.10.Endpoint:   ec2.ap-southeast-2.amazonaws.com
+Regions.10.RegionName: ap-southeast-2
+Regions.11.Endpoint:   ec2.eu-central-1.amazonaws.com
+Regions.11.RegionName: eu-central-1
+Regions.12.Endpoint:   ec2.us-east-1.amazonaws.com
+Regions.12.RegionName: us-east-1
+Regions.13.Endpoint:   ec2.us-east-2.amazonaws.com
+Regions.13.RegionName: us-east-2
+Regions.14.Endpoint:   ec2.us-west-1.amazonaws.com
+Regions.14.RegionName: us-west-1
+Regions.15.Endpoint:   ec2.us-west-2.amazonaws.com
+Regions.15.RegionName: us-west-2
+Regions.2.Endpoint:    ec2.eu-west-3.amazonaws.com
+Regions.2.RegionName:  eu-west-3
+Regions.3.Endpoint:    ec2.eu-west-2.amazonaws.com
+Regions.3.RegionName:  eu-west-2
+Regions.4.Endpoint:    ec2.eu-west-1.amazonaws.com
+Regions.4.RegionName:  eu-west-1
+Regions.5.Endpoint:    ec2.ap-northeast-2.amazonaws.com
+Regions.5.RegionName:  ap-northeast-2
+Regions.6.Endpoint:    ec2.ap-northeast-1.amazonaws.com
+Regions.6.RegionName:  ap-northeast-1
+Regions.7.Endpoint:    ec2.sa-east-1.amazonaws.com
+Regions.7.RegionName:  sa-east-1
+Regions.8.Endpoint:    ec2.ca-central-1.amazonaws.com
+Regions.8.RegionName:  ca-central-1
+Regions.9.Endpoint:    ec2.ap-southeast-1.amazonaws.com
+Regions.9.RegionName:  ap-southeast-1
+$
+#+end_src
+
+Awesome, isn’t it ?
+
+Note: unlike awscli, in paws usage the services/actions use upper cases and no
+dash, and you have to specify the region on the command line.
+
+*** Using Paws in Perl Scripts
+Then comes Paws as a set of perl modules which you can use to build awesome
+apps and workflows.  You can use, for example, a small part of ~Paws::S3~ to
+upload a file from your app.
+
+To use Paws, there’s one thing you have to remember, it’s the code logic.
+Basically, you can use any module of Paws using this syntax :
+
+#+begin_src perl
+use Paws;
+
+my $service = Paws->service('...', region => 'my-region-1');
+my $res = $service->MethodCall(Arg1 => $val1, Arg2 => $val2);
+print $res->AttributeFromResult;
+#+end_src
+
+All of Paws submodules works as in this example.  Let’s try some examples to get
+you started !
+
+**** Example 1
+We are going to use this class to get our instance’s informations.  First, let’s
+build our object:
+
+#+begin_src perl
+use Paws;
+
+my $ec2 = Paws->service('EC2', region => 'eu-west-1');
+my $describeResult = $ec2->DescribeInstances(
+    InstanceIds => ['i-xxxxxx'],
+);
+my $data = $describeResult->Reservations;
+#+end_src
+
+The Reservations method contains all of our instance’s data.  You can see it via
+the following code:
+
+#+begin_src perl
+use Data::Dumper;
+print(Dumper($data));
+#+end_src
+
+There’s a lot of informations.  So, ~$data~ is an =ARRAYREF=.  You can access
+its data with an index like:
+
+: $data->[0]
+
+And this ~$data->[0]~ is a =HASHREF=, so you can access its attributes with a
+key.  For example:
+
+: $data->[0]->{'Instances'}
+
+Finally, this is also an =ARRAYREF=.  I know it’s a bit complicated but if you
+follow the dump of ~$data~, you’ll get the logic.
+
+Let’s get a real information like the public IP of the instance, via a full
+example.
+
+#+begin_src perl
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+use Paws;
+
+my $ec2 = Paws->service('EC2', region => 'eu-west-1');
+my $describeResult = $ec2->DescribeInstances(
+    InstanceIds => ['i-xxxxxxxxx'],
+);
+
+my $data = $describeResult->Reservations;
+
+print($data->[0]->{'Instances'}->[0]->{'PublicIpAddress'}."\n");
+
+exit(0);
+#+end_src
+
+**** Example 3---Paws::CostExplorer
+This module implements classes to browse the Cost Explorer service.  We’re going
+to use it to browse our costs and bills.
+
+First as usual, let’s build our object:
+
+#+begin_src perl
+use Paws;
+
+my $ce = Paws->service('CostExplorer', region => 'us-east-1');
+#+end_src
+
+Note that we use a different region. It’s because, according to the [[https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/ce-api.html][API
+Documentation]]:
+
+The Cost Explorer API provides the following endpoint:
+=https://ce.us-east-1.amazonaws.com=
+
+#+begin_src perl
+my $data = $ce->GetCostAndUsage(
+    Granularity => 'MONTHLY',
+    Metrics       => ['UNBLENDED_COST'],
+    TimePeriod    => {
+        End   => '2019-05-30',
+        Start => '2019-05-01',
+    },
+);
+#+end_src
+
+So today is May, 30th. I want the cost for the month, this explain the HASH
+TimePeriod and the granularity. The metric which I’m intererested in is
+=UNBLENDED_COST=.
+
+As in the previous example, you can browse the data with the following code:
+
+#+begin_src perl
+use Paws;
+
+use Data::Dumper;
+
+my $ce = Paws->service('CostExplorer', region => 'us-east-1');
+
+my $data = $ce->GetCostAndUsage(
+    Granularity => 'MONTHLY',
+    Metrics       => ['UNBLENDED_COST'],
+    TimePeriod    => {
+        End   => '2019-05-30',
+        Start => '2019-05-01',
+    },
+);
+
+print(Dumper($data));
+#+end_src
+
+With this data, let’s get the accurate member in the object.  We can see that
+~$data~ is a =HASHREF=, and gives us an =ARRAYREF=, ~$data->{‘ResultsByTime’}~.
+
+In this =ARRAYREF=, we have, on the first index, another =HASHREF=.  The key we’re
+looking to is =Total=.
+
+: $data->{'ResultsByTime'}->[0]->{'Total'}
+
+This key is an =HASHREF= as well, which contains the =HASHREF= Map, and this
+Map contains the finally =HASHREF= named ~UnblendedCost~.
+
+Again, you can get it by only looking at the full dump of ~$data~.
+
+This last =HASHREF= contains three keys which are the data.  So here’s the code
+to get your bill:
+
+#+begin_src perl
+#!/usr/bin/env perl
+use strict;
+use warnings;
+
+use Paws;
+
+my $ce = Paws->service('CostExplorer', region => 'us-east-1');
+
+my $data = $ce->GetCostAndUsage(
+    Granularity => 'MONTHLY',
+    Metrics       => ['UNBLENDED_COST'],
+    TimePeriod    => {
+        End   => '2019-05-30',
+        Start => '2019-05-01',
+    },
+);
+
+my $amount = $data->{'ResultsByTime'}->[0]->{'Total'}->{'Map'}->{'UnblendedCost'}->{'Amount'};
+my $currency = $data->{'ResultsByTime'}->[0]->{'Total'}->{'Map'}->{'UnblendedCost'}->{'Unit'};
+
+print("This month so far, your bill is $amount $currency. \n");
+
+exit(0);
+#+end_src
+
+*** Conclusion
+We can write as many examples like those two above as we want.  As I said, Paws
+contains as many classes and method as ~botocore~.
+
+You juste have to keep in mind the logic to call a method:
+
+#+begin_src perl
+my $service = Paws->service('...', region => 'my-region-1');
+my $res = $service->MethodCall(Arg1 => $val1, Arg2 => $val2);
+print $res->AttributeFromResult;
+#+end_src
+
+And most important, the reflex to dump any variable to get the correct
+combination of hash keys and array indexes to get you to your precious data.
+
+#+begin_src perl
+use Data::Dumper;
+print(Dumper($data));
+#+end_src
 ** AWS Accounts
 You sign up for accss to Amazon Web Services to obtain a *root account* and
 *root account credentials*.  For this step, you use your email address and a
@@ -4631,3 +4946,8 @@ new site.
 information about how you want to route traffic for a specific domain, such as
 example.com, and its subdomains (acme.example.com, zenith.example.com). A
 hosted zone and the corresponding domain have the same name.
+
+* Local Variables
+# Local Variables:
+# time-stamp-pattern: "8/^\\#\\+DATE:%:y-%:m-%:d %02H:%02M$"
+# End:
