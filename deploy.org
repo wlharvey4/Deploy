@@ -1,8 +1,8 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploy!
 #+AUTHOR:Pinecone062
-#+DATE:2019-6-11 19:51
-#+MACRO:version Version 0.1.0
+#+DATE:2019-8-15 11:15
+#+MACRO:version Version 0.1.1
 #+SUBTITLE:A Hands-On Guide to the How and Why of Deploying Websites Using a Variety of Services @@html:<br>@@
 #+SUBTITLE:By {{{author}}} @@html:<br>@@
 #+SUBTITLE:/{{{version}}} Last Updated {{{date(%c)}}}/
@@ -124,7 +124,6 @@ meaning, and therefore not memorable or even easily usable, by general browsers
 of the Internet.  For example, here is the generated domain name for a
 hypothetical web site hosted by AWS with a basic bucket named "examplebucket":
 : http://examplebucket.s3-website-us-west-2.amazonaws.com/
-
 ** The Doman Name System
 DNS, or the Domain Name System, is a system that translates human readable
 domain names (for example, =www.amazon.com=) to machine readable IP addresses
@@ -362,6 +361,34 @@ If you want to create a website or a web application, you start by registering
 the name of your website, known as a domain name.  Your domain name is the
 name, such as =example.com=, that your users enter in a browser to display your
 website.
+
+** Article---What You Need to Know About the DNS
+- by Megan Kaczanowski, August 12, 2019
+- https://www.freecodecamp.org/news/what-is-dns-anyway/
+
+*** What is DNS Lookup
+#+cindex:DNS
+#+cindex:Domain Name System
+#+cindex:IP address
+Domain Name System Lookup, or DNS for short, is what happens in the time
+between someone typing a URL into the search bar and the page loading.
+Technically speaking, it is a process that translates URLs (like
+www.google.com) into IP addresses.
+
+An IP address is similar to your house address.  Just as you use addresses to
+send mail, computers use IP addresses to send data to a specific place.  Since
+IP addresses are hard to remember (they are long strings of numbers), computers
+use DNS to translate between IP addresses and URLs (which are much easier to
+remember).  All internet-connected devices have an IP address.
+
+*** How Does DNS Work
+#+cindex:DNS
+#+cindex:IP address
+Given the size of the internet, computers cannot store all IP addresses in
+their memory.  Instead, typing www.google.com into a browser tells the computer
+to look up the IP address for the website.
+
+[[file:img/how-dns-works.png]]
 
 * Deploy Web Sites using Amazon Web Services
 Amazon Web Services ("AWS") is a huge conglomeration of services devoted to all
