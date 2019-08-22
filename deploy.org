@@ -1,8 +1,8 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploy!
 #+AUTHOR:Pinecone062
-#+DATE:2019-8-15 11:15
-#+MACRO:version Version 0.1.1
+#+DATE:2019-8-22 08:54
+#+MACRO:version Version 0.1.2
 #+SUBTITLE:A Hands-On Guide to the How and Why of Deploying Websites Using a Variety of Services @@html:<br>@@
 #+SUBTITLE:By {{{author}}} @@html:<br>@@
 #+SUBTITLE:/{{{version}}} Last Updated {{{date(%c)}}}/
@@ -4896,6 +4896,14 @@ that has the same name as the domain.[fn:15]
 [[./deploy_with_lightsail/index.html][Amazon Lightsail: Deploying and Scaling Your First Cloud Application]]
 
 ** Single Page React Apps on AWS
+
+* Deploy Web Sites Other Ways
+
+** GitHub Pages
+- https://pages.github.com
+
+** Zeit
+- https://zeit.co
 
 * Export Settings                                                  :noexport:
 #+OPTIONS: html-link-use-abs-url:nil html-postamble:auto html-preamble:t
