@@ -1,8 +1,8 @@
 # -*- mode:org; fill-column:79; -*-
 #+TITLE:Deploy!
 #+AUTHOR:Pinecone062
-#+DATE:2019-8-22 08:54
-#+MACRO:version Version 0.1.2
+#+DATE:2019-12-9 08:45
+#+MACRO:version Version 0.1.3
 #+SUBTITLE:A Hands-On Guide to the How and Why of Deploying Websites Using a Variety of Services @@html:<br>@@
 #+SUBTITLE:By {{{author}}} @@html:<br>@@
 #+SUBTITLE:/{{{version}}} Last Updated {{{date(%c)}}}/
@@ -4904,6 +4904,14 @@ that has the same name as the domain.[fn:15]
 
 ** Zeit
 - https://zeit.co
+
+** Netlify
+“One workflow.From local development to global deployment.”
+
+Netlify is everything you need to build fast, modern websites: continuous
+deployment, serverless functions, and so much more.
+
+- https://www.netlify.com
 
 * Export Settings                                                  :noexport:
 #+OPTIONS: html-link-use-abs-url:nil html-postamble:auto html-preamble:t
